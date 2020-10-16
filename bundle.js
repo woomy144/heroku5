@@ -3338,27 +3338,43 @@
         timezone: new Date().getTimezoneOffset() / -60,
         servers: [
           {
-            id: "z",
-            type: "0unk",
-            code: "z-unknown-pe6server",
-            at: "private",
-            untrusted: !0
-          },
-          {
             visible: 0,
-            id: "a",
-            type: "ffa",
+            id: "1",
+            type: "game",
             code: "glitch-worldwide-f",
             at: p.glitch('your-server'),
             prefer: !0,
            // featured: 1, // For Featured Status.
-
           },
           {
             visible: 0,
-            id: "b",
-            type: "ffa",
-            code: "glitch-worldwide-3",
+            id: "2",
+            type: "game",
+            code: "glitch-worldwide-f",
+            at: p.glitch('your-server'),
+           // featured: 1, // For Featured Status.
+          },
+          {
+            visible: 0,
+            id: "2",
+            type: "game",
+            code: "glitch-worldwide-f",
+            at: p.glitch('your-server'),
+           // featured: 1, // For Featured Status.
+          },
+          {
+            visible: 0,
+            id: "2",
+            type: "game",
+            code: "glitch-worldwide-f",
+            at: p.glitch('your-server'),
+           // featured: 1, // For Featured Status.
+          },
+          {
+            visible: 0,
+            id: "2",
+            type: "game",
+            code: "glitch-worldwide-f",
             at: p.glitch('your-server'),
            // featured: 1, // For Featured Status.
           },
