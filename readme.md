@@ -71,5 +71,5 @@ a=assault
 ### If you need any help, DM me on discord:
 - [MG]Octo#9071
 
-#CHANGELOG
+# CHANGELOG
 -fixed heroku and repl.it unable to connect
