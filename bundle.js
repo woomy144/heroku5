@@ -2907,1525 +2907,1815 @@
                     return c
                 }
             })();
-            const Sa = (() => {
-                    var a = m(),
-                        e = m();
-                    m();
-                    var c = [
-                        ["Tip: You can view and edit your keybinds in the options menu.", "Tip: You can play on mobile by just going to arras.io on your phone!"],
-                        ["Tip: You can have the shield and health bar be separated by going to the options menu.",
-                            "Tip: If arras is having a low frame rate, you can try enabling low graphics in the options menu.", "Tip: You can make traps rounded with the classic trap setting in the options menu.", "Tip: You can create your own private server with the template in the link on the options menu.", "Tip: You can create your own theme with the custom theme makerin the link on the options menu."
-                        ],
-                        ["Teaming in FFA or FFA Maze is frowned upon, but when taken to the extremes, you can be punished.", "Witch hunting is when you continuously target someone and follow them. This is frowned upon, but when taken to the extremes, you can be punished.",
-                            "Multiboxing is when you use a script to control multiple tanks at the same time. This is considered CHEATING and will result in a ban."
-                        ]
-                    ];
-                    c = c[Math.floor(Math.random() * c.length)];
-                    let g = c[Math.floor(Math.random() * c.length)];
-                    return () => {
-                        F(l.white, .5);
-                        a.draw("Connecting...", b.screenWidth / 2, b.screenHeight / 2, 30, l.guiwhite, "center");
-                        e.draw(b.message, b.screenWidth / 2, b.screenHeight / 2 + 30, 15, l.lgreen, "center");
-                        e.draw(g, b.screenWidth / 2, b.screenHeight / 2 + 75, 15, l.guiwhite, "center")
-                    }
-                })(),
-                Ua = (() => {
-                    var a = m(),
-                        e = m();
-                    return () => {
-                        F(T(l.red, l.guiblack, .3), .25);
-                        a.draw("\ud83d\udc80 Disconnected \ud83d\udc80", b.screenWidth / 2, b.screenHeight / 2, 30, l.guiwhite, "center");
-                        e.draw(b.message, b.screenWidth / 2, b.screenHeight / 2 + 30, 15, l.orange, "center")
-                    }
-                })();
-            let Oa = b.mobile ? 0 : Math.max(0, 1 - Math.abs(Date.now() - new Date(2019, 11, 25)) / 20736E5);
-            if (Oa) {
-                let a = document.createElement("canvas");
-                a.style.position = "absolute";
-                a.style.top = "0";
-                document.body.insertBefore(a, document.body.firstChild);
-                let e = a.getContext("2d"),
-                    c = [],
-                    g = () => {
-                        a.width !== window.innerWidth &&
-                            (a.width = window.innerWidth);
-                        a.height !== window.innerHeight && (a.height = window.innerHeight);
-                        e.clearRect(0, 0, a.width, a.height);
-                        e.fillStyle = "#ffffff";
-                        for (let b of c) {
-                            b.x += 5 / b.r + Math.random();
-                            b.y += 12.5 / b.r + Math.random();
-                            let c = 2 * Math.min(.4, .9 - b.y / a.height);
-                            0 < c ? (e.globalAlpha = c, e.beginPath(), e.arc(b.x, b.y, b.r, 0, 2 * Math.PI), e.fill()) : b.gone = !0
-                        }
-                        .001 * a.width * Oa > Math.random() && c.push({
-                            x: a.width * (1.5 * Math.random() - .5),
-                            y: -50 - 100 * Math.random(),
-                            r: 2 + Math.random() * Math.random() * 4
-                        });
-                        b.gameStart ? a.remove() : requestAnimationFrame(g)
-                    };
-                setInterval(() => {
-                    c = c.filter(b => !b.gone)
-                }, 2E3);
-                g()
+      const Sa = (() => {
+          var a = m(),
+            e = m();
+          m();
+          var c = [
+            [
+              "Tip: You can view and edit your keybinds in the options menu.",
+              "Tip: You can play on mobile by just going to arras.io on your phone!"
+            ],
+            [
+              "Tip: You can have the shield and health bar be separated by going to the options menu.",
+              "Tip: If arras is having a low frame rate, you can try enabling low graphics in the options menu.",
+              "Tip: You can make traps rounded with the classic trap setting in the options menu.",
+              "Tip: You can create your own private server with the template in the link on the options menu.",
+              "Tip: You can create your own theme with the custom theme makerin the link on the options menu."
+            ],
+            [
+              "Teaming in FFA or FFA Maze is frowned upon, but when taken to the extremes, you can be punished.",
+              "Witch hunting is when you continuously target someone and follow them. This is frowned upon, but when taken to the extremes, you can be punished.",
+              "Multiboxing is when you use a script to control multiple tanks at the same time. This is considered CHEATING and will result in a ban."
+            ]
+          ];
+          c = c[Math.floor(Math.random() * c.length)];
+          let g = c[Math.floor(Math.random() * c.length)];
+          return () => {
+            F(l.white, 0.5);
+            a.draw(
+              "Connecting...",
+              b.screenWidth / 2,
+              b.screenHeight / 2,
+              30,
+              l.guiwhite,
+              "center"
+            );
+            e.draw(
+              b.message,
+              b.screenWidth / 2,
+              b.screenHeight / 2 + 30,
+              15,
+              l.lgreen,
+              "center"
+            );
+            e.draw(
+              g,
+              b.screenWidth / 2,
+              b.screenHeight / 2 + 75,
+              15,
+              l.guiwhite,
+              "center"
+            );
+          };
+        })(),
+        Ua = (() => {
+          var a = m(),
+            e = m();
+          return () => {
+            F(T(l.red, l.guiblack, 0.3), 0.25);
+            a.draw(
+              "\ud83d\udc80 Disconnected \ud83d\udc80",
+              b.screenWidth / 2,
+              b.screenHeight / 2,
+              30,
+              l.guiwhite,
+              "center"
+            );
+            e.draw(
+              b.message,
+              b.screenWidth / 2,
+              b.screenHeight / 2 + 30,
+              15,
+              l.orange,
+              "center"
+            );
+          };
+        })();
+      let Oa = b.mobile
+        ? 0
+        : Math.max(
+            0,
+            1 - Math.abs(Date.now() - new Date(2019, 11, 25)) / 20736e5
+          );
+      if (Oa) {
+        let a = document.createElement("canvas");
+        a.style.position = "absolute";
+        a.style.top = "0";
+        document.body.insertBefore(a, document.body.firstChild);
+        let e = a.getContext("2d"),
+          c = [],
+          g = () => {
+            a.width !== window.innerWidth && (a.width = window.innerWidth);
+            a.height !== window.innerHeight && (a.height = window.innerHeight);
+            e.clearRect(0, 0, a.width, a.height);
+            e.fillStyle = "#ffffff";
+            for (let b of c) {
+              b.x += 5 / b.r + Math.random();
+              b.y += 12.5 / b.r + Math.random();
+              let c = 2 * Math.min(0.4, 0.9 - b.y / a.height);
+              0 < c
+                ? ((e.globalAlpha = c),
+                  e.beginPath(),
+                  e.arc(b.x, b.y, b.r, 0, 2 * Math.PI),
+                  e.fill())
+                : (b.gone = !0);
             }
-            let ca = new Date,
-                cb = "en-US" === navigator.language && -7 <= b.timezone && -4 >= b.timezone,
-                db = 6 === ca.getMonth() && 4 === ca.getDate(),
-                eb = 11 === ca.getMonth() && 31 === ca.getDate() || 0 === ca.getMonth() && 3 >= ca.getDate();
-            if (!b.mobile && (db && cb || eb)) {
-                let a = document.createElement("canvas");
-                a.style.position = "absolute";
-                a.style.top = "0";
-                document.body.insertBefore(a, document.body.firstChild);
-                let e = a.getContext("2d"),
-                    c = [
-                        [164, 14, 14],
-                        [230, 80, 0],
-                        [230, 119, 0],
-                        [47, 127, 51],
-                        [23, 78, 166],
-                        [123,
-                            31, 163
-                        ]
-                    ],
-                    g = [],
-                    k = () => {
-                        if (a.width !== window.innerWidth || a.height !== window.innerHeight) a.width = window.innerWidth, a.height = window.innerHeight, g.length = 0, e.clearRect(0, 0, a.width, a.height), e.fillStyle = "rgba(255, 255, 255, 0.01)", e.fillRect(0, 0, a.width, a.height), e.lineWidth = 2.5, e.lineCap = "round";
-                        e.globalCompositeOperation = "destination-out";
-                        e.fillStyle = "rgba(0, 0, 0, 0.15)";
-                        e.fillRect(0, 0, a.width, a.height);
-                        e.globalCompositeOperation = "lighter";
-                        for (let b of g) {
-                            var d = b.x,
-                                f = b.y;
-                            b.vy += .2;
-                            b.x += b.vx;
-                            b.y += b.vy;
-                            b.vy *=
-                                .99;
-                            b.vx *= .99;
-                            b.time--;
-                            var h = 0 < b.time ? b.primary ? 1 : 10 <= b.time ? 1 : b.time / 10 : 0;
-                            if (0 < h) e.strokeStyle = `rgba(${b.color[0]}, ${b.color[1]}, ${b.color[2]}, ${h})`, e.beginPath(), e.moveTo(d, f), e.lineTo(b.x, b.y), e.stroke();
-                            else {
-                                if (b.primary && !b.gone) {
-                                    d = Math.floor(5 * Math.random()) + 30;
-                                    f = .5 * Math.random() + 3;
-                                    h = 25 + 5 * Math.random();
-                                    for (let a of [c[Math.floor(Math.random() * c.length)], c[Math.floor(Math.random() * c.length)]])
-                                        for (let c = 0; c < d; c++) {
-                                            let e = (c + Math.random()) / d * Math.PI * 2,
-                                                k = f + .5 * Math.random();
-                                            g.push({
-                                                color: a,
-                                                x: b.x,
-                                                y: b.y,
-                                                vx: Math.cos(e) * k,
-                                                vy: -.8 + Math.sin(e) * k,
-                                                time: h + 2 * Math.random()
-                                            })
-                                        }
-                                }
-                                b.gone = !0
-                            }
-                        }
-                        3E-5 * a.width > Math.random() && g.push({
-                            color: c[Math.floor(Math.random() * c.length)],
-                            x: a.width * Math.random(),
-                            y: a.height - 10,
-                            vx: 4 * Math.random() - 2,
-                            vy: 5 * Math.random() - 15,
-                            time: 30 + 10 * Math.random(),
-                            primary: !0
-                        });
-                        b.gameStart ? a.remove() : requestAnimationFrame(k)
-                    };
-                setInterval(() => {
-                    g = g.filter(b => !b.gone)
-                }, 2E3);
-                k()
-            }
-        }, function(r) {
-            const p = {
-                openshift: (a, e) => `n-${a}-${e}.7e14.starter-us-west-2.openshiftapps.com`,
-                glitch: a => `${a}.glitch.me`,
-                heroku: a => `arras-${a}.herokuapp.com`,
-                arras: (a, e = 5E3) => `ip-${a}.arras.io:${e}`,
-                arrasUnknown: (a, e = 5E3) => `ipu-${a}.arras.io:${e}`
-            };
-            var w = (new Date).getDate();
-            const a = 25 <= w ? 3 : 0;
-            w = 25 <= w ? 0 : 3;
-            const e = {
-                help: {
-                    KEY_OVER_RIDE: "R",
-                    KEY_LEVEL_UP: "N",
-                    KEY_ABILITY: "F",
-                    KEY_CHOOSE_1: "Y",
-                    KEY_CHOOSE_2: "U",
-                    KEY_CHOOSE_3: "I",
-                    KEY_CHOOSE_4: "H",
-                    KEY_CHOOSE_5: "J",
-                    KEY_CHOOSE_6: "K"
-                },
-                KEY_AUTO_FIRE: 69,
-                KEY_AUTO_SPIN: 67,
-                KEY_OVER_RIDE: 82,
-                KEY_LEVEL_UP: 78,
-                KEY_ABILITY: 70,
-                KEY_REVERSE_TANK: 86,
-                KEY_REVERSE_MOUSE: 66,
-                KEY_SCREENSHOT: 81,
-                KEY_UPGRADE_MAX: 77,
-                KEY_CLASS_TREE: 84,
-                KEY_RECORD: 90,
-                KEY_UP: 87,
-                KEY_PING: 76,
-                KEY_LEFT: 65,
-                KEY_DOWN: 83,
-                KEY_RIGHT: 68,
-                KEY_CHOOSE_1: 89,
-                KEY_CHOOSE_2: 85,
-                KEY_CHOOSE_3: 73,
-                KEY_CHOOSE_4: 72,
-                KEY_CHOOSE_5: 74,
-                KEY_CHOOSE_6: 75,
-                KEY_CHOOSE_7: -1,
-                KEY_CHOOSE_8: -1,
-                KEY_CHOOSE_9: -1,
-                KEY_ENTER: 13,
-                KEY_SPAWN: 13,
-                KEY_LEFT_ARROW: 37,
-                KEY_UP_ARROW: 38,
-                KEY_RIGHT_ARROW: 39,
-                KEY_DOWN_ARROW: 40,
-                KEY_UPGRADE_ATK: 49,
-                KEY_UPGRADE_HTL: 50,
-                KEY_UPGRADE_SPD: 51,
-                KEY_UPGRADE_STR: 52,
-                KEY_UPGRADE_PEN: 53,
-                KEY_UPGRADE_DAM: 54,
-                KEY_UPGRADE_RLD: 55,
-                KEY_UPGRADE_MOB: 56,
-                KEY_UPGRADE_RGN: 57,
-                KEY_UPGRADE_SHI: 48,
-                KEY_MOUSE_0: 32,
-                KEY_MOUSE_1: 9,
-                KEY_MOUSE_2: 16,
-                KEY_FUCK_YOU: 192,
-                KEY_KILL_YOURSELF: 79,
-                screenWidth: window.innerWidth,
-                screenHeight: window.innerHeight,
-                gameWidth: 0,
-                gameHeight: 0,
-                gameStart: !1,
-                disconnected: !1,
-                died: !1,
-                showDebug: !1,
-                showTree: !1,
-                server: null,
-                codeTable: [{
-                        z: "Private",
-                        local: "Local",
-                        dvi: "DVI",
-                        glitch: "Glitch",
-                        os: "OpenShift",
-                        heroku: "Heroku",
-                        your: "------",
-                        linode: "Linode",
-                        vultr: "Vultr",
-                        buyvm: "BuyVM",
-                        extravm: "ExtraVM",
-                        hetzner: "Hetzner",
-                        ovh: "OVH"
-                    }, {
-                        unknown: ["Unknown", null],
-                        local: ["Local", null],
-                        server: ["------", null],
-                        virginia: ["US East",
-                            -4
-                        ],
-                        montreal: ["US East", -4],
-                        oregon: ["US West", -7],
-                        frankfurt: ["Europe", 2],
-                        sv: ["US West", -7],
-                        la: ["US West", -7],
-                        germany: ["Europe", 2],
-                        london: ["Europe", 1],
-                        singapore: ["Asia", 8]
-                    },
-                    [
-                        [{
-                            id: "p",
-                            to: "Private"
-                        }],
-                        [{
-                            id: "e",
-                            dynamic: "word"
-                        }],
-                        [{
-                            id: "w",
-                            dynamic: "words"
-                        }],
-                        [{
-                            id: "o",
-                            to: "Open"
-                        }],
-                        [{
-                            id: "m",
-                            to: "Maze",
-                            delay: !0,
-                            remove: "f"
-                        }],
-                        [{
-                            id: "f",
-                            to: "FFA"
-                        }, {
-                            id: "2",
-                            to: "2 Team",
-                            end: "2TDM"
-                        }, {
-                            id: "3",
-                            to: "3 Team",
-                            end: "3TDM"
-                        }, {
-                            id: "4",
-                            to: "4 Team",
-                            end: "4TDM"
-                        }],
-                        [{
-                            id: "d",
-                            to: "Domination"
-                        }, {
-                            id: "m",
-                            to: "Mothership",
-                            remove: "2"
-                        }, {
-                            id: "a",
-                            to: "Assault",
-                            remove: "2"
-                        }]
-                    ]
-                ],
-                timezone: (new Date).getTimezoneOffset() / -60,
-                servers: [{
-                    id: "x",
-                    type: "0unk",
-                    code: "z-unknown-pe6server",
-                    at: "private",
-                    untrusted: !0
-                }, {
-                    id: "a",
-                    type: "1ffa",
-                    code: "your-server-f",
-                    at: p.glitch("arras-template3"),
-                },].map((a, e) => ({
-                    data: a,
-                    i: e
-                })).sort((a, e) => a.data.type < e.data.type ? -1 : e.data.type > a.data.type ? 1 : a.i - e.i).map(({
-                    data: a
-                }) => a),
-                partyLink: 0,
-                mobile: /android|mobi/i.test(navigator.userAgent),
-                showInvisible: !1
-            };
-            window.Arras = (a = !0) => a || e;
-            r.exports = e
-        }, function(r, p) {
-            let w = window.localStorage || {};
-            p.submitToLocalStorage = a => {
-                w[a + "Value"] = document.getElementById(a).value || "";
-                w[a + "Checked"] = document.getElementById(a).checked || "false";
-                return !1
-            };
-            p.retrieveFromLocalStorage = (a, e = !1) => {
-                document.getElementById(a).value = w[a + "Value"] || "";
-                document.getElementById(a).checked = "true" === (w[a + "Checked"] || e.toString());
-                return !1
-            };
-            p.handleLargeNumber = (a, e = !1) => e && 0 >= a ? "" : 1E3 > a ? a.toFixed(0) + "" : 1E6 > a ? (a / 1E3).toFixed(2) + "k" : 1E9 > a ? (a /
-                1E6).toFixed(2) + "m" : 1E12 > a ? (a / 1E9).toFixed(2) + "b" : 1E15 > a ? (a / 1E12).toFixed(2) + "t" : 1E18 > a ? (a / 1E15).toFixed(2) + "q" : "\u221e";
-            p.timeForHumans = a => {
-                function e(a, e) {
-                    a && (D = D + ("" === D ? "" : ", ") + a + " " + e + (1 < a ? "s" : ""))
+            0.001 * a.width * Oa > Math.random() &&
+              c.push({
+                x: a.width * (1.5 * Math.random() - 0.5),
+                y: -50 - 100 * Math.random(),
+                r: 2 + Math.random() * Math.random() * 4
+              });
+            b.gameStart ? a.remove() : requestAnimationFrame(g);
+          };
+        setInterval(() => {
+          c = c.filter(b => !b.gone);
+        }, 2e3);
+        g();
+      }
+      let ca = new Date(),
+        cb =
+          "en-US" === navigator.language &&
+          -7 <= b.timezone &&
+          -4 >= b.timezone,
+        db = 6 === ca.getMonth() && 4 === ca.getDate(),
+        eb =
+          (11 === ca.getMonth() && 31 === ca.getDate()) ||
+          (0 === ca.getMonth() && 3 >= ca.getDate());
+      if (!b.mobile && ((db && cb) || eb)) {
+        let a = document.createElement("canvas");
+        a.style.position = "absolute";
+        a.style.top = "0";
+        document.body.insertBefore(a, document.body.firstChild);
+        let e = a.getContext("2d"),
+          c = [
+            [164, 14, 14],
+            [230, 80, 0],
+            [230, 119, 0],
+            [47, 127, 51],
+            [23, 78, 166],
+            [123, 31, 163]
+          ],
+          g = [],
+          k = () => {
+            if (
+              a.width !== window.innerWidth ||
+              a.height !== window.innerHeight
+            )
+              (a.width = window.innerWidth),
+                (a.height = window.innerHeight),
+                (g.length = 0),
+                e.clearRect(0, 0, a.width, a.height),
+                (e.fillStyle = "rgba(255, 255, 255, 0.01)"),
+                e.fillRect(0, 0, a.width, a.height),
+                (e.lineWidth = 2.5),
+                (e.lineCap = "round");
+            e.globalCompositeOperation = "destination-out";
+            e.fillStyle = "rgba(0, 0, 0, 0.15)";
+            e.fillRect(0, 0, a.width, a.height);
+            e.globalCompositeOperation = "lighter";
+            for (let b of g) {
+              var d = b.x,
+                f = b.y;
+              b.vy += 0.2;
+              b.x += b.vx;
+              b.y += b.vy;
+              b.vy *= 0.99;
+              b.vx *= 0.99;
+              b.time--;
+              var h =
+                0 < b.time
+                  ? b.primary
+                    ? 1
+                    : 10 <= b.time
+                    ? 1
+                    : b.time / 10
+                  : 0;
+              if (0 < h)
+                (e.strokeStyle = `rgba(${b.color[0]}, ${b.color[1]}, ${
+                  b.color[2]
+                }, ${h})`),
+                  e.beginPath(),
+                  e.moveTo(d, f),
+                  e.lineTo(b.x, b.y),
+                  e.stroke();
+              else {
+                if (b.primary && !b.gone) {
+                  d = Math.floor(5 * Math.random()) + 30;
+                  f = 0.5 * Math.random() + 3;
+                  h = 25 + 5 * Math.random();
+                  for (let a of [
+                    c[Math.floor(Math.random() * c.length)],
+                    c[Math.floor(Math.random() * c.length)]
+                  ])
+                    for (let c = 0; c < d; c++) {
+                      let e = ((c + Math.random()) / d) * Math.PI * 2,
+                        k = f + 0.5 * Math.random();
+                      g.push({
+                        color: a,
+                        x: b.x,
+                        y: b.y,
+                        vx: Math.cos(e) * k,
+                        vy: -0.8 + Math.sin(e) * k,
+                        time: h + 2 * Math.random()
+                      });
+                    }
                 }
-                let p = a % 60;
-                a = Math.floor(a / 60);
-                let x = a % 60;
-                a = Math.floor(a / 60);
-                let k = a % 24;
-                a = Math.floor(a / 24);
-                let D = "";
-                if (300 < a) return "FOREVER";
-                e(a, "day");
-                e(k, "hour");
-                e(x, "minute");
-                e(p, "second");
-                "" === D && (D = "less than a second");
-                return D
-            };
-            p.addArticle = a => /^\s*[aeiouAEIOU]/.test(a) ? "an " + a : "a " + a;
-            p.formatLargeNumber = a =>
-                1E18 > a ? a.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "\u221e";
-            p.pullJSON = a => {
-                if (window.fetch) return fetch(a, {
-                    cache: "no-cache"
-                }).then(a => a.json());
-                let e = new XMLHttpRequest;
-                console.log("Loading JSON from " + a);
-                e.responseType = "json";
-                return new Promise((p, x) => {
-                    e.open("GET", a);
-                    e.onload = () => {
-                        p(e.response);
-                        console.log("JSON load complete.")
-                    };
-                    e.onerror = () => {
-                        x(e.statusText);
-                        console.log("JSON load failed.");
-                        console.log(e.statusText)
-                    };
-                    e.send()
-                })
+                b.gone = !0;
+              }
             }
-        }, function(r, p) {
-            (function(w) {
-                function a(a) {
-                    function e() {
-                        setTimeout(function() {
-                            !0 ===
-                                x._options.checkOnLoad && (!0 === x._options.debug && x._log("onload->eventCallback", "A check loading is launched"), null === x._var.bait && x._creatBait(), setTimeout(function() {
-                                    x.check()
-                                }, 1))
-                        }, 1)
-                    }
-                    this._options = {
-                        checkOnLoad: !1,
-                        resetOnEnd: !1,
-                        loopCheckTime: 50,
-                        loopMaxNumber: 5,
-                        baitClass: "pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links",
-                        baitStyle: "width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;",
-                        debug: !1
-                    };
-                    this._var = {
-                        version: "3.2.1",
-                        bait: null,
-                        checking: !1,
-                        loop: null,
-                        loopNumber: 0,
-                        event: {
-                            detected: [],
-                            notDetected: []
-                        }
-                    };
-                    void 0 !== a && this.setOption(a);
-                    var x = this;
-                    void 0 !== w.addEventListener ? w.addEventListener("load", e, !1) : w.attachEvent("onload", e)
-                }
-                a.prototype._options = null;
-                a.prototype._var = null;
-                a.prototype._bait = null;
-                a.prototype._log = function(a, p) {
-                    console.log("[BlockAdBlock][" + a + "] " + p)
-                };
-                a.prototype.setOption = function(a, p) {
-                    if (void 0 !== p) {
-                        var e = a;
-                        a = {};
-                        a[e] = p
-                    }
-                    for (var k in a) this._options[k] = a[k], !0 ===
-                        this._options.debug && this._log("setOption", 'The option "' + k + '" he was assigned to "' + a[k] + '"');
-                    return this
-                };
-                a.prototype._creatBait = function() {
-                    var a = document.createElement("div");
-                    a.setAttribute("class", this._options.baitClass);
-                    a.setAttribute("style", this._options.baitStyle);
-                    this._var.bait = w.document.body.appendChild(a);
-                    this._var.bait.offsetParent;
-                    this._var.bait.offsetHeight;
-                    this._var.bait.offsetLeft;
-                    this._var.bait.offsetTop;
-                    this._var.bait.offsetWidth;
-                    this._var.bait.clientHeight;
-                    this._var.bait.clientWidth;
-                    !0 === this._options.debug && this._log("_creatBait", "Bait has been created")
-                };
-                a.prototype._destroyBait = function() {
-                    w.document.body.removeChild(this._var.bait);
-                    this._var.bait = null;
-                    !0 === this._options.debug && this._log("_destroyBait", "Bait has been removed")
-                };
-                a.prototype.check = function(a) {
-                    void 0 === a && (a = !0);
-                    !0 === this._options.debug && this._log("check", "An audit was requested " + (!0 === a ? "with a" : "without") + " loop");
-                    if (!0 === this._var.checking) return !0 === this._options.debug && this._log("check", "A check was canceled because there is already an ongoing"),
-                        !1;
-                    this._var.checking = !0;
-                    null === this._var.bait && this._creatBait();
-                    var e = this;
-                    this._var.loopNumber = 0;
-                    !0 === a && (this._var.loop = setInterval(function() {
-                        e._checkBait(a)
-                    }, this._options.loopCheckTime));
-                    setTimeout(function() {
-                        e._checkBait(a)
-                    }, 1);
-                    !0 === this._options.debug && this._log("check", "A check is in progress ...");
-                    return !0
-                };
-                a.prototype._checkBait = function(a) {
-                    var e = !1;
-                    null === this._var.bait && this._creatBait();
-                    if (null !== w.document.body.getAttribute("abp") || null === this._var.bait.offsetParent || 0 == this._var.bait.offsetHeight ||
-                        0 == this._var.bait.offsetLeft || 0 == this._var.bait.offsetTop || 0 == this._var.bait.offsetWidth || 0 == this._var.bait.clientHeight || 0 == this._var.bait.clientWidth) e = !0;
-                    if (void 0 !== w.getComputedStyle) {
-                        var x = w.getComputedStyle(this._var.bait, null);
-                        !x || "none" != x.getPropertyValue("display") && "hidden" != x.getPropertyValue("visibility") || (e = !0)
-                    }!0 === this._options.debug && this._log("_checkBait", "A check (" + (this._var.loopNumber + 1) + "/" + this._options.loopMaxNumber + " ~" + (1 + this._var.loopNumber * this._options.loopCheckTime) +
-                        "ms) was conducted and detection is " + (!0 === e ? "positive" : "negative"));
-                    !0 === a && (this._var.loopNumber++, this._var.loopNumber >= this._options.loopMaxNumber && this._stopLoop());
-                    if (!0 === e) this._stopLoop(), this._destroyBait(), this.emitEvent(!0), !0 === a && (this._var.checking = !1);
-                    else if (null === this._var.loop || !1 === a) this._destroyBait(), this.emitEvent(!1), !0 === a && (this._var.checking = !1)
-                };
-                a.prototype._stopLoop = function() {
-                    clearInterval(this._var.loop);
-                    this._var.loop = null;
-                    this._var.loopNumber = 0;
-                    !0 === this._options.debug &&
-                        this._log("_stopLoop", "A loop has been stopped")
-                };
-                a.prototype.emitEvent = function(a) {
-                    !0 === this._options.debug && this._log("emitEvent", "An event with a " + (!0 === a ? "positive" : "negative") + " detection was called");
-                    a = this._var.event[!0 === a ? "detected" : "notDetected"];
-                    for (var e in a)
-                        if (!0 === this._options.debug && this._log("emitEvent", "Call function " + (parseInt(e) + 1) + "/" + a.length), a.hasOwnProperty(e)) a[e]();
-                    !0 === this._options.resetOnEnd && this.clearEvent();
-                    return this
-                };
-                a.prototype.clearEvent = function() {
-                    this._var.event.detected = [];
-                    this._var.event.notDetected = [];
-                    !0 === this._options.debug && this._log("clearEvent", "The event list has been cleared")
-                };
-                a.prototype.on = function(a, p) {
-                    this._var.event[!0 === a ? "detected" : "notDetected"].push(p);
-                    !0 === this._options.debug && this._log("on", 'A type of event "' + (!0 === a ? "detected" : "notDetected") + '" was added');
-                    return this
-                };
-                a.prototype.onDetected = function(a) {
-                    return this.on(!0, a)
-                };
-                a.prototype.onNotDetected = function(a) {
-                    return this.on(!1, a)
-                };
-                p.BlockAdBlock = a;
-                p.blockAdBlock = new a({
-                    checkOnLoad: !0,
-                    resetOnEnd: !0
-                })
-            })(window)
+            3e-5 * a.width > Math.random() &&
+              g.push({
+                color: c[Math.floor(Math.random() * c.length)],
+                x: a.width * Math.random(),
+                y: a.height - 10,
+                vx: 4 * Math.random() - 2,
+                vy: 5 * Math.random() - 15,
+                time: 30 + 10 * Math.random(),
+                primary: !0
+              });
+            b.gameStart ? a.remove() : requestAnimationFrame(k);
+          };
+        setInterval(() => {
+          g = g.filter(b => !b.gone);
+        }, 2e3);
+        k();
+      }
+    },
+    function(r) {
+      const p = {
+        openshift: (a, e) =>
+          `n-${a}-${e}.7e14.starter-us-west-2.openshiftapps.com`,
+        glitch: a => `arras-n-${a}.glitch.me`,
+        heroku: a => `arras-${a}.herokuapp.com`,
+        arras: (a, e = 5e3) => `ip-${a}.arras.io:${e}`,
+        arrasUnknown: (a, e = 5e3) => `ipu-${a}.arras.io:${e}`
+      };
+      var w = new Date().getDate();
+      const a = 25 <= w ? 3 : 0;
+      w = 25 <= w ? 0 : 3;
+      const e = {
+        help: {
+          KEY_OVER_RIDE: "R",
+          KEY_LEVEL_UP: "N",
+          KEY_ABILITY: "F",
+          KEY_CHOOSE_1: "Y",
+          KEY_CHOOSE_2: "U",
+          KEY_CHOOSE_3: "I",
+          KEY_CHOOSE_4: "H",
+          KEY_CHOOSE_5: "J",
+          KEY_CHOOSE_6: "K"
         },
-        function(r) {
-            const p = class {
-                static now() {
-                    return Math.min(Math.floor(Date.now() / 2E3) - 757382400, 268435455)
-                }
-                constructor() {
-                    this.reset();
-                    setInterval(() => {
-                        this.logOnLine(!!navigator.onLine)
-                    }, 2E3)
-                }
-                reset() {
-                    function a() {}
-                    this.startTime = p.now();
-                    this.event = {
-                        die: 0,
-                        disconnect: 0
-                    };
-                    this.mouse = {
-                        status: !0,
-                        updates: [0, 0, 0, 0, 0, 0, 0]
-                    };
-                    this.onLine = {
-                        status: !!navigator.onLine,
-                        updates: [0, 0, 0, 0]
-                    };
-                    this.consoleOpened = this.closeCall = !1;
-                    let e = new Image;
-                    Object.defineProperty(e, "id", {
-                        get: () => {
-                            this.consoleOpened = !0;
-                            return ""
-                        }
-                    });
-                    a.toString =
-                        () => {
-                            this.consoleOpened = !0;
-                            return "color:rgba(0,0,0,0)"
-                        };
-                    setTimeout(console.log.bind(null, "%c%s", a, e))
-                }
-                time() {
-                    return Math.min(p.now() - this.startTime, 65535)
-                }
-                logEvent(a) {
-                    this.event[a] = this.time()
-                }
-                logMouse(a) {
-                    this.mouse.status !== a && (this.mouse.status = a, this.mouse.updates.shift(), this.mouse.updates.push(this.time()))
-                }
-                logOnLine(a) {
-                    this.onLine.status !== a && (this.onLine.status = a, this.onLine.updates.shift(), this.onLine.updates.push(this.time()))
-                }
-                logCloseCall() {
-                    this.closeCall = !0
-                }
-                toBits() {
-                    let a = [this.mouse.status,
-                        this.onLine.status, this.closeCall, this.consoleOpened
-                    ];
-                    var e = this.startTime;
-                    for (let p = 0; 28 > p; p++) a.push(!!(e & 1)), e >>= 1;
-                    for (let p of [this.event.die, this.event.disconnect, ...this.mouse.updates, ...this.onLine.updates, this.time()])
-                        for (e = 0; 16 > e; e++) a.push(!!(p & 1)), p >>= 1;
-                    return a
-                }
-                drawCanvas(a) {
-                    let {
-                        width: e,
-                        height: p
-                    } = a.canvas, x = a.getImageData(0, 0, e, p), {
-                        data: k
-                    } = x, D = this.toBits(), w = [];
-                    for (var q = 0; 16 > q; q++) {
-                        var r = !1;
-                        for (var v = 0; 16 > v; v++) D[q + 16 * v] && (r = !r);
-                        w.push(r)
-                    }
-                    q = [];
-                    for (r = 0; 16 > r; r++) {
-                        v = !1;
-                        for (var t = 0; 16 >
-                            t; t++) D[t + 16 * r] && (v = !v);
-                        q.push(v)
-                    }
-                    r = !0;
-                    for (v = 0; 256 > v; v++) D[v] && (r = !r);
-                    v = -Math.floor(8 * Math.random());
-                    for (t = v; t < e; t += 4)
-                        for (let a = v; a < e; a += 4) {
-                            let x = Math.floor(t / 4) % 32,
-                                v = Math.floor(a / 4) % 32;
-                            17 < x || 17 < v || (33 !== x + v && (16 === x || 16 === v || (17 === x ? 17 === v ? r : q[v] : 17 === v ? w[x] : D[x + 16 * v])) ? (k[t + a * e << 2 | 0] |= 1, k[t + a * e << 2 | 1] |= 1, k[t + a * e << 2 | 2] &= -2, k[t + 1 + a * e << 2 | 0] |= 1, k[t + 1 + a * e << 2 | 1] |= 1, k[t + 1 + a * e << 2 | 2] &= -2, k[t + a * e + e << 2 | 0] |= 1, k[t + a * e + e << 2 | 1] |= 1, k[t + a * e + e << 2 | 2] &= -2, k[t + 1 + a * e + e << 2 | 0] |= 1, k[t + 1 + a * e + e << 2 | 1] |= 1, k[t + 1 + a * e + e << 2 | 2] &=
-                                -2) : (k[t + a * e << 2 | 0] &= -2, k[t + a * e << 2 | 1] &= -2, k[t + a * e << 2 | 2] |= 1, k[t + 1 + a * e << 2 | 0] &= -2, k[t + 1 + a * e << 2 | 1] &= -2, k[t + 1 + a * e << 2 | 2] |= 1, k[t + a * e + e << 2 | 0] &= -2, k[t + a * e + e << 2 | 1] &= -2, k[t + a * e + e << 2 | 2] |= 1, k[t + 1 + a * e + e << 2 | 0] &= -2, k[t + 1 + a * e + e << 2 | 1] &= -2, k[t + 1 + a * e + e << 2 | 2] |= 1))
-                        }
-                    a.putImageData(x, 0, 0)
-                }
-            };
-            let w = new p;
-            w.Tracker = p;
-            r.exports = w
-        },
-        function(r, p, w) {
-            let a = w(1),
-                e = w(4);
-            class E {
-                constructor() {
-                    this.target = {
-                        x: 0,
-                        y: 0
-                    };
-                    this.socket = null;
-                    this.statMaxing = !1;
-                    let e = document.getElementById("gameCanvas");
-                    e.width = a.screenWidth;
-                    e.height = a.screenHeight;
-                    this.cv = e
-                }
-                init(a, e) {
-                    this.control = a;
-                    this.socket = e;
-                    e = this.cv;
-                    "joysticks" === a ? (this.movementTouch = this.controlTouch = null, this.movementRight = this.movementLeft = this.movementBottom = this.movementTop = !1, e.addEventListener("touchstart", a => this.touchStart(a), !1), e.addEventListener("touchmove", a => this.touchMove(a), !1), e.addEventListener("touchend", a => this.touchEnd(a), !1), e.addEventListener("touchcancel", a => this.touchEnd(a), !1)) : (e.addEventListener("mousedown", a => this.mouseDown(a), !1), e.addEventListener("mousemove",
-                        a => this.mouseMove(a), !1), e.addEventListener("mouseup", a => this.mouseUp(a), !1));
-                    e.addEventListener("keydown", a => this.keyboardDown(a), !1);
-                    e.addEventListener("keyup", a => this.keyboardUp(a), !1);
-                    this.autoUpgrade()
-                }
-                autoUpgrade() {
-                    if (a.autoLevel) var e = 60,
-                        k = setInterval(() => {
-                            this.socket.talk("L");
-                            0 >= --e && clearInterval(k)
-                        }, 100)
-                }
-                emit(a) {
-                    this.socket.talk(a)
-                }
-                talk(a, e) {
-                    this.socket.talk(a, e)
-                }
-                spawn(a) {
-                    this.socket.talk("s", a, -1);
-                    e.reset();
-                    this.autoUpgrade()
-                }
-                set(a, e) {
-                    this.socket.cmd.set(a, e)
-                }
-                setPosition(a, e) {
-                    this.target.x =
-                        a;
-                    this.target.y = e;
-                    this.socket.cmd.setPosition(a, e)
-                }
-                keyboardDown(e) {
-                    switch (e.keyCode) {
-                        case a.KEY_SPAWN:
-                            if (a.died && (a.respawnOn <= Date.now() || e.shiftKey) && (this.spawn(a.playerName), a.died = !1, !a.mobile)) {
-                                window.aiptag.cmd.display.push(function() {
-                                    window.aipDisplayTag.clear("arras-io_728x90")
-                                });
-                                var k = document.getElementById("respawn-banner");
-                                k && (k.style.display = "none")
-                            }
-                            break;
-                        case a.KEY_UP_ARROW:
-                        case a.KEY_UP:
-                            this.set(0, !0);
-                            break;
-                        case a.KEY_DOWN_ARROW:
-                        case a.KEY_DOWN:
-                            this.set(1, !0);
-                            break;
-                        case a.KEY_LEFT_ARROW:
-                        case a.KEY_LEFT:
-                            this.set(2,
-                                !0);
-                            break;
-                        case a.KEY_RIGHT_ARROW:
-                        case a.KEY_RIGHT:
-                            this.set(3, !0);
-                            break;
-                        case a.KEY_MOUSE_0:
-                            this.set(4, !0);
-                            break;
-                        case a.KEY_MOUSE_1:
-                            this.set(5, !0);
-                            break;
-                        case a.KEY_MOUSE_2:
-                            this.set(6, !0);
-                            break;
-                        case a.KEY_LEVEL_UP:
-                            this.emit("L");
-                            break;
-                        case a.KEY_ABILITY:
-                            this.emit("A")
-                    }
-                    if (!e.ctrlKey && !e.altKey) {
-                        if (a.canSkill) {
-                            k = this.statMaxing ? 12 : 1;
-                            do switch (e.keyCode) {
-                                case a.KEY_UPGRADE_ATK:
-                                    this.talk("x", 0);
-                                    break;
-                                case a.KEY_UPGRADE_HTL:
-                                    this.talk("x", 1);
-                                    break;
-                                case a.KEY_UPGRADE_SPD:
-                                    this.talk("x", 2);
-                                    break;
-                                case a.KEY_UPGRADE_STR:
-                                    this.talk("x",
-                                        3);
-                                    break;
-                                case a.KEY_UPGRADE_PEN:
-                                    this.talk("x", 4);
-                                    break;
-                                case a.KEY_UPGRADE_DAM:
-                                    this.talk("x", 5);
-                                    break;
-                                case a.KEY_UPGRADE_RLD:
-                                    this.talk("x", 6);
-                                    break;
-                                case a.KEY_UPGRADE_MOB:
-                                    this.talk("x", 7);
-                                    break;
-                                case a.KEY_UPGRADE_RGN:
-                                    this.talk("x", 8);
-                                    break;
-                                case a.KEY_UPGRADE_SHI:
-                                    this.talk("x", 9)
-                            }
-                            while (--k)
-                        }
-                        if (!e.repeat) {
-                            switch (e.keyCode) {
-                                case a.KEY_AUTO_SPIN:
-                                    this.talk("t", 0);
-                                    break;
-                                case a.KEY_AUTO_FIRE:
-                                    this.talk("t", 1);
-                                    break;
-                                case a.KEY_OVER_RIDE:
-                                    this.talk("t", 2);
-                                    break;
-                                case a.KEY_REVERSE_MOUSE:
-                                    this.talk("t", 3);
-                                    break;
-                                case a.KEY_REVERSE_TANK:
-                                    this.talk("t", 4);
-                                    break;
-                                case a.KEY_UPGRADE_MAX:
-                                    this.statMaxing = !0;
-                                    break;
-                                case a.KEY_FUCK_YOU:
-                                    this.emit("0");
-                                    break;
-                                case a.KEY_KILL_YOURSELF:
-                                    this.emit("K");
-                                    break;
-                                case a.KEY_PING:
-                                    a.showDebug = !0;
-                                    break;
-                                case a.KEY_CLASS_TREE:
-                                    a.showTree = !0;
-                                    break;
-                                case a.KEY_RECORD:
-                                    if (this.cv.captureStream && window.MediaRecorder)
-                                        if (this.videoRecorder) switch (this.videoRecorder.state) {
-                                            case "inactive":
-                                                a.messages.push({
-                                                    text: "Recorder started!",
-                                                    status: 2,
-                                                    alpha: 0,
-                                                    time: Date.now()
-                                                });
-                                                this.videoRecorder.start();
-                                                break;
-                                            case "recording":
-                                                a.messages.push({
-                                                    text: "Recorder stopped! Saving file...",
-                                                    status: 2,
-                                                    alpha: 0,
-                                                    time: Date.now()
-                                                }), this.videoRecorder.stop()
-                                        } else {
-                                            let e = [];
-                                            this.videoRecorder = new MediaRecorder(this.cv.captureStream(60));
-                                            this.videoRecorder.ondataavailable = a => e.push(a.data);
-                                            this.videoRecorder.onstop = () => {
-                                                let a = new Blob(e, {
-                                                    type: this.videoRecorder.mimeType
-                                                });
-                                                e.length = 0;
-                                                let k = URL.createObjectURL(a),
-                                                    q = document.createElement("a");
-                                                q.style.display = "none";
-                                                q.setAttribute("download", "video.webm");
-                                                q.setAttribute("href",
-                                                    k);
-                                                document.body.appendChild(q);
-                                                setTimeout(() => {
-                                                    URL.revokeObjectURL(k);
-                                                    document.body.removeChild(q)
-                                                }, 100);
-                                                q.click()
-                                            };
-                                            a.messages.push({
-                                                text: "Recorder initiated and started!",
-                                                status: 2,
-                                                alpha: 0,
-                                                time: Date.now()
-                                            });
-                                            this.videoRecorder.start()
-                                        } else a.messages.push({
-                                            text: "Media recorder not supported in this browser!",
-                                            status: 2,
-                                            alpha: 0,
-                                            time: Date.now()
-                                        });
-                                    break;
-                                case a.KEY_SCREENSHOT:
-                                    var x = this.cv.toDataURL();
-                                    k = atob(x.split(",")[1]);
-                                    x = x.split(",")[0].split(":")[1].split(";")[0];
-                                    let p = new Uint8Array(k.length);
-                                    for (let a =
-                                            0; a < k.length; a++) p[a] = k.charCodeAt(a);
-                                    let q = URL.createObjectURL(new Blob([p], {
-                                            type: x
-                                        })),
-                                        w = document.createElement("a");
-                                    w.style.display = "none";
-                                    w.setAttribute("download", "screenshot.png");
-                                    w.setAttribute("href", q);
-                                    document.body.appendChild(w);
-                                    setTimeout(() => {
-                                        URL.revokeObjectURL(q);
-                                        document.body.removeChild(w)
-                                    }, 100);
-                                    w.click()
-                            }
-                            if (a.canUpgrade) switch (e.keyCode) {
-                                case a.KEY_CHOOSE_1:
-                                    this.talk("U", 0);
-                                    break;
-                                case a.KEY_CHOOSE_2:
-                                    this.talk("U", 1);
-                                    break;
-                                case a.KEY_CHOOSE_3:
-                                    this.talk("U", 2);
-                                    break;
-                                case a.KEY_CHOOSE_4:
-                                    this.talk("U",
-                                        3);
-                                    break;
-                                case a.KEY_CHOOSE_5:
-                                    this.talk("U", 4);
-                                    break;
-                                case a.KEY_CHOOSE_6:
-                                    this.talk("U", 5);
-                                    break;
-                                case a.KEY_CHOOSE_7:
-                                    this.talk("U", 6);
-                                    break;
-                                case a.KEY_CHOOSE_8:
-                                    this.talk("U", 7);
-                                    break;
-                                case a.KEY_CHOOSE_9:
-                                    this.talk("U", 8)
-                            }
-                        }
-                    }
-                }
-                keyboardUp(e) {
-                    switch (e.keyCode) {
-                        case a.KEY_UP_ARROW:
-                        case a.KEY_UP:
-                            this.set(0, !1);
-                            break;
-                        case a.KEY_DOWN_ARROW:
-                        case a.KEY_DOWN:
-                            this.set(1, !1);
-                            break;
-                        case a.KEY_LEFT_ARROW:
-                        case a.KEY_LEFT:
-                            this.set(2, !1);
-                            break;
-                        case a.KEY_RIGHT_ARROW:
-                        case a.KEY_RIGHT:
-                            this.set(3, !1);
-                            break;
-                        case a.KEY_MOUSE_0:
-                            this.set(4,
-                                !1);
-                            break;
-                        case a.KEY_MOUSE_1:
-                            this.set(5, !1);
-                            break;
-                        case a.KEY_MOUSE_2:
-                            this.set(6, !1);
-                            break;
-                        case a.KEY_UPGRADE_MAX:
-                            this.statMaxing = !1;
-                            break;
-                        case a.KEY_PING:
-                            a.showDebug = !1;
-                            break;
-                        case a.KEY_CLASS_TREE:
-                            a.showTree = !1
-                    }
-                }
-                mouseDown(e) {
-                    switch (e.button) {
-                        case 0:
-                            e = {
-                                x: e.clientX,
-                                y: e.clientY
-                            };
-                            let k = a.clickables.stat.check(e); - 1 !== k ? this.talk("x", k) : -1 !== a.clickables.skipUpgrades.check(e) ? a.clearUpgrades() : (e = a.clickables.upgrade.check(e), -1 !== e ? this.talk("U", e) : this.set(4, !0));
-                            break;
-                        case 1:
-                            this.set(5, !0);
-                            break;
-                        case 2:
-                            this.set(6,
-                                !0)
-                    }
-                }
-                mouseMove(e) {
-                    null !== a.player.x && this.setPosition(e.clientX - a.player.x, e.clientY - a.player.y);
-                    a.statHover = 0 === a.clickables.hover.check({
-                        x: e.clientX,
-                        y: e.clientY
-                    })
-                }
-                mouseUp(a) {
-                    switch (a.button) {
-                        case 0:
-                            this.set(4, !1);
-                            break;
-                        case 1:
-                            this.set(5, !1);
-                            break;
-                        case 2:
-                            this.set(6, !1)
-                    }
-                }
-                touchStart(e) {
-                    e.preventDefault();
-                    if (a.died && a.respawnOn <= Date.now()) this.spawn(a.playerName), a.died = !1;
-                    else {
-                        for (let x of e.changedTouches) {
-                            var k = {
-                                x: x.clientX,
-                                y: x.clientY
-                            };
-                            let e = x.identifier;
-                            var p = a.clickables.stat.check(k); - 1 !== p ?
-                                this.talk("x", p) : -1 !== a.clickables.skipUpgrades.check(k) ? a.clearUpgrades() : (p = a.clickables.upgrade.check(k), -1 !== p ? this.talk("U", p) : (k = k.x < this.cv.width / 2, null === this.movementTouch && k ? this.movementTouch = e : null !== this.controlTouch || k || (this.controlTouch = e, this.set(4, !0))))
-                        }
-                        this.touchMove(e)
-                    }
-                }
-                touchMove(a) {
-                    a.preventDefault();
-                    for (let k of a.changedTouches) {
-                        var e = k.clientX;
-                        a = k.clientY;
-                        var p = k.identifier;
-                        this.movementTouch === p ? (e -= 1 * this.cv.width / 6, a -= 2 * this.cv.height / 3, p = Math.sqrt(e * e + a * a), e /= p, a /= p, -.3826834323650898 >
-                            a !== this.movementTop && this.set(0, this.movementTop = -.3826834323650898 > a), .3826834323650898 < a !== this.movementBottom && this.set(1, this.movementBottom = .3826834323650898 < a), -.3826834323650898 > e !== this.movementLeft && this.set(2, this.movementLeft = -.3826834323650898 > e), .3826834323650898 < e !== this.movementRight && this.set(3, this.movementRight = .3826834323650898 < e)) : this.controlTouch === p && this.setPosition(4 * (e - 5 * this.cv.width / 6), 4 * (a - 2 * this.cv.height / 3))
-                    }
-                }
-                touchEnd(a) {
-                    a.preventDefault();
-                    for (let e of a.changedTouches) a =
-                        e.identifier, this.movementTouch === a ? (this.movementTouch = null, this.movementTop && this.set(0, this.movementTop = !1), this.movementBottom && this.set(1, this.movementBottom = !1), this.movementLeft && this.set(2, this.movementLeft = !1), this.movementRight && this.set(3, this.movementRight = !1)) : this.controlTouch === a && (this.controlTouch = null, this.set(4, !1))
-                }
-            }
-            r.exports = E
-        },
-        function(r, p) {
-            let w = new Uint32Array(1),
-                a = new Uint8Array(w.buffer),
-                e = new Float32Array(w.buffer),
-                E = new Uint16Array(1),
-                x = new Uint8Array(E.buffer);
-            p.encode =
-                k => {
-                    let p = [];
-                    var r = [],
-                        q = 0,
-                        C = 15,
-                        v = 0;
-                    for (var t of k) {
-                        var F = 0;
-                        if (0 === t || !1 === t) F = 0;
-                        else if (1 === t || !0 === t) F = 1;
-                        else if ("number" === typeof t) !Number.isInteger(t) || -4294967296 > t || 4294967296 <= t ? (F = 8, q += 4) : 0 <= t ? 256 > t ? (F = 2, q++) : 65536 > t ? (F = 4, q += 2) : 4294967296 > t && (F = 6, q += 4) : -256 <= t ? (F = 3, q++) : -65536 <= t ? (F = 5, q += 2) : -4294967296 <= t && (F = 7, q += 4);
-                        else if ("string" === typeof t) {
-                            F = !1;
-                            for (let a = 0; a < t.length; a++)
-                                if ("\u00ff" < t.charAt(a)) F = !0;
-                                else if ("\x00" === t.charAt(a)) throw console.error("Null containing string", t), Error("Null containing string");
-                            !F && 1 >= t.length ? (F = 9, q++) : F ? (F = 11, q += 2 * t.length + 2) : (F = 10, q += t.length + 1)
-                        } else throw console.error("Unencodable data type", k), Error("Unencodable data type");
-                        p.push(F);
-                        if (F === C) v++;
-                        else {
-                            r.push(C);
-                            if (1 <= v) {
-                                for (; 19 < v;) r.push(14), r.push(15), v -= 19;
-                                1 === v ? r.push(C) : 2 === v ? r.push(12) : 3 === v ? r.push(13) : 20 > v && (r.push(14), r.push(v - 4))
-                            }
-                            v = 0;
-                            C = F
-                        }
-                    }
-                    r.push(C);
-                    if (1 <= v) {
-                        for (; 19 < v;) r.push(14), r.push(15), v -= 19;
-                        1 === v ? r.push(C) : 2 === v ? r.push(12) : 3 === v ? r.push(13) : 20 > v && (r.push(14), r.push(v - 4))
-                    }
-                    r.push(15);
-                    1 === r.length % 2 && r.push(15);
-                    q = new Uint8Array((r.length >> 1) + q);
-                    for (C = 0; C < r.length; C += 2) q[C >> 1] = r[C] << 4 | r[C + 1];
-                    r = r.length >> 1;
-                    for (C = 0; C < p.length; C++) switch (v = k[C], p[C]) {
-                        case 2:
-                        case 3:
-                            q[r++] = v;
-                            break;
-                        case 4:
-                        case 5:
-                            E[0] = v;
-                            q.set(x, r);
-                            r += 2;
-                            break;
-                        case 6:
-                        case 7:
-                            w[0] = v;
-                            q.set(a, r);
-                            r += 4;
-                            break;
-                        case 8:
-                            e[0] = v;
-                            q.set(a, r);
-                            r += 4;
-                            break;
-                        case 9:
-                            v = 0 === v.length ? 0 : v.charCodeAt(0);
-                            q[r++] = v;
-                            break;
-                        case 10:
-                            for (t = 0; t < v.length; t++) q[r++] = v.charCodeAt(t);
-                            q[r++] = 0;
-                            break;
-                        case 11:
-                            for (t = 0; t < v.length; t++) F = v.charCodeAt(t), q[r++] = F & 255, q[r++] = F >> 8;
-                            q[r++] = 0;
-                            q[r++] =
-                                0
-                    }
-                    return q
-                };
-            p.decode = k => {
-                k = new Uint8Array(k);
-                if (15 !== k[0] >> 4) return null;
-                var p = [],
-                    r = 15;
-                let q = 0;
-                for (var C = !0;;) {
-                    if (q >= k.length) return null;
-                    var v = k[q];
-                    C ? (v &= 15, q++) : v >>= 4;
-                    C = !C;
-                    if (12 === (v & 12)) {
-                        if (15 === v) {
-                            C && q++;
-                            break
-                        }
-                        let a = v - 10;
-                        if (14 === v) {
-                            if (q >= k.length) return null;
-                            v = k[q];
-                            C ? (v &= 15, q++) : v >>= 4;
-                            C = !C;
-                            a += v
-                        }
-                        for (v = 0; v < a; v++) p.push(r)
-                    } else p.push(v), r = v
-                }
-                r = [];
-                for (let t of p) switch (t) {
-                    case 0:
-                        r.push(0);
-                        break;
-                    case 1:
-                        r.push(1);
-                        break;
-                    case 2:
-                        r.push(k[q++]);
-                        break;
-                    case 3:
-                        r.push(k[q++] - 256);
-                        break;
-                    case 4:
-                        x[0] = k[q++];
-                        x[1] =
-                            k[q++];
-                        r.push(E[0]);
-                        break;
-                    case 5:
-                        x[0] = k[q++];
-                        x[1] = k[q++];
-                        r.push(E[0] - 65536);
-                        break;
-                    case 6:
-                        a[0] = k[q++];
-                        a[1] = k[q++];
-                        a[2] = k[q++];
-                        a[3] = k[q++];
-                        r.push(w[0]);
-                        break;
-                    case 7:
-                        a[0] = k[q++];
-                        a[1] = k[q++];
-                        a[2] = k[q++];
-                        a[3] = k[q++];
-                        r.push(w[0] - 4294967296);
-                        break;
-                    case 8:
-                        a[0] = k[q++];
-                        a[1] = k[q++];
-                        a[2] = k[q++];
-                        a[3] = k[q++];
-                        r.push(Number.isNaN(e[0]) ? -1 : e[0]);
-                        break;
-                    case 9:
-                        p = k[q++];
-                        r.push(0 === p ? "" : String.fromCharCode(p));
-                        break;
-                    case 10:
-                        for (p = ""; C = k[q++];) p += String.fromCharCode(C);
-                        r.push(p);
-                        break;
-                    case 11:
-                        for (p = ""; C = k[q++] | k[q++] <<
-                            8;) p += String.fromCharCode(C);
-                        r.push(p)
-                }
-                return r
-            }
-        },
-        function(r) {
-            r.exports = {
-                normal: {
-                    teal: "#7ADBBC",
-                    lgreen: "#B9E87E",
-                    orange: "#E7896D",
-                    yellow: "#FDF380",
-                    lavender: "#B58EFD",
-                    pink: "#EF99C3",
-                    vlgrey: "#E8EBF7",
-                    lgrey: "#AA9F9E",
-                    guiwhite: "#FFFFFF",
-                    black: "#484848",
-                    blue: "#3CA4CB",
-                    green: "#8ABC3F",
-                    red: "#E03E41",
-                    gold: "#EFC74B",
-                    purple: "#8D6ADF",
-                    magenta: "#CC669C",
-                    grey: "#A7A7AF",
-                    dgrey: "#726F6F",
-                    white: "#DBDBDB",
-                    guiblack: "#000000",
-                    paletteSize: 10,
-                    border: .65
-                },
-                classic: {
-                    teal: "#8EFFFB",
-                    lgreen: "#85E37D",
-                    orange: "#FC7676",
-                    yellow: "#FFEB8E",
-                    lavender: "#B58EFF",
-                    pink: "#F177DD",
-                    vlgrey: "#CDCDCD",
-                    lgrey: "#999999",
-                    guiwhite: "#FFFFFF",
-                    black: "#525252",
-                    blue: "#00B0E1",
-                    green: "#00E06C",
-                    red: "#F04F54",
-                    gold: "#FFE46B",
-                    purple: "#768CFC",
-                    magenta: "#BE7FF5",
-                    grey: "#999999",
-                    dgrey: "#545454",
-                    white: "#C0C0C0",
-                    guiblack: "#000000",
-                    paletteSize: 10,
-                    border: .5
-                },
-                dark: {
-                    teal: "#8975B7",
-                    lgreen: "#0C491D",
-                    orange: "#C46748",
-                    yellow: "#B2B224",
-                    lavender: "#7D56C5",
-                    pink: "#B24FAE",
-                    vlgrey: "#1E1E1E",
-                    lgrey: "#3C3A3A",
-                    guiwhite: "#000000",
-                    black: "#E5E5E5",
-                    blue: "#379FC6",
-                    green: "#30B53B",
-                    red: "#FF6C6E",
-                    gold: "#FFC665",
-                    purple: "#9673E8",
-                    magenta: "#C8679B",
-                    grey: "#635F5F",
-                    dgrey: "#73747A",
-                    white: "#11110F",
-                    guiblack: "#FFFFFF",
-                    paletteSize: 10,
-                    border: .15
-                },
-                natural: {
-                    teal: "#76C1BB",
-                    lgreen: "#AAD35D",
-                    orange: "#E09545",
-                    yellow: "#FFD993",
-                    lavender: "#939FFF",
-                    pink: "#D87FB2",
-                    vlgrey: "#C4B6B6",
-                    lgrey: "#7F7F7F",
-                    guiwhite: "#FFFFFF",
-                    black: "#373834",
-                    blue: "#4F93B5",
-                    green: "#00B659",
-                    red: "#E14F65",
-                    gold: "#E5BF42",
-                    purple: "#8053A0",
-                    magenta: "#B67CAA",
-                    grey: "#998F8F",
-                    dgrey: "#494954",
-                    white: "#A5B2A5",
-                    guiblack: "#000000",
-                    paletteSize: 10,
-                    border: .2
-                },
-                pumpkin: {
-                    teal: "#721970",
-                    lgreen: "#ff6347",
-                    orange: "#1b713a",
-                    yellow: "#fdf380",
-                    lavender: "#941100",
-                    pink: "#194417",
-                    vlgrey: "#1b713a",
-                    lgrey: "#aa9f9e",
-                    guiwhite: "#fed8b1",
-                    black: "#484848",
-                    blue: "#3ca4cb",
-                    green: "#76EEC6",
-                    red: "#F04F54",
-                    gold: "#1b713a",
-                    purple: "#1b713a",
-                    magenta: "#cc669c",
-                    grey: "#ffffff",
-                    dgrey: "#726f6f",
-                    white: "#ff9b58",
-                    guiblack: "#000000",
-                    paletteSize: 10,
-                    border: 3.3
-                },
-                forest: {
-                    teal: "#884AA5",
-                    lgreen: "#8C9B3E",
-                    orange: "#D16A80",
-                    yellow: "#97596D",
-                    lavender: "#499855",
-                    pink: "#60294F",
-                    vlgrey: "#DDC6B8",
-                    lgrey: "#7E949E",
-                    guiwhite: "#FFFFE8",
-                    black: "#665750",
-                    blue: "#807BB6",
-                    green: "#A1BE55",
-                    red: "#E5B05B",
-                    gold: "#FF4747",
-                    purple: "#BAC674",
-                    magenta: "#BA78D1",
-                    grey: "#998866",
-                    dgrey: "#529758",
-                    white: "#7DA060",
-                    guiblack: "#000000",
-                    paletteSize: 10,
-                    border: .7
-                },
-                midnight: {
-                    teal: "#2B9098",
-                    lgreen: "#4BAA5D",
-                    orange: "#345678",
-                    yellow: "#CDC684",
-                    lavender: "#89778E",
-                    pink: "#A85C90",
-                    vlgrey: "#CCCCCC",
-                    lgrey: "#A7B2B7",
-                    guiwhite: "#BAC6FF",
-                    black: "#091F28",
-                    blue: "#123455",
-                    green: "#098765",
-                    red: "#000013",
-                    gold: "#566381",
-                    purple: "#743784",
-                    magenta: "#B29098",
-                    grey: "#555555",
-                    dgrey: "#649EB7",
-                    white: "#444444",
-                    guiblack: "#000000",
-                    paletteSize: 10,
-                    border: .6
-                },
-                pastel: {
-                    teal: "#89BFBA",
-                    lgreen: "#B5D17D",
-                    orange: "#E5E0E0",
-                    yellow: "#B5BBE5",
-                    lavender: "#939FFF",
-                    pink: "#646DE5",
-                    vlgrey: "#B2B2B2",
-                    lgrey: "#7F7F7F",
-                    guiwhite: "#FFFFFF",
-                    black: "#383835",
-                    blue: "#AEAEFF",
-                    green: "#AEFFAE",
-                    red: "#FFAEAE",
-                    gold: "#FFFFFF",
-                    purple: "#C3C3D8",
-                    magenta: "#FFB5FF",
-                    grey: "#CCCCCC",
-                    dgrey: "#A0A0B2",
-                    white: "#F2F2F2",
-                    guiblack: "#000000",
-                    paletteSize: 10,
-                    border: .35
-                },
-                space: {
-                    teal: "#4788F3",
-                    lgreen: "#AF1010",
-                    orange: "#FF0000",
-                    yellow: "#82F850",
-                    lavender: "#FFFFFF",
-                    pink: "#57006C",
-                    vlgrey: "#FFFFFF",
-                    lgrey: "#272727",
-                    guiwhite: "#000000",
-                    black: "#7F7F7F",
-                    blue: "#0E1B92",
-                    green: "#0AEB80",
-                    red: "#C2B90A",
-                    gold: "#3E7E8C",
-                    purple: "#285911",
-                    magenta: "#A9707E",
-                    grey: "#6F6A68",
-                    dgrey: "#2D0738",
-                    white: "#000000",
-                    guiblack: "#FFFFFF",
-                    paletteSize: 10,
-                    border: .25
-                },
-                nebula: {
-                    teal: "#38B06E",
-                    lgreen: "#22882E",
-                    orange: "#D28E7F",
-                    yellow: "#D5D879",
-                    lavender: "#E084EB",
-                    pink: "#DF3E3E",
-                    vlgrey: "#F0F2CC",
-                    lgrey: "#7D7D7D",
-                    guiwhite: "#C2C5EF",
-                    black: "#161616",
-                    blue: "#9274E6",
-                    green: "#89F470",
-                    red: "#E08E5D",
-                    gold: "#ECDC58",
-                    purple: "#58CBEC",
-                    magenta: "#EA58EC",
-                    grey: "#7E5713",
-                    dgrey: "#303030",
-                    white: "#555555",
-                    guiblack: "#EAEAEA",
-                    paletteSize: 10,
-                    border: .5
-                },
-                bleach: {
-                    teal: "#00FFFF",
-                    lgreen: "#00FF00",
-                    orange: "#FF3200",
-                    yellow: "#FFEC00",
-                    lavender: "#FF24A7",
-                    pink: "#FF3CBD",
-                    vlgrey: "#FFF186",
-                    lgrey: "#918181",
-                    guiwhite: "#F1F1F1",
-                    black: "#5F5F5F",
-                    blue: "#0025FF",
-                    green: "#00FF00",
-                    red: "#FF0000",
-                    gold: "#FFFA23",
-                    purple: "#3100FF",
-                    magenta: "#D4D3D3",
-                    grey: "#838383",
-                    dgrey: "#4C4C4C",
-                    white: "#FFFEFE",
-                    guiblack: "#080808",
-                    paletteSize: 10,
-                    border: .4
-                },
-                ocean: {
-                    teal: "#76EEC6",
-                    lgreen: "#41AA78",
-                    orange: "#FF7F50",
-                    yellow: "#FFD250",
-                    lavender: "#DC3388",
-                    pink: "#FA8072",
-                    vlgrey: "#8B8886",
-                    lgrey: "#BFC1C2",
-                    guiwhite: "#FFFFFF",
-                    black: "#12466B",
-                    blue: "#4200AE",
-                    green: "#0D6338",
-                    red: "#DC4333",
-                    gold: "#FEA904",
-                    purple: "#7B4BAB",
-                    magenta: "#5C246E",
-                    grey: "#656884",
-                    dgrey: "#D4D7D9",
-                    white: "#3283BC",
-                    guiblack: "#000000",
-                    paletteSize: 10,
-                    border: .3
-                },
-                badlands: {
-                    teal: "#F9CB9C",
-                    lgreen: "#F1C232",
-                    orange: "#38761D",
-                    yellow: "#E69138",
-                    lavender: "#B7B7B7",
-                    pink: "#78866B",
-                    vlgrey: "#6AA84F",
-                    lgrey: "#B7B7B7",
-                    guiwhite: "#A4C2F4",
-                    black: "#000000",
-                    blue: "#0C5A9E",
-                    green: "#6E8922",
-                    red: "#5B0000",
-                    gold: "#783F04",
-                    purple: "#591C77",
-                    magenta: "#20124D",
-                    grey: "#2F1C16",
-                    dgrey: "#999999",
-                    white: "#543517",
-                    guiblack: "#CFE2F3",
-                    paletteSize: 10,
-                    border: .4
-                },
-                custom: {
-                    teal: "#7ADBBC",
-                    lgreen: "#B9E87E",
-                    orange: "#E7896D",
-                    yellow: "#FDF380",
-                    lavender: "#B58EFD",
-                    pink: "#EF99C3",
-                    vlgrey: "#E8EBF7",
-                    lgrey: "#AA9F9E",
-                    guiwhite: "#FFFFFF",
-                    black: "#484848",
-                    blue: "#3CA4CB",
-                    green: "#8ABC3F",
-                    red: "#E03E41",
-                    gold: "#EFC74B",
-                    purple: "#8D6ADF",
-                    magenta: "#CC669C",
-                    grey: "#A7A7AF",
-                    dgrey: "#726F6F",
-                    white: "#DBDBDB",
-                    guiblack: "#000000",
-                    paletteSize: 10,
-                    border: .65
-                }
-            }
+        KEY_AUTO_FIRE: 69,
+        KEY_AUTO_SPIN: 67,
+        KEY_OVER_RIDE: 82,
+        KEY_LEVEL_UP: 78,
+        KEY_ABILITY: 70,
+        KEY_REVERSE_TANK: 86,
+        KEY_REVERSE_MOUSE: 66,
+        KEY_SCREENSHOT: 81,
+        KEY_UPGRADE_MAX: 77,
+        KEY_CLASS_TREE: 84,
+        KEY_RECORD: 90,
+        KEY_UP: 87,
+        KEY_PING: 76,
+        KEY_LEFT: 65,
+        KEY_DOWN: 83,
+        KEY_RIGHT: 68,
+        KEY_CHOOSE_1: 89,
+        KEY_CHOOSE_2: 85,
+        KEY_CHOOSE_3: 73,
+        KEY_CHOOSE_4: 72,
+        KEY_CHOOSE_5: 74,
+        KEY_CHOOSE_6: 75,
+        KEY_CHOOSE_7: -1,
+        KEY_CHOOSE_8: -1,
+        KEY_CHOOSE_9: -1,
+        KEY_ENTER: 13,
+        KEY_SPAWN: 13,
+        KEY_LEFT_ARROW: 37,
+        KEY_UP_ARROW: 38,
+        KEY_RIGHT_ARROW: 39,
+        KEY_DOWN_ARROW: 40,
+        KEY_UPGRADE_ATK: 49,
+        KEY_UPGRADE_HTL: 50,
+        KEY_UPGRADE_SPD: 51,
+        KEY_UPGRADE_STR: 52,
+        KEY_UPGRADE_PEN: 53,
+        KEY_UPGRADE_DAM: 54,
+        KEY_UPGRADE_RLD: 55,
+        KEY_UPGRADE_MOB: 56,
+        KEY_UPGRADE_RGN: 57,
+        KEY_UPGRADE_SHI: 48,
+        KEY_MOUSE_0: 32,
+        KEY_MOUSE_1: 9,
+        KEY_MOUSE_2: 16,
+        KEY_FUCK_YOU: 192,
+        KEY_KILL_YOURSELF: 79,
+        screenWidth: window.innerWidth,
+        screenHeight: window.innerHeight,
+        gameWidth: 0,
+        gameHeight: 0,
+        gameStart: !1,
+        disconnected: !1,
+        died: !1,
+        showDebug: !1,
+        showTree: !1,
+        server: null,
+        codeTable: [
+          {
+            z: "Private",
+            local: "Local",
+            dvi: "DVI",
+            glitch: "Glitch",
+            os: "OpenShift",
+            heroku: "Heroku",
+            linode: "Linode",
+            vultr: "Vultr",
+            buyvm: "BuyVM",
+            extravm: "ExtraVM",
+            hetzner: "Hetzner",
+            ovh: "OVH"
+          },
+          {
+            unknown: ["Unknown", null],
+            local: ["Local", null],
+            worldwide: ["Worldwide", null],
+            virginia: ["US East", -4],
+            montreal: ["US East", -4],
+            oregon: ["US West", -7],
+            frankfurt: ["Europe", 2],
+            sv: ["US West", -7],
+            la: ["US West", -7],
+            germany: ["Europe", 2],
+            london: ["Europe", 1],
+            singapore: ["Asia", 8]
+          },
+          [
+            [{ id: "p", to: "Private" }],
+            [{ id: "e", dynamic: "word" }],
+            [{ id: "w", dynamic: "words" }],
+            [{ id: "o", to: "Open" }],
+            [{ id: "m", to: "Maze", delay: !0, remove: "f" }],
+            [
+              { id: "f", to: "FFA" },
+              { id: "2", to: "2 Team", end: "2TDM" },
+              { id: "3", to: "3 Team", end: "3TDM" },
+              { id: "4", to: "4 Team", end: "4TDM" }
+            ],
+            [
+              { id: "d", to: "Domination" },
+              { id: "m", to: "Mothership", remove: "2" },
+              { id: "a", to: "Assault", remove: "2" }
+            ]
+          ]
+        ],
+        timezone: new Date().getTimezoneOffset() / -60,
+        servers: [
+          {
+            id: "z",
+            type: "0unk",
+            code: "z-unknown-pe6server",
+            at: "private",
+            untrusted: !0
+          },
+          {
+            visible: 0,
+            id: "a",
+            type: "ffa",
+            code: "glitch-worldwide-f",
+            at: p.glitch('your-server'),
+            prefer: !0,
+           // featured: 1, // For Featured Status.
+
+          },
+          {
+            visible: 0,
+            id: "b",
+            type: "ffa",
+            code: "glitch-worldwide-3",
+            at: p.glitch('your-server'),
+           // featured: 1, // For Featured Status.
+          },
+        ]
+          .map((a, e) => ({ data: a, i: e }))
+          .sort((a, e) =>
+            a.data.type < e.data.type
+              ? -1
+              : e.data.type > a.data.type
+              ? 1
+              : a.i - e.i
+          )
+          .map(({ data: a }) => a),
+        partyLink: 0,
+        mobile: /android|mobi/i.test(navigator.userAgent),
+        showInvisible: !1
+      };
+      window.Arras = (a = !0) => a || e;
+      r.exports = e;
+    },
+    function(r, p) {
+      let w = window.localStorage || {};
+      p.submitToLocalStorage = a => {
+        w[a + "Value"] = document.getElementById(a).value || "";
+        w[a + "Checked"] = document.getElementById(a).checked || "false";
+        return !1;
+      };
+      p.retrieveFromLocalStorage = (a, e = !1) => {
+        document.getElementById(a).value = w[a + "Value"] || "";
+        document.getElementById(a).checked =
+          "true" === (w[a + "Checked"] || e.toString());
+        return !1;
+      };
+      p.handleLargeNumber = (a, e = !1) =>
+        e && 0 >= a
+          ? ""
+          : 1e3 > a
+          ? a.toFixed(0) + ""
+          : 1e6 > a
+          ? (a / 1e3).toFixed(2) + "k"
+          : 1e9 > a
+          ? (a / 1e6).toFixed(2) + "m"
+          : 1e12 > a
+          ? (a / 1e9).toFixed(2) + "b"
+          : 1e15 > a
+          ? (a / 1e12).toFixed(2) + "t"
+          : 1e18 > a
+          ? (a / 1e15).toFixed(2) + "q"
+          : "\u221e";
+      p.timeForHumans = a => {
+        function e(a, e) {
+          a &&
+            (D = D + ("" === D ? "" : ", ") + a + " " + e + (1 < a ? "s" : ""));
         }
-    ]);
-}.call(this)
+        let p = a % 60;
+        a = Math.floor(a / 60);
+        let x = a % 60;
+        a = Math.floor(a / 60);
+        let k = a % 24;
+        a = Math.floor(a / 24);
+        let D = "";
+        if (300 < a) return "FOREVER";
+        e(a, "day");
+        e(k, "hour");
+        e(x, "minute");
+        e(p, "second");
+        "" === D && (D = "less than a second");
+        return D;
+      };
+      p.addArticle = a => (/^\s*[aeiouAEIOU]/.test(a) ? "an " + a : "a " + a);
+      p.formatLargeNumber = a =>
+        1e18 > a
+          ? a.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          : "\u221e";
+      p.pullJSON = a => {
+        if (window.fetch)
+          return fetch(a, { cache: "no-cache" }).then(a => a.json());
+        let e = new XMLHttpRequest();
+        console.log("Loading JSON from " + a);
+        e.responseType = "json";
+        return new Promise((p, x) => {
+          e.open("GET", a);
+          e.onload = () => {
+            p(e.response);
+            console.log("JSON load complete.");
+          };
+          e.onerror = () => {
+            x(e.statusText);
+            console.log("JSON load failed.");
+            console.log(e.statusText);
+          };
+          e.send();
+        });
+      };
+    },
+    function(r, p) {
+      (function(w) {
+        function a(a) {
+          function e() {
+            setTimeout(function() {
+              !0 === x._options.checkOnLoad &&
+                (!0 === x._options.debug &&
+                  x._log(
+                    "onload->eventCallback",
+                    "A check loading is launched"
+                  ),
+                null === x._var.bait && x._creatBait(),
+                setTimeout(function() {
+                  x.check();
+                }, 1));
+            }, 1);
+          }
+          this._options = {
+            checkOnLoad: !1,
+            resetOnEnd: !1,
+            loopCheckTime: 50,
+            loopMaxNumber: 5,
+            baitClass:
+              "pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links",
+            baitStyle:
+              "width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;",
+            debug: !1
+          };
+          this._var = {
+            version: "3.2.1",
+            bait: null,
+            checking: !1,
+            loop: null,
+            loopNumber: 0,
+            event: { detected: [], notDetected: [] }
+          };
+          void 0 !== a && this.setOption(a);
+          var x = this;
+          void 0 !== w.addEventListener
+            ? w.addEventListener("load", e, !1)
+            : w.attachEvent("onload", e);
+        }
+        a.prototype._options = null;
+        a.prototype._var = null;
+        a.prototype._bait = null;
+        a.prototype._log = function(a, p) {
+          console.log("[BlockAdBlock][" + a + "] " + p);
+        };
+        a.prototype.setOption = function(a, p) {
+          if (void 0 !== p) {
+            var e = a;
+            a = {};
+            a[e] = p;
+          }
+          for (var k in a)
+            (this._options[k] = a[k]),
+              !0 === this._options.debug &&
+                this._log(
+                  "setOption",
+                  'The option "' + k + '" he was assigned to "' + a[k] + '"'
+                );
+          return this;
+        };
+        a.prototype._creatBait = function() {
+          var a = document.createElement("div");
+          a.setAttribute("class", this._options.baitClass);
+          a.setAttribute("style", this._options.baitStyle);
+          this._var.bait = w.document.body.appendChild(a);
+          this._var.bait.offsetParent;
+          this._var.bait.offsetHeight;
+          this._var.bait.offsetLeft;
+          this._var.bait.offsetTop;
+          this._var.bait.offsetWidth;
+          this._var.bait.clientHeight;
+          this._var.bait.clientWidth;
+          !0 === this._options.debug &&
+            this._log("_creatBait", "Bait has been created");
+        };
+        a.prototype._destroyBait = function() {
+          w.document.body.removeChild(this._var.bait);
+          this._var.bait = null;
+          !0 === this._options.debug &&
+            this._log("_destroyBait", "Bait has been removed");
+        };
+        a.prototype.check = function(a) {
+          void 0 === a && (a = !0);
+          !0 === this._options.debug &&
+            this._log(
+              "check",
+              "An audit was requested " +
+                (!0 === a ? "with a" : "without") +
+                " loop"
+            );
+          if (!0 === this._var.checking)
+            return (
+              !0 === this._options.debug &&
+                this._log(
+                  "check",
+                  "A check was canceled because there is already an ongoing"
+                ),
+              !1
+            );
+          this._var.checking = !0;
+          null === this._var.bait && this._creatBait();
+          var e = this;
+          this._var.loopNumber = 0;
+          !0 === a &&
+            (this._var.loop = setInterval(function() {
+              e._checkBait(a);
+            }, this._options.loopCheckTime));
+          setTimeout(function() {
+            e._checkBait(a);
+          }, 1);
+          !0 === this._options.debug &&
+            this._log("check", "A check is in progress ...");
+          return !0;
+        };
+        a.prototype._checkBait = function(a) {
+          var e = !1;
+          null === this._var.bait && this._creatBait();
+          if (
+            null !== w.document.body.getAttribute("abp") ||
+            null === this._var.bait.offsetParent ||
+            0 == this._var.bait.offsetHeight ||
+            0 == this._var.bait.offsetLeft ||
+            0 == this._var.bait.offsetTop ||
+            0 == this._var.bait.offsetWidth ||
+            0 == this._var.bait.clientHeight ||
+            0 == this._var.bait.clientWidth
+          )
+            e = !0;
+          if (void 0 !== w.getComputedStyle) {
+            var x = w.getComputedStyle(this._var.bait, null);
+            !x ||
+              ("none" != x.getPropertyValue("display") &&
+                "hidden" != x.getPropertyValue("visibility")) ||
+              (e = !0);
+          }
+          !0 === this._options.debug &&
+            this._log(
+              "_checkBait",
+              "A check (" +
+                (this._var.loopNumber + 1) +
+                "/" +
+                this._options.loopMaxNumber +
+                " ~" +
+                (1 + this._var.loopNumber * this._options.loopCheckTime) +
+                "ms) was conducted and detection is " +
+                (!0 === e ? "positive" : "negative")
+            );
+          !0 === a &&
+            (this._var.loopNumber++,
+            this._var.loopNumber >= this._options.loopMaxNumber &&
+              this._stopLoop());
+          if (!0 === e)
+            this._stopLoop(),
+              this._destroyBait(),
+              this.emitEvent(!0),
+              !0 === a && (this._var.checking = !1);
+          else if (null === this._var.loop || !1 === a)
+            this._destroyBait(),
+              this.emitEvent(!1),
+              !0 === a && (this._var.checking = !1);
+        };
+        a.prototype._stopLoop = function() {
+          clearInterval(this._var.loop);
+          this._var.loop = null;
+          this._var.loopNumber = 0;
+          !0 === this._options.debug &&
+            this._log("_stopLoop", "A loop has been stopped");
+        };
+        a.prototype.emitEvent = function(a) {
+          !0 === this._options.debug &&
+            this._log(
+              "emitEvent",
+              "An event with a " +
+                (!0 === a ? "positive" : "negative") +
+                " detection was called"
+            );
+          a = this._var.event[!0 === a ? "detected" : "notDetected"];
+          for (var e in a)
+            if (
+              (!0 === this._options.debug &&
+                this._log(
+                  "emitEvent",
+                  "Call function " + (parseInt(e) + 1) + "/" + a.length
+                ),
+              a.hasOwnProperty(e))
+            )
+              a[e]();
+          !0 === this._options.resetOnEnd && this.clearEvent();
+          return this;
+        };
+        a.prototype.clearEvent = function() {
+          this._var.event.detected = [];
+          this._var.event.notDetected = [];
+          !0 === this._options.debug &&
+            this._log("clearEvent", "The event list has been cleared");
+        };
+        a.prototype.on = function(a, p) {
+          this._var.event[!0 === a ? "detected" : "notDetected"].push(p);
+          !0 === this._options.debug &&
+            this._log(
+              "on",
+              'A type of event "' +
+                (!0 === a ? "detected" : "notDetected") +
+                '" was added'
+            );
+          return this;
+        };
+        a.prototype.onDetected = function(a) {
+          return this.on(!0, a);
+        };
+        a.prototype.onNotDetected = function(a) {
+          return this.on(!1, a);
+        };
+        p.BlockAdBlock = a;
+        p.blockAdBlock = new a({ checkOnLoad: !0, resetOnEnd: !0 });
+      })(window);
+    },
+    function(r) {
+      const p = class {
+        static now() {
+          return Math.min(Math.floor(Date.now() / 2e3) - 757382400, 268435455);
+        }
+        constructor() {
+          this.reset();
+          setInterval(() => {
+            this.logOnLine(!!navigator.onLine);
+          }, 2e3);
+        }
+        reset() {
+          function a() {}
+          this.startTime = p.now();
+          this.event = { die: 0, disconnect: 0 };
+          this.mouse = { status: !0, updates: [0, 0, 0, 0, 0, 0, 0] };
+          this.onLine = { status: !!navigator.onLine, updates: [0, 0, 0, 0] };
+          this.consoleOpened = this.closeCall = !1;
+          let e = new Image();
+          Object.defineProperty(e, "id", {
+            get: () => {
+              this.consoleOpened = !0;
+              return "";
+            }
+          });
+          a.toString = () => {
+            this.consoleOpened = !0;
+            return "color:rgba(0,0,0,0)";
+          };
+          setTimeout(console.log.bind(null, "%c%s", a, e));
+        }
+        time() {
+          return Math.min(p.now() - this.startTime, 65535);
+        }
+        logEvent(a) {
+          this.event[a] = this.time();
+        }
+        logMouse(a) {
+          this.mouse.status !== a &&
+            ((this.mouse.status = a),
+            this.mouse.updates.shift(),
+            this.mouse.updates.push(this.time()));
+        }
+        logOnLine(a) {
+          this.onLine.status !== a &&
+            ((this.onLine.status = a),
+            this.onLine.updates.shift(),
+            this.onLine.updates.push(this.time()));
+        }
+        logCloseCall() {
+          this.closeCall = !0;
+        }
+        toBits() {
+          let a = [
+            this.mouse.status,
+            this.onLine.status,
+            this.closeCall,
+            this.consoleOpened
+          ];
+          var e = this.startTime;
+          for (let p = 0; 28 > p; p++) a.push(!!(e & 1)), (e >>= 1);
+          for (let p of [
+            this.event.die,
+            this.event.disconnect,
+            ...this.mouse.updates,
+            ...this.onLine.updates,
+            this.time()
+          ])
+            for (e = 0; 16 > e; e++) a.push(!!(p & 1)), (p >>= 1);
+          return a;
+        }
+        drawCanvas(a) {
+          let { width: e, height: p } = a.canvas,
+            x = a.getImageData(0, 0, e, p),
+            { data: k } = x,
+            D = this.toBits(),
+            w = [];
+          for (var q = 0; 16 > q; q++) {
+            var r = !1;
+            for (var v = 0; 16 > v; v++) D[q + 16 * v] && (r = !r);
+            w.push(r);
+          }
+          q = [];
+          for (r = 0; 16 > r; r++) {
+            v = !1;
+            for (var t = 0; 16 > t; t++) D[t + 16 * r] && (v = !v);
+            q.push(v);
+          }
+          r = !0;
+          for (v = 0; 256 > v; v++) D[v] && (r = !r);
+          v = -Math.floor(8 * Math.random());
+          for (t = v; t < e; t += 4)
+            for (let a = v; a < e; a += 4) {
+              let x = Math.floor(t / 4) % 32,
+                v = Math.floor(a / 4) % 32;
+              17 < x ||
+                17 < v ||
+                (33 !== x + v &&
+                (16 === x ||
+                  16 === v ||
+                  (17 === x
+                    ? 17 === v
+                      ? r
+                      : q[v]
+                    : 17 === v
+                    ? w[x]
+                    : D[x + 16 * v]))
+                  ? ((k[((t + a * e) << 2) | 0] |= 1),
+                    (k[((t + a * e) << 2) | 1] |= 1),
+                    (k[((t + a * e) << 2) | 2] &= -2),
+                    (k[((t + 1 + a * e) << 2) | 0] |= 1),
+                    (k[((t + 1 + a * e) << 2) | 1] |= 1),
+                    (k[((t + 1 + a * e) << 2) | 2] &= -2),
+                    (k[((t + a * e + e) << 2) | 0] |= 1),
+                    (k[((t + a * e + e) << 2) | 1] |= 1),
+                    (k[((t + a * e + e) << 2) | 2] &= -2),
+                    (k[((t + 1 + a * e + e) << 2) | 0] |= 1),
+                    (k[((t + 1 + a * e + e) << 2) | 1] |= 1),
+                    (k[((t + 1 + a * e + e) << 2) | 2] &= -2))
+                  : ((k[((t + a * e) << 2) | 0] &= -2),
+                    (k[((t + a * e) << 2) | 1] &= -2),
+                    (k[((t + a * e) << 2) | 2] |= 1),
+                    (k[((t + 1 + a * e) << 2) | 0] &= -2),
+                    (k[((t + 1 + a * e) << 2) | 1] &= -2),
+                    (k[((t + 1 + a * e) << 2) | 2] |= 1),
+                    (k[((t + a * e + e) << 2) | 0] &= -2),
+                    (k[((t + a * e + e) << 2) | 1] &= -2),
+                    (k[((t + a * e + e) << 2) | 2] |= 1),
+                    (k[((t + 1 + a * e + e) << 2) | 0] &= -2),
+                    (k[((t + 1 + a * e + e) << 2) | 1] &= -2),
+                    (k[((t + 1 + a * e + e) << 2) | 2] |= 1)));
+            }
+          a.putImageData(x, 0, 0);
+        }
+      };
+      let w = new p();
+      w.Tracker = p;
+      r.exports = w;
+    },
+    function(r, p, w) {
+      let a = w(1),
+        e = w(4);
+      class E {
+        constructor() {
+          this.target = { x: 0, y: 0 };
+          this.socket = null;
+          this.statMaxing = !1;
+          let e = document.getElementById("gameCanvas");
+          e.width = a.screenWidth;
+          e.height = a.screenHeight;
+          this.cv = e;
+        }
+        init(a, e) {
+          this.control = a;
+          this.socket = e;
+          e = this.cv;
+          "joysticks" === a
+            ? ((this.movementTouch = this.controlTouch = null),
+              (this.movementRight = this.movementLeft = this.movementBottom = this.movementTop = !1),
+              e.addEventListener("touchstart", a => this.touchStart(a), !1),
+              e.addEventListener("touchmove", a => this.touchMove(a), !1),
+              e.addEventListener("touchend", a => this.touchEnd(a), !1),
+              e.addEventListener("touchcancel", a => this.touchEnd(a), !1))
+            : (e.addEventListener("mousedown", a => this.mouseDown(a), !1),
+              e.addEventListener("mousemove", a => this.mouseMove(a), !1),
+              e.addEventListener("mouseup", a => this.mouseUp(a), !1));
+          e.addEventListener("keydown", a => this.keyboardDown(a), !1);
+          e.addEventListener("keyup", a => this.keyboardUp(a), !1);
+          this.autoUpgrade();
+        }
+        autoUpgrade() {
+          if (a.autoLevel)
+            var e = 60,
+              k = setInterval(() => {
+                this.socket.talk("L");
+                0 >= --e && clearInterval(k);
+              }, 100);
+        }
+        emit(a) {
+          this.socket.talk(a);
+        }
+        talk(a, e) {
+          this.socket.talk(a, e);
+        }
+        spawn(a) {
+          this.socket.talk("s", a, -1);
+          e.reset();
+          this.autoUpgrade();
+        }
+        set(a, e) {
+          this.socket.cmd.set(a, e);
+        }
+        setPosition(a, e) {
+          this.target.x = a;
+          this.target.y = e;
+          this.socket.cmd.setPosition(a, e);
+        }
+        keyboardDown(e) {
+          switch (e.keyCode) {
+            case a.KEY_SPAWN:
+              if (
+                a.died &&
+                (a.respawnOn <= Date.now() || e.shiftKey) &&
+                (this.spawn(a.playerName), (a.died = !1), !a.mobile)
+              ) {
+                window.aiptag.cmd.display.push(function() {
+                  window.aipDisplayTag.clear("arras-io_728x90");
+                });
+                var k = document.getElementById("respawn-banner");
+                k && (k.style.display = "none");
+              }
+              break;
+            case a.KEY_UP_ARROW:
+            case a.KEY_UP:
+              this.set(0, !0);
+              break;
+            case a.KEY_DOWN_ARROW:
+            case a.KEY_DOWN:
+              this.set(1, !0);
+              break;
+            case a.KEY_LEFT_ARROW:
+            case a.KEY_LEFT:
+              this.set(2, !0);
+              break;
+            case a.KEY_RIGHT_ARROW:
+            case a.KEY_RIGHT:
+              this.set(3, !0);
+              break;
+            case a.KEY_MOUSE_0:
+              this.set(4, !0);
+              break;
+            case a.KEY_MOUSE_1:
+              this.set(5, !0);
+              break;
+            case a.KEY_MOUSE_2:
+              this.set(6, !0);
+              break;
+            case a.KEY_LEVEL_UP:
+              this.emit("L");
+              break;
+            case a.KEY_ABILITY:
+              this.emit("A");
+          }
+          if (!e.ctrlKey && !e.altKey) {
+            if (a.canSkill) {
+              k = this.statMaxing ? 12 : 1;
+              do
+                switch (e.keyCode) {
+                  case a.KEY_UPGRADE_ATK:
+                    this.talk("x", 0);
+                    break;
+                  case a.KEY_UPGRADE_HTL:
+                    this.talk("x", 1);
+                    break;
+                  case a.KEY_UPGRADE_SPD:
+                    this.talk("x", 2);
+                    break;
+                  case a.KEY_UPGRADE_STR:
+                    this.talk("x", 3);
+                    break;
+                  case a.KEY_UPGRADE_PEN:
+                    this.talk("x", 4);
+                    break;
+                  case a.KEY_UPGRADE_DAM:
+                    this.talk("x", 5);
+                    break;
+                  case a.KEY_UPGRADE_RLD:
+                    this.talk("x", 6);
+                    break;
+                  case a.KEY_UPGRADE_MOB:
+                    this.talk("x", 7);
+                    break;
+                  case a.KEY_UPGRADE_RGN:
+                    this.talk("x", 8);
+                    break;
+                  case a.KEY_UPGRADE_SHI:
+                    this.talk("x", 9);
+                }
+              while (--k);
+            }
+            if (!e.repeat) {
+              switch (e.keyCode) {
+                case a.KEY_AUTO_SPIN:
+                  this.talk("t", 0);
+                  break;
+                case a.KEY_AUTO_FIRE:
+                  this.talk("t", 1);
+                  break;
+                case a.KEY_OVER_RIDE:
+                  this.talk("t", 2);
+                  break;
+                case a.KEY_REVERSE_MOUSE:
+                  this.talk("t", 3);
+                  break;
+                case a.KEY_REVERSE_TANK:
+                  this.talk("t", 4);
+                  break;
+                case a.KEY_UPGRADE_MAX:
+                  this.statMaxing = !0;
+                  break;
+                case a.KEY_FUCK_YOU:
+                  this.emit("0");
+                  break;
+                case a.KEY_KILL_YOURSELF:
+                  this.emit("K");
+                  break;
+                case a.KEY_PING:
+                  a.showDebug = !0;
+                  break;
+                case a.KEY_CLASS_TREE:
+                  a.showTree = !0;
+                  break;
+                case a.KEY_RECORD:
+                  if (this.cv.captureStream && window.MediaRecorder)
+                    if (this.videoRecorder)
+                      switch (this.videoRecorder.state) {
+                        case "inactive":
+                          a.messages.push({
+                            text: "Recorder started!",
+                            status: 2,
+                            alpha: 0,
+                            time: Date.now()
+                          });
+                          this.videoRecorder.start();
+                          break;
+                        case "recording":
+                          a.messages.push({
+                            text: "Recorder stopped! Saving file...",
+                            status: 2,
+                            alpha: 0,
+                            time: Date.now()
+                          }),
+                            this.videoRecorder.stop();
+                      }
+                    else {
+                      let e = [];
+                      this.videoRecorder = new MediaRecorder(
+                        this.cv.captureStream(60)
+                      );
+                      this.videoRecorder.ondataavailable = a => e.push(a.data);
+                      this.videoRecorder.onstop = () => {
+                        let a = new Blob(e, {
+                          type: this.videoRecorder.mimeType
+                        });
+                        e.length = 0;
+                        let k = URL.createObjectURL(a),
+                          q = document.createElement("a");
+                        q.style.display = "none";
+                        q.setAttribute("download", "video.webm");
+                        q.setAttribute("href", k);
+                        document.body.appendChild(q);
+                        setTimeout(() => {
+                          URL.revokeObjectURL(k);
+                          document.body.removeChild(q);
+                        }, 100);
+                        q.click();
+                      };
+                      a.messages.push({
+                        text: "Recorder initiated and started!",
+                        status: 2,
+                        alpha: 0,
+                        time: Date.now()
+                      });
+                      this.videoRecorder.start();
+                    }
+                  else
+                    a.messages.push({
+                      text: "Media recorder not supported in this browser!",
+                      status: 2,
+                      alpha: 0,
+                      time: Date.now()
+                    });
+                  break;
+                case a.KEY_SCREENSHOT:
+                  var x = this.cv.toDataURL();
+                  k = atob(x.split(",")[1]);
+                  x = x
+                    .split(",")[0]
+                    .split(":")[1]
+                    .split(";")[0];
+                  let p = new Uint8Array(k.length);
+                  for (let a = 0; a < k.length; a++) p[a] = k.charCodeAt(a);
+                  let q = URL.createObjectURL(new Blob([p], { type: x })),
+                    w = document.createElement("a");
+                  w.style.display = "none";
+                  w.setAttribute("download", "screenshot.png");
+                  w.setAttribute("href", q);
+                  document.body.appendChild(w);
+                  setTimeout(() => {
+                    URL.revokeObjectURL(q);
+                    document.body.removeChild(w);
+                  }, 100);
+                  w.click();
+              }
+              if (a.canUpgrade)
+                switch (e.keyCode) {
+                  case a.KEY_CHOOSE_1:
+                    this.talk("U", 0);
+                    break;
+                  case a.KEY_CHOOSE_2:
+                    this.talk("U", 1);
+                    break;
+                  case a.KEY_CHOOSE_3:
+                    this.talk("U", 2);
+                    break;
+                  case a.KEY_CHOOSE_4:
+                    this.talk("U", 3);
+                    break;
+                  case a.KEY_CHOOSE_5:
+                    this.talk("U", 4);
+                    break;
+                  case a.KEY_CHOOSE_6:
+                    this.talk("U", 5);
+                    break;
+                  case a.KEY_CHOOSE_7:
+                    this.talk("U", 6);
+                    break;
+                  case a.KEY_CHOOSE_8:
+                    this.talk("U", 7);
+                    break;
+                  case a.KEY_CHOOSE_9:
+                    this.talk("U", 8);
+                }
+            }
+          }
+        }
+        keyboardUp(e) {
+          switch (e.keyCode) {
+            case a.KEY_UP_ARROW:
+            case a.KEY_UP:
+              this.set(0, !1);
+              break;
+            case a.KEY_DOWN_ARROW:
+            case a.KEY_DOWN:
+              this.set(1, !1);
+              break;
+            case a.KEY_LEFT_ARROW:
+            case a.KEY_LEFT:
+              this.set(2, !1);
+              break;
+            case a.KEY_RIGHT_ARROW:
+            case a.KEY_RIGHT:
+              this.set(3, !1);
+              break;
+            case a.KEY_MOUSE_0:
+              this.set(4, !1);
+              break;
+            case a.KEY_MOUSE_1:
+              this.set(5, !1);
+              break;
+            case a.KEY_MOUSE_2:
+              this.set(6, !1);
+              break;
+            case a.KEY_UPGRADE_MAX:
+              this.statMaxing = !1;
+              break;
+            case a.KEY_PING:
+              a.showDebug = !1;
+              break;
+            case a.KEY_CLASS_TREE:
+              a.showTree = !1;
+          }
+        }
+        mouseDown(e) {
+          switch (e.button) {
+            case 0:
+              e = { x: e.clientX, y: e.clientY };
+              let k = a.clickables.stat.check(e);
+              -1 !== k
+                ? this.talk("x", k)
+                : -1 !== a.clickables.skipUpgrades.check(e)
+                ? a.clearUpgrades()
+                : ((e = a.clickables.upgrade.check(e)),
+                  -1 !== e ? this.talk("U", e) : this.set(4, !0));
+              break;
+            case 1:
+              this.set(5, !0);
+              break;
+            case 2:
+              this.set(6, !0);
+          }
+        }
+        mouseMove(e) {
+          null !== a.player.x &&
+            this.setPosition(e.clientX - a.player.x, e.clientY - a.player.y);
+          a.statHover =
+            0 === a.clickables.hover.check({ x: e.clientX, y: e.clientY });
+        }
+        mouseUp(a) {
+          switch (a.button) {
+            case 0:
+              this.set(4, !1);
+              break;
+            case 1:
+              this.set(5, !1);
+              break;
+            case 2:
+              this.set(6, !1);
+          }
+        }
+        touchStart(e) {
+          e.preventDefault();
+          if (a.died && a.respawnOn <= Date.now())
+            this.spawn(a.playerName), (a.died = !1);
+          else {
+            for (let x of e.changedTouches) {
+              var k = { x: x.clientX, y: x.clientY };
+              let e = x.identifier;
+              var p = a.clickables.stat.check(k);
+              -1 !== p
+                ? this.talk("x", p)
+                : -1 !== a.clickables.skipUpgrades.check(k)
+                ? a.clearUpgrades()
+                : ((p = a.clickables.upgrade.check(k)),
+                  -1 !== p
+                    ? this.talk("U", p)
+                    : ((k = k.x < this.cv.width / 2),
+                      null === this.movementTouch && k
+                        ? (this.movementTouch = e)
+                        : null !== this.controlTouch ||
+                          k ||
+                          ((this.controlTouch = e), this.set(4, !0))));
+            }
+            this.touchMove(e);
+          }
+        }
+        touchMove(a) {
+          a.preventDefault();
+          for (let k of a.changedTouches) {
+            var e = k.clientX;
+            a = k.clientY;
+            var p = k.identifier;
+            this.movementTouch === p
+              ? ((e -= (1 * this.cv.width) / 6),
+                (a -= (2 * this.cv.height) / 3),
+                (p = Math.sqrt(e * e + a * a)),
+                (e /= p),
+                (a /= p),
+                -0.3826834323650898 > a !== this.movementTop &&
+                  this.set(0, (this.movementTop = -0.3826834323650898 > a)),
+                0.3826834323650898 < a !== this.movementBottom &&
+                  this.set(1, (this.movementBottom = 0.3826834323650898 < a)),
+                -0.3826834323650898 > e !== this.movementLeft &&
+                  this.set(2, (this.movementLeft = -0.3826834323650898 > e)),
+                0.3826834323650898 < e !== this.movementRight &&
+                  this.set(3, (this.movementRight = 0.3826834323650898 < e)))
+              : this.controlTouch === p &&
+                this.setPosition(
+                  4 * (e - (5 * this.cv.width) / 6),
+                  4 * (a - (2 * this.cv.height) / 3)
+                );
+          }
+        }
+        touchEnd(a) {
+          a.preventDefault();
+          for (let e of a.changedTouches)
+            (a = e.identifier),
+              this.movementTouch === a
+                ? ((this.movementTouch = null),
+                  this.movementTop && this.set(0, (this.movementTop = !1)),
+                  this.movementBottom &&
+                    this.set(1, (this.movementBottom = !1)),
+                  this.movementLeft && this.set(2, (this.movementLeft = !1)),
+                  this.movementRight && this.set(3, (this.movementRight = !1)))
+                : this.controlTouch === a &&
+                  ((this.controlTouch = null), this.set(4, !1));
+        }
+      }
+      r.exports = E;
+    },
+    function(r, p) {
+      let w = new Uint32Array(1),
+        a = new Uint8Array(w.buffer),
+        e = new Float32Array(w.buffer),
+        E = new Uint16Array(1),
+        x = new Uint8Array(E.buffer);
+      p.encode = k => {
+        let p = [];
+        var r = [],
+          q = 0,
+          C = 15,
+          v = 0;
+        for (var t of k) {
+          var F = 0;
+          if (0 === t || !1 === t) F = 0;
+          else if (1 === t || !0 === t) F = 1;
+          else if ("number" === typeof t)
+            !Number.isInteger(t) || -4294967296 > t || 4294967296 <= t
+              ? ((F = 8), (q += 4))
+              : 0 <= t
+              ? 256 > t
+                ? ((F = 2), q++)
+                : 65536 > t
+                ? ((F = 4), (q += 2))
+                : 4294967296 > t && ((F = 6), (q += 4))
+              : -256 <= t
+              ? ((F = 3), q++)
+              : -65536 <= t
+              ? ((F = 5), (q += 2))
+              : -4294967296 <= t && ((F = 7), (q += 4));
+          else if ("string" === typeof t) {
+            F = !1;
+            for (let a = 0; a < t.length; a++)
+              if ("\u00ff" < t.charAt(a)) F = !0;
+              else if ("\x00" === t.charAt(a))
+                throw (console.error("Null containing string", t),
+                Error("Null containing string"));
+            !F && 1 >= t.length
+              ? ((F = 9), q++)
+              : F
+              ? ((F = 11), (q += 2 * t.length + 2))
+              : ((F = 10), (q += t.length + 1));
+          } else
+            throw (console.error("Unencodable data type", k),
+            Error("Unencodable data type"));
+          p.push(F);
+          if (F === C) v++;
+          else {
+            r.push(C);
+            if (1 <= v) {
+              for (; 19 < v; ) r.push(14), r.push(15), (v -= 19);
+              1 === v
+                ? r.push(C)
+                : 2 === v
+                ? r.push(12)
+                : 3 === v
+                ? r.push(13)
+                : 20 > v && (r.push(14), r.push(v - 4));
+            }
+            v = 0;
+            C = F;
+          }
+        }
+        r.push(C);
+        if (1 <= v) {
+          for (; 19 < v; ) r.push(14), r.push(15), (v -= 19);
+          1 === v
+            ? r.push(C)
+            : 2 === v
+            ? r.push(12)
+            : 3 === v
+            ? r.push(13)
+            : 20 > v && (r.push(14), r.push(v - 4));
+        }
+        r.push(15);
+        1 === r.length % 2 && r.push(15);
+        q = new Uint8Array((r.length >> 1) + q);
+        for (C = 0; C < r.length; C += 2) q[C >> 1] = (r[C] << 4) | r[C + 1];
+        r = r.length >> 1;
+        for (C = 0; C < p.length; C++)
+          switch (((v = k[C]), p[C])) {
+            case 2:
+            case 3:
+              q[r++] = v;
+              break;
+            case 4:
+            case 5:
+              E[0] = v;
+              q.set(x, r);
+              r += 2;
+              break;
+            case 6:
+            case 7:
+              w[0] = v;
+              q.set(a, r);
+              r += 4;
+              break;
+            case 8:
+              e[0] = v;
+              q.set(a, r);
+              r += 4;
+              break;
+            case 9:
+              v = 0 === v.length ? 0 : v.charCodeAt(0);
+              q[r++] = v;
+              break;
+            case 10:
+              for (t = 0; t < v.length; t++) q[r++] = v.charCodeAt(t);
+              q[r++] = 0;
+              break;
+            case 11:
+              for (t = 0; t < v.length; t++)
+                (F = v.charCodeAt(t)), (q[r++] = F & 255), (q[r++] = F >> 8);
+              q[r++] = 0;
+              q[r++] = 0;
+          }
+        return q;
+      };
+      p.decode = k => {
+        k = new Uint8Array(k);
+        if (15 !== k[0] >> 4) return null;
+        var p = [],
+          r = 15;
+        let q = 0;
+        for (var C = !0; ; ) {
+          if (q >= k.length) return null;
+          var v = k[q];
+          C ? ((v &= 15), q++) : (v >>= 4);
+          C = !C;
+          if (12 === (v & 12)) {
+            if (15 === v) {
+              C && q++;
+              break;
+            }
+            let a = v - 10;
+            if (14 === v) {
+              if (q >= k.length) return null;
+              v = k[q];
+              C ? ((v &= 15), q++) : (v >>= 4);
+              C = !C;
+              a += v;
+            }
+            for (v = 0; v < a; v++) p.push(r);
+          } else p.push(v), (r = v);
+        }
+        r = [];
+        for (let t of p)
+          switch (t) {
+            case 0:
+              r.push(0);
+              break;
+            case 1:
+              r.push(1);
+              break;
+            case 2:
+              r.push(k[q++]);
+              break;
+            case 3:
+              r.push(k[q++] - 256);
+              break;
+            case 4:
+              x[0] = k[q++];
+              x[1] = k[q++];
+              r.push(E[0]);
+              break;
+            case 5:
+              x[0] = k[q++];
+              x[1] = k[q++];
+              r.push(E[0] - 65536);
+              break;
+            case 6:
+              a[0] = k[q++];
+              a[1] = k[q++];
+              a[2] = k[q++];
+              a[3] = k[q++];
+              r.push(w[0]);
+              break;
+            case 7:
+              a[0] = k[q++];
+              a[1] = k[q++];
+              a[2] = k[q++];
+              a[3] = k[q++];
+              r.push(w[0] - 4294967296);
+              break;
+            case 8:
+              a[0] = k[q++];
+              a[1] = k[q++];
+              a[2] = k[q++];
+              a[3] = k[q++];
+              r.push(Number.isNaN(e[0]) ? -1 : e[0]);
+              break;
+            case 9:
+              p = k[q++];
+              r.push(0 === p ? "" : String.fromCharCode(p));
+              break;
+            case 10:
+              for (p = ""; (C = k[q++]); ) p += String.fromCharCode(C);
+              r.push(p);
+              break;
+            case 11:
+              for (p = ""; (C = k[q++] | (k[q++] << 8)); )
+                p += String.fromCharCode(C);
+              r.push(p);
+          }
+        return r;
+      };
+    },
+    function(r) {
+      r.exports = {
+        normal: {
+          teal: "#7ADBBC",
+          lgreen: "#B9E87E",
+          orange: "#E7896D",
+          yellow: "#FDF380",
+          lavender: "#B58EFD",
+          pink: "#EF99C3",
+          vlgrey: "#E8EBF7",
+          lgrey: "#AA9F9E",
+          guiwhite: "#FFFFFF",
+          black: "#484848",
+          blue: "#3CA4CB",
+          green: "#8ABC3F",
+          red: "#E03E41",
+          gold: "#EFC74B",
+          purple: "#8D6ADF",
+          magenta: "#CC669C",
+          grey: "#A7A7AF",
+          dgrey: "#726F6F",
+          white: "#DBDBDB",
+          guiblack: "#000000",
+          paletteSize: 10,
+          border: 0.65
+        },
+        classic: {
+          teal: "#8EFFFB",
+          lgreen: "#85E37D",
+          orange: "#FC7676",
+          yellow: "#FFEB8E",
+          lavender: "#B58EFF",
+          pink: "#F177DD",
+          vlgrey: "#CDCDCD",
+          lgrey: "#999999",
+          guiwhite: "#FFFFFF",
+          black: "#525252",
+          blue: "#00B0E1",
+          green: "#00E06C",
+          red: "#F04F54",
+          gold: "#FFE46B",
+          purple: "#768CFC",
+          magenta: "#BE7FF5",
+          grey: "#999999",
+          dgrey: "#545454",
+          white: "#C0C0C0",
+          guiblack: "#000000",
+          paletteSize: 10,
+          border: 0.5
+        },
+        dark: {
+          teal: "#8975B7",
+          lgreen: "#0C491D",
+          orange: "#C46748",
+          yellow: "#B2B224",
+          lavender: "#7D56C5",
+          pink: "#B24FAE",
+          vlgrey: "#1E1E1E",
+          lgrey: "#3C3A3A",
+          guiwhite: "#000000",
+          black: "#E5E5E5",
+          blue: "#379FC6",
+          green: "#30B53B",
+          red: "#FF6C6E",
+          gold: "#FFC665",
+          purple: "#9673E8",
+          magenta: "#C8679B",
+          grey: "#635F5F",
+          dgrey: "#73747A",
+          white: "#11110F",
+          guiblack: "#FFFFFF",
+          paletteSize: 10,
+          border: 0.15
+        },
+        natural: {
+          teal: "#76C1BB",
+          lgreen: "#AAD35D",
+          orange: "#E09545",
+          yellow: "#FFD993",
+          lavender: "#939FFF",
+          pink: "#D87FB2",
+          vlgrey: "#C4B6B6",
+          lgrey: "#7F7F7F",
+          guiwhite: "#FFFFFF",
+          black: "#373834",
+          blue: "#4F93B5",
+          green: "#00B659",
+          red: "#E14F65",
+          gold: "#E5BF42",
+          purple: "#8053A0",
+          magenta: "#B67CAA",
+          grey: "#998F8F",
+          dgrey: "#494954",
+          white: "#A5B2A5",
+          guiblack: "#000000",
+          paletteSize: 10,
+          border: 0.2
+        },
+        pumpkin: {
+          teal: "#721970",
+          lgreen: "#ff6347",
+          orange: "#1b713a",
+          yellow: "#fdf380",
+          lavender: "#941100",
+          pink: "#194417",
+          vlgrey: "#1b713a",
+          lgrey: "#aa9f9e",
+          guiwhite: "#fed8b1",
+          black: "#484848",
+          blue: "#3ca4cb",
+          green: "#76EEC6",
+          red: "#F04F54",
+          gold: "#1b713a",
+          purple: "#1b713a",
+          magenta: "#cc669c",
+          grey: "#ffffff",
+          dgrey: "#726f6f",
+          white: "#ff9b58",
+          guiblack: "#000000",
+          paletteSize: 10,
+          border: 3.3
+        },
+        forest: {
+          teal: "#884AA5",
+          lgreen: "#8C9B3E",
+          orange: "#D16A80",
+          yellow: "#97596D",
+          lavender: "#499855",
+          pink: "#60294F",
+          vlgrey: "#DDC6B8",
+          lgrey: "#7E949E",
+          guiwhite: "#FFFFE8",
+          black: "#665750",
+          blue: "#807BB6",
+          green: "#A1BE55",
+          red: "#E5B05B",
+          gold: "#FF4747",
+          purple: "#BAC674",
+          magenta: "#BA78D1",
+          grey: "#998866",
+          dgrey: "#529758",
+          white: "#7DA060",
+          guiblack: "#000000",
+          paletteSize: 10,
+          border: 0.7
+        },
+        midnight: {
+          teal: "#2B9098",
+          lgreen: "#4BAA5D",
+          orange: "#345678",
+          yellow: "#CDC684",
+          lavender: "#89778E",
+          pink: "#A85C90",
+          vlgrey: "#CCCCCC",
+          lgrey: "#A7B2B7",
+          guiwhite: "#BAC6FF",
+          black: "#091F28",
+          blue: "#123455",
+          green: "#098765",
+          red: "#000013",
+          gold: "#566381",
+          purple: "#743784",
+          magenta: "#B29098",
+          grey: "#555555",
+          dgrey: "#649EB7",
+          white: "#444444",
+          guiblack: "#000000",
+          paletteSize: 10,
+          border: 0.6
+        },
+        pastel: {
+          teal: "#89BFBA",
+          lgreen: "#B5D17D",
+          orange: "#E5E0E0",
+          yellow: "#B5BBE5",
+          lavender: "#939FFF",
+          pink: "#646DE5",
+          vlgrey: "#B2B2B2",
+          lgrey: "#7F7F7F",
+          guiwhite: "#FFFFFF",
+          black: "#383835",
+          blue: "#AEAEFF",
+          green: "#AEFFAE",
+          red: "#FFAEAE",
+          gold: "#FFFFFF",
+          purple: "#C3C3D8",
+          magenta: "#FFB5FF",
+          grey: "#CCCCCC",
+          dgrey: "#A0A0B2",
+          white: "#F2F2F2",
+          guiblack: "#000000",
+          paletteSize: 10,
+          border: 0.35
+        },
+        space: {
+          teal: "#4788F3",
+          lgreen: "#AF1010",
+          orange: "#FF0000",
+          yellow: "#82F850",
+          lavender: "#FFFFFF",
+          pink: "#57006C",
+          vlgrey: "#FFFFFF",
+          lgrey: "#272727",
+          guiwhite: "#000000",
+          black: "#7F7F7F",
+          blue: "#0E1B92",
+          green: "#0AEB80",
+          red: "#C2B90A",
+          gold: "#3E7E8C",
+          purple: "#285911",
+          magenta: "#A9707E",
+          grey: "#6F6A68",
+          dgrey: "#2D0738",
+          white: "#000000",
+          guiblack: "#FFFFFF",
+          paletteSize: 10,
+          border: 0.25
+        },
+        nebula: {
+          teal: "#38B06E",
+          lgreen: "#22882E",
+          orange: "#D28E7F",
+          yellow: "#D5D879",
+          lavender: "#E084EB",
+          pink: "#DF3E3E",
+          vlgrey: "#F0F2CC",
+          lgrey: "#7D7D7D",
+          guiwhite: "#C2C5EF",
+          black: "#161616",
+          blue: "#9274E6",
+          green: "#89F470",
+          red: "#E08E5D",
+          gold: "#ECDC58",
+          purple: "#58CBEC",
+          magenta: "#EA58EC",
+          grey: "#7E5713",
+          dgrey: "#303030",
+          white: "#555555",
+          guiblack: "#EAEAEA",
+          paletteSize: 10,
+          border: 0.5
+        },
+        bleach: {
+          teal: "#00FFFF",
+          lgreen: "#00FF00",
+          orange: "#FF3200",
+          yellow: "#FFEC00",
+          lavender: "#FF24A7",
+          pink: "#FF3CBD",
+          vlgrey: "#FFF186",
+          lgrey: "#918181",
+          guiwhite: "#F1F1F1",
+          black: "#5F5F5F",
+          blue: "#0025FF",
+          green: "#00FF00",
+          red: "#FF0000",
+          gold: "#FFFA23",
+          purple: "#3100FF",
+          magenta: "#D4D3D3",
+          grey: "#838383",
+          dgrey: "#4C4C4C",
+          white: "#FFFEFE",
+          guiblack: "#080808",
+          paletteSize: 10,
+          border: 0.4
+        },
+        ocean: {
+          teal: "#76EEC6",
+          lgreen: "#41AA78",
+          orange: "#FF7F50",
+          yellow: "#FFD250",
+          lavender: "#DC3388",
+          pink: "#FA8072",
+          vlgrey: "#8B8886",
+          lgrey: "#BFC1C2",
+          guiwhite: "#FFFFFF",
+          black: "#12466B",
+          blue: "#4200AE",
+          green: "#0D6338",
+          red: "#DC4333",
+          gold: "#FEA904",
+          purple: "#7B4BAB",
+          magenta: "#5C246E",
+          grey: "#656884",
+          dgrey: "#D4D7D9",
+          white: "#3283BC",
+          guiblack: "#000000",
+          paletteSize: 10,
+          border: 0.3
+        },
+        badlands: {
+          teal: "#F9CB9C",
+          lgreen: "#F1C232",
+          orange: "#38761D",
+          yellow: "#E69138",
+          lavender: "#B7B7B7",
+          pink: "#78866B",
+          vlgrey: "#6AA84F",
+          lgrey: "#B7B7B7",
+          guiwhite: "#A4C2F4",
+          black: "#000000",
+          blue: "#0C5A9E",
+          green: "#6E8922",
+          red: "#5B0000",
+          gold: "#783F04",
+          purple: "#591C77",
+          magenta: "#20124D",
+          grey: "#2F1C16",
+          dgrey: "#999999",
+          white: "#543517",
+          guiblack: "#CFE2F3",
+          paletteSize: 10,
+          border: 0.4
+        },
+        custom: {
+          teal: "#7ADBBC",
+          lgreen: "#B9E87E",
+          orange: "#E7896D",
+          yellow: "#FDF380",
+          lavender: "#B58EFD",
+          pink: "#EF99C3",
+          vlgrey: "#E8EBF7",
+          lgrey: "#AA9F9E",
+          guiwhite: "#FFFFFF",
+          black: "#484848",
+          blue: "#3CA4CB",
+          green: "#8ABC3F",
+          red: "#E03E41",
+          gold: "#EFC74B",
+          purple: "#8D6ADF",
+          magenta: "#CC669C",
+          grey: "#A7A7AF",
+          dgrey: "#726F6F",
+          white: "#DBDBDB",
+          guiblack: "#000000",
+          paletteSize: 10,
+          border: 0.65
+        }
+      };
+    }
+  ]);
+}.call(this);
