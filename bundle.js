@@ -1001,279 +1001,353 @@
                 }
                 return b.servers.find(b => b.id === d) || null
             })(location.hash) || b.servers.find(b => b.id === N.gameMode) || Za();
-            let $a = a => {
-                    var d = b.codeTable[2];
-                    let c = [],
-                        h = [];
-                    var u = 0;
-                    for (let b of d)
-                        for (let n of b)
-                            if (n.id === a.charAt(u)) {
-                                u++;
-                                d = Object.assign({}, n);
-                                if ("word" === n.dynamic) {
-                                    var y = +a.charAt(u++),
-                                        f = a.slice(u, u + y);
-                                    d.to = f.charAt(0).toUpperCase() + f.slice(1);
-                                    u += y
-                                } else if ("words" === n.dynamic) {
-                                    y = +a.charAt(u++);
-                                    f = [];
-                                    for (let b = 0; b < y; b++) {
-                                        var e = a.charAt(u++);
-                                        if ("d" === e) f.push("-");
-                                        else if ("s" ===
-                                            e) f.push(" ");
-                                        else {
-                                            e = +e;
-                                            let b = a.slice(u, u + e);
-                                            f.push(b.charAt(0).toUpperCase() + b.slice(1));
-                                            u += e
-                                        }
-                                    }
-                                    d.to = f.join("")
-                                }
-                                n.remove && h.push(n.remove);
-                                c.push(d);
-                                break
-                            } if (0 === c.length) return "Unknown";
-                    a = c[c.length - 1];
-                    a.end && (a.to = a.end);
-                    for (a = 0; a + 1 < c.length; a++) c[a].delay && !c[a + 1].delay && (u = c[a], c[a] = c[a + 1], c[a + 1] = u, a++);
-                    c = c.filter(({
-                        id: b
-                    }) => !h.includes(b));
-                    return c.map(b => b.to).join(" ")
-                },
-                aa = null,
-                ab = null,
-                ea;
-            for (let a of b.servers) {/*
-                if ((null ==
-                        a.visible || a.visible > Ha) && b.server !== a) continue;
-                let [d, c, h] = a.code.split("-"), u = document.createElement("tr");
-                u.appendChild(document.createElement("td")).textContent = b.codeTable[0][d];
-                u.appendChild(document.createElement("td")).textContent = b.codeTable[1][c][0];
-                u.appendChild(document.createElement("td")).textContent = $a(h);
-                a.featured && u.classList.add("featured");
-                u.onclick = () => {
-                    ea.classList.remove("selected");
-                    ea = u;
-                    ea.classList.add("selected");*/
-                    b.server = a;
-                    /*b.partyLink = 0;
-                    N.gameMode = a.id;
-                    location.hash = "#" +
-                        a.id;
-                    aa.scrollTop < u.offsetTop - 50 ? aa.scrollTop = u.offsetTop - 50 : aa.scrollTop > u.offsetTop - 10 && (aa.scrollTop = u.offsetTop - 10)
-                };
-                ab.appendChild(u);
-                b.server === a && (ea = u, ea.classList.add("selected"), setTimeout(() => {
-                    aa.scrollTop = u.offsetTop - 30;
-                }))*/
+      let $a = a => {
+          var d = b.codeTable[2];
+          let c = [],
+            h = [];
+          var u = 0;
+          for (let b of d)
+            for (let n of b)
+              if (n.id === a.charAt(u)) {
+                u++;
+                d = Object.assign({}, n);
+                if ("word" === n.dynamic) {
+                  var y = +a.charAt(u++),
+                    f = a.slice(u, u + y);
+                  d.to = f.charAt(0).toUpperCase() + f.slice(1);
+                  u += y;
+                } else if ("words" === n.dynamic) {
+                  y = +a.charAt(u++);
+                  f = [];
+                  for (let b = 0; b < y; b++) {
+                    var e = a.charAt(u++);
+                    if ("d" === e) f.push("-");
+                    else if ("s" === e) f.push(" ");
+                    else {
+                      e = +e;
+                      let b = a.slice(u, u + e);
+                      f.push(b.charAt(0).toUpperCase() + b.slice(1));
+                      u += e;
+                    }
+                  }
+                  d.to = f.join("");
+                }
+                n.remove && h.push(n.remove);
+                c.push(d);
+                break;
+              }
+          if (0 === c.length) return "Unknown";
+          a = c[c.length - 1];
+          a.end && (a.to = a.end);
+          for (a = 0; a + 1 < c.length; a++)
+            c[a].delay &&
+              !c[a + 1].delay &&
+              ((u = c[a]), (c[a] = c[a + 1]), (c[a + 1] = u), a++);
+          c = c.filter(({ id: b }) => !h.includes(b));
+          return c.map(b => b.to).join(" ");
+        },
+        aa = document.getElementById("serverSelector").parentNode.parentNode,
+        ab = document.getElementById("serverSelector"),
+        ea;
+      for (let a of b.servers) {
+        if ((null == a.visible || a.visible > Ha) && b.server !== a) continue;
+        let [d, c, h] = a.code.split("-"),
+          u = document.createElement("tr");
+        u.appendChild(document.createElement("td")).textContent =
+          b.codeTable[0][d];
+        u.appendChild(document.createElement("td")).textContent =
+          b.codeTable[1][c][0];
+        u.appendChild(document.createElement("td")).textContent = $a(h);
+        a.featured && u.classList.add("featured");
+        u.onclick = () => {
+          ea.classList.remove("selected");
+          ea = u;
+          ea.classList.add("selected");
+          b.server = a;
+          b.partyLink = 0;
+          N.gameMode = a.id;
+          location.hash = "#" + a.id;
+          aa.scrollTop < u.offsetTop - 50
+            ? (aa.scrollTop = u.offsetTop - 50)
+            : aa.scrollTop > u.offsetTop - 10 &&
+              (aa.scrollTop = u.offsetTop - 10);
+        };
+        ab.appendChild(u);
+        b.server === a &&
+          ((ea = u),
+          ea.classList.add("selected"),
+          setTimeout(() => {
+            aa.scrollTop = u.offsetTop - 30;
+          }));
+      }
+      let bb = (() => {
+          let b = !1,
+            a = document.getElementById("startMenuSlidingTrigger"),
+            c = document.getElementById("optionArrow"),
+            h = document.getElementById("viewOptionText"),
+            u = document.getElementsByClassName("sliderHolder")[0],
+            y = document.getElementsByClassName("slider"),
+            f = () => {
+              c.style.transform = c.style.webkitTransform = b
+                ? "translate(2px, -2px) rotate(45deg)"
+                : "rotate(-45deg)";
+              h.innerText = b ? "close options" : "view options";
+              b ? u.classList.add("slided") : u.classList.remove("slided");
+              y[0].style.opacity = b ? 0 : 1;
+              y[2].style.opacity = b ? 1 : 0;
+            };
+          a.onclick = () => {
+            b = !b;
+            f();
+          };
+          return () => {
+            b || ((b = !0), f());
+          };
+        })(),
+        sa = document.getElementById("patchNotes"),
+        Ka = (b, a) => {
+          var c = b.shift();
+          if (c) {
+            c = c.match(/^([A-Za-z ]+[A-Za-z])\s*\[([0-9\-]+)\]\s*(.+)?$/) || [
+              c,
+              c,
+              null
+            ];
+            var h = c[1]
+                ? {
+                    Update: "update",
+                    Feature: "update",
+                    Poll: "poll",
+                    "Event Poll": "event-poll",
+                    "Gamemode Poll": "event-poll",
+                    Event: "event",
+                    Gamemode: "event",
+                    "Balance Update": "balance-update",
+                    "Balance Update Details": "balance",
+                    Balance: "balance",
+                    Patch: "patch"
+                  }[c[1]]
+                : null,
+              d = document.createElement("div");
+            h && d.classList.add(h);
+            var y = document.createElement("b"),
+              f = [c[1]];
+            if (c[2]) {
+              var e = new Date(c[2] + "T00:00:00Z");
+              if (e > Date.now()) return;
+              f.push(
+                e.toLocaleDateString("default", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  timeZone: "UTC"
+                })
+              );
             }
-            let bb = (() => {
-                    let b = !1,
-                        a = document.getElementById("startMenuSlidingTrigger"),
-                        c = document.getElementById("optionArrow"),
-                        h = document.getElementById("viewOptionText"),
-                        u = document.getElementsByClassName("sliderHolder")[0],
-                        y = document.getElementsByClassName("slider"),
-                        f = () => {
-                            c.style.transform =
-                                c.style.webkitTransform = b ? "translate(2px, -2px) rotate(45deg)" : "rotate(-45deg)";
-                            h.innerText = b ? "close options" : "view options";
-                            b ? u.classList.add("slided") : u.classList.remove("slided");
-                            y[0].style.opacity = b ? 0 : 1;
-                            y[2].style.opacity = b ? 1 : 0
-                        };
-                    a.onclick = () => {
-                        b = !b;
-                        f()
-                    };
-                    return () => {
-                        b || (b = !0, f())
-                    }
-                })(),
-                sa = document.getElementById("patchNotes"),
-                Ka = (b, a) => {
-                    var c = b.shift();
-                    if (c) {
-                        c = c.match(/^([A-Za-z ]+[A-Za-z])\s*\[([0-9\-]+)\]\s*(.+)?$/) || [c, c, null];
-                        var h = c[1] ? {
-                                Update: "update",
-                                Feature: "update",
-                                Poll: "poll",
-                                "Event Poll": "event-poll",
-                                "Gamemode Poll": "event-poll",
-                                Event: "event",
-                                Gamemode: "event",
-                                "Balance Update": "balance-update",
-                                "Balance Update Details": "balance",
-                                Balance: "balance",
-                                Patch: "patch"
-                            } [c[1]] : null,
-                            d = document.createElement("div");
-                        h && d.classList.add(h);
-                        var y = document.createElement("b"),
-                            f = [c[1]];
-                        if (c[2]) {
-                            var e = new Date(c[2] + "T00:00:00Z");
-                            if (e > Date.now()) return;
-                            f.push(e.toLocaleDateString("default", {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                                timeZone: "UTC"
-                            }))
-                        }
-                        c[3] && f.push(c[3]);
-                        y.innerHTML = f.join(" - ");
-                        d.appendChild(y);
-                        if ("poll" ===
-                            h || "event-poll" === h) {
-                            let [a, u, k] = b.shift().split(",").map(b => b.trim());
-                            var n = "table" === k;
-                            let x = "radio" === k,
-                                ha = Math.ceil((new Date(u.trim()) - Date.now()) / 36E5);
-                            y.appendChild(document.createElement("br"));
-                            c = document.createElement("small");
-                            c.appendChild(document.createTextNode(0 < ha ? "closing in " + ha + " hour" + (1 === ha ? "" : "s") : "closed"));
-                            let L = document.createElement("a");
-                            L.href = "javascript:;";
-                            L.innerText = "view all results";
-                            n && c.appendChild(L);
-                            let O = document.createElement("a");
-                            O.href = "javascript:;";
-                            O.innerText =
-                                "reset";
-                            O.style.display = "none";
-                            x && c.appendChild(O);
-                            y.appendChild(c);
-                            d.appendChild(document.createElement("br"));
-                            y = document.createElement("table");
-                            y.className = n ? "poll-table" : "poll-list";
-                            c = document.createElement("tbody");
-                            h = (() => {
-                                let b = [],
-                                    c = [],
-                                    f = (new Promise(b => {
-                                        let a = !1;
-                                        sa.addEventListener("scroll", () => {
-                                            if (!a) {
-                                                var c = sa.getBoundingClientRect(),
-                                                    f = d.getBoundingClientRect();
-                                                0 >= f.height || f.top > c.bottom + c.height || f.bottom < c.top - c.height || (a = !0, b())
-                                            }
-                                        })
-                                    })).then(() => fetch("http://ip-p.arras.io:2020/poll/" + a +
-                                        "/status")).then(b => b.json()).then(b => {
-                                        if (!b.ok) throw Error("Poll does not exist!");
-                                        c = b.options
-                                    });
-                                L.onclick = () => {
-                                    L.remove();
-                                    let a = b.map(b => parseInt(b.title, 10)).sort((b, a) => b - a),
-                                        c = "#2196f3 #00adc3 #009688 #4caf50 #e8ae00 #ff8200 #ff0000".split(" ");
-                                    for (let h of b) {
-                                        var f = parseInt(h.title, 10);
-                                        h.className = "count";
-                                        h.innerHTML = 1E3 <= f ? (f / 1E3).toFixed(1) + "<span>k</span>" : 0 <= f ? f : "?";
-                                        f = Math.floor((a.indexOf(f) + .5) / a.length * c.length);
-                                        h.style.color = c[f]
-                                    }
-                                };
-                                O.onclick = () => {
-                                    h.checked = !1;
-                                    h.onchange();
-                                    h = null;
-                                    O.style.display =
-                                        "none"
-                                };
-                                let h = null,
-                                    y = 0;
-                                return d => {
-                                    let e = b => (d ? d + " - " : "") + b + " vote" + (1 === b ? "" : "s"),
-                                        u = y++,
-                                        n = document.createElement("label");
-                                    n.className = "container";
-                                    let g = document.createElement("input");
-                                    g.tabIndex = -1;
-                                    g.type = x ? "radio" : "checkbox";
-                                    g.disabled = !0;
-                                    x && (g.name = "radio-" + a);
-                                    f.then(() => {
-                                        let {
-                                            voted: b,
-                                            votes: f
-                                        } = c[u] || {
-                                            voted: !1,
-                                            votes: 0
-                                        };
-                                        g.checked = b;
-                                        x && b && (h = g, O.style.display = "inline");
-                                        g.disabled = 0 >= ha;
-                                        let y = f - b;
-                                        g.onchange = () => {
-                                            fetch("http://ip-p.arras.io:2020/poll/" + a + "/set/" + u + "/" + g.checked);
-                                            let b = y + (g.checked ?
-                                                1 : 0);
-                                            d ? l.nodeValue = e(b) : n.title = e(b);
-                                            x && h && h !== g && g.checked && (h.checked = !1, h.onchange());
-                                            h = g;
-                                            O.style.display = "inline"
-                                        };
-                                        d ? l.nodeValue = e(f) : n.title = e(f)
-                                    });
-                                    let l;
-                                    d && (l = document.createTextNode(d), n.appendChild(l));
-                                    n.appendChild(g);
-                                    let k = document.createElement("span");
-                                    k.className = x ? "radio" : "checkmark";
-                                    n.appendChild(k);
-                                    b.push(n);
-                                    return n
-                                }
-                            })();
-                            for (var g of b) {
-                                b = document.createElement("tr");
-                                if (n)
-                                    for (var l of g.split("|")) l = l.trim(), f = document.createElement("td"), "X" === l ? f.appendChild(h()) : (e = l.match(/^:*/)[0].length,
-                                        f.colSpan = e + 1, f.innerHTML = l.slice(e)), b.appendChild(f);
-                                else f = document.createElement("td"), f.appendChild(h(g)), b.appendChild(f);
-                                c.appendChild(b)
-                            }
-                            y.appendChild(c);
-                            d.appendChild(y)
-                        } else {
-                            g = document.createElement("ul");
-                            for (n of b) l = document.createElement("li"), l.innerHTML = n, g.appendChild(l);
-                            l = g.getElementsByTagName("a");
-                            for (b = 0; b < l.length; b++) {
-                                n = l[b];
-                                if (!n.href) continue;
-                                let a = n.href.lastIndexOf("#"); - 1 !== a && (a = n.href.slice(a + 1), "options-menu" === a ? l[b].onclick = function(b) {
-                                        b.preventDefault();
-                                        bb()
-                                    } : Ja[a] &&
-                                    (l[b].onclick = function(b) {
-                                        b.preventDefault();
-                                        Ja[a]()
-                                    }))
-                            }
-                            d.appendChild(g)
-                        }
-                        a && d.appendChild(document.createElement("hr"));
-                        sa.appendChild(d)
-                    }
+            c[3] && f.push(c[3]);
+            y.innerHTML = f.join(" - ");
+            d.appendChild(y);
+            if ("poll" === h || "event-poll" === h) {
+              let [a, u, k] = b
+                .shift()
+                .split(",")
+                .map(b => b.trim());
+              var n = "table" === k;
+              let x = "radio" === k,
+                ha = Math.ceil((new Date(u.trim()) - Date.now()) / 36e5);
+              y.appendChild(document.createElement("br"));
+              c = document.createElement("small");
+              c.appendChild(
+                document.createTextNode(
+                  0 < ha
+                    ? "closing in " + ha + " hour" + (1 === ha ? "" : "s")
+                    : "closed"
+                )
+              );
+              let L = document.createElement("a");
+              L.href = "javascript:;";
+              L.innerText = "view all results";
+              n && c.appendChild(L);
+              let O = document.createElement("a");
+              O.href = "javascript:;";
+              O.innerText = "reset";
+              O.style.display = "none";
+              x && c.appendChild(O);
+              y.appendChild(c);
+              d.appendChild(document.createElement("br"));
+              y = document.createElement("table");
+              y.className = n ? "poll-table" : "poll-list";
+              c = document.createElement("tbody");
+              h = (() => {
+                let b = [],
+                  c = [],
+                  f = new Promise(b => {
+                    let a = !1;
+                    sa.addEventListener("scroll", () => {
+                      if (!a) {
+                        var c = sa.getBoundingClientRect(),
+                          f = d.getBoundingClientRect();
+                        0 >= f.height ||
+                          f.top > c.bottom + c.height ||
+                          f.bottom < c.top - c.height ||
+                          ((a = !0), b());
+                      }
+                    });
+                  })
+                    .then(() =>
+                      fetch("http://ip-p.arras.io:2020/poll/" + a + "/status")
+                    )
+                    .then(b => b.json())
+                    .then(b => {
+                      if (!b.ok) throw Error("Poll does not exist!");
+                      c = b.options;
+                    });
+                L.onclick = () => {
+                  L.remove();
+                  let a = b
+                      .map(b => parseInt(b.title, 10))
+                      .sort((b, a) => b - a),
+                    c = "#2196f3 #00adc3 #009688 #4caf50 #e8ae00 #ff8200 #ff0000".split(
+                      " "
+                    );
+                  for (let h of b) {
+                    var f = parseInt(h.title, 10);
+                    h.className = "count";
+                    h.innerHTML =
+                      1e3 <= f
+                        ? (f / 1e3).toFixed(1) + "<span>k</span>"
+                        : 0 <= f
+                        ? f
+                        : "?";
+                    f = Math.floor(
+                      ((a.indexOf(f) + 0.5) / a.length) * c.length
+                    );
+                    h.style.color = c[f];
+                  }
                 };
-            fetch("changelog.md", {
-                cache: "no-cache"
-            }).then(b => b.text()).then(b => {
-                let a = [];
-                for (let c of b.split("\n")) 0 !== c.length && (b = c.charAt(0), "#" === b ? (Ka(a, !0), a = [c.slice(1).trim()]) : "-" === b ? a.push(c.slice(1).trim()) : a[a.length - 1] += " " + c.trim());
-                Ka(a, !1)
-            });
+                O.onclick = () => {
+                  h.checked = !1;
+                  h.onchange();
+                  h = null;
+                  O.style.display = "none";
+                };
+                let h = null,
+                  y = 0;
+                return d => {
+                  let e = b =>
+                      (d ? d + " - " : "") + b + " vote" + (1 === b ? "" : "s"),
+                    u = y++,
+                    n = document.createElement("label");
+                  n.className = "container";
+                  let g = document.createElement("input");
+                  g.tabIndex = -1;
+                  g.type = x ? "radio" : "checkbox";
+                  g.disabled = !0;
+                  x && (g.name = "radio-" + a);
+                  f.then(() => {
+                    let { voted: b, votes: f } = c[u] || {
+                      voted: !1,
+                      votes: 0
+                    };
+                    g.checked = b;
+                    x && b && ((h = g), (O.style.display = "inline"));
+                    g.disabled = 0 >= ha;
+                    let y = f - b;
+                    g.onchange = () => {
+                      fetch(
+                        "http://ip-p.arras.io:2020/poll/" +
+                          a +
+                          "/set/" +
+                          u +
+                          "/" +
+                          g.checked
+                      );
+                      let b = y + (g.checked ? 1 : 0);
+                      d ? (l.nodeValue = e(b)) : (n.title = e(b));
+                      x &&
+                        h &&
+                        h !== g &&
+                        g.checked &&
+                        ((h.checked = !1), h.onchange());
+                      h = g;
+                      O.style.display = "inline";
+                    };
+                    d ? (l.nodeValue = e(f)) : (n.title = e(f));
+                  });
+                  let l;
+                  d && ((l = document.createTextNode(d)), n.appendChild(l));
+                  n.appendChild(g);
+                  let k = document.createElement("span");
+                  k.className = x ? "radio" : "checkmark";
+                  n.appendChild(k);
+                  b.push(n);
+                  return n;
+                };
+              })();
+              for (var g of b) {
+                b = document.createElement("tr");
+                if (n)
+                  for (var l of g.split("|"))
+                    (l = l.trim()),
+                      (f = document.createElement("td")),
+                      "X" === l
+                        ? f.appendChild(h())
+                        : ((e = l.match(/^:*/)[0].length),
+                          (f.colSpan = e + 1),
+                          (f.innerHTML = l.slice(e))),
+                      b.appendChild(f);
+                else
+                  (f = document.createElement("td")),
+                    f.appendChild(h(g)),
+                    b.appendChild(f);
+                c.appendChild(b);
+              }
+              y.appendChild(c);
+              d.appendChild(y);
+            } else {
+              g = document.createElement("ul");
+              for (n of b)
+                (l = document.createElement("li")),
+                  (l.innerHTML = n),
+                  g.appendChild(l);
+              l = g.getElementsByTagName("a");
+              for (b = 0; b < l.length; b++) {
+                n = l[b];
+                if (!n.href) continue;
+                let a = n.href.lastIndexOf("#");
+                -1 !== a &&
+                  ((a = n.href.slice(a + 1)),
+                  "options-menu" === a
+                    ? (l[b].onclick = function(b) {
+                        b.preventDefault();
+                        bb();
+                      })
+                    : Ja[a] &&
+                      (l[b].onclick = function(b) {
+                        b.preventDefault();
+                        Ja[a]();
+                      }));
+              }
+              d.appendChild(g);
+            }
+            a && d.appendChild(document.createElement("hr"));
+            sa.appendChild(d);
+          }
+        };
+      fetch("changelog.md", { cache: "no-cache" })
+        .then(b => b.text())
+        .then(b => {
+          let a = [];
+          for (let c of b.split("\n"))
+            0 !== c.length &&
+              ((b = c.charAt(0)),
+              "#" === b
+                ? (Ka(a, !0), (a = [c.slice(1).trim()]))
+                : "-" === b
+                ? a.push(c.slice(1).trim())
+                : (a[a.length - 1] += " " + c.trim()));
+          Ka(a, !1);
+        });
             let Ja = (() => {
                 let b = document.getElementById("changelogSelector"),
                     a = b.parentNode,
