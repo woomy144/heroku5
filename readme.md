@@ -48,10 +48,25 @@ a=assault
 - Afterwards, theres ``prefer: !0,``. I wouldnt mess with it but it makes you automaiticly connect to that server by default
 - Horray! You are now done doing the informational reading. Lets put this knowledge into use.
 - What were gonna try to do;
-- Have a server that connects to my glitch server that is FFA.
+- Have a server that connects to my glitch server that is 2TDM.
 - The first thing were gonna do is find the server selector code in bundle.js on line 3339.
 - Next, where gonna look at the code and figure out what to do.
 ```
+          {
+            visible: 0,
+            id: "1",
             type: "game",
             code: "glitch-worldwide-f",
-            at: p.glitch('your-server'),d
+            at: p.glitch('your-server'),
+            prefer: !0,
+           // featured: 1, // For Featured Status.
+          },
+```
+- Now that you are there, lets edit some things. 
+- We want to connect to our glitch project, "swift-checkered-wildebeest".
+- What where gonna do is replace the "your-server" with "swift-checkered-wildebeest".
+- After that, were gonna change ``code: "glitch-worldwide-f",`` to ``code: "glitch-worldwide-2"``. 
+- What i did is this: Keep it as glitch cause thats what where using; Keep at as worldwide cause why not; replace the "f" with "2" becuase we want 2TDM. Remember, a list of all the gamemodes is listed above.
+- And there we go, we should know have a working, custom client with a server selector! Horray!
+### If you need any help, DM me on discord:
+- [MG]Octo#9071
