@@ -70,3 +70,6 @@ a=assault
 - And there we go, we should know have a working, custom client with a server selector! Horray!
 ### If you need any help, DM me on discord:
 - [MG]Octo#9071
+
+#CHANGELOG
+-fixed heroku and repl.it unable to connect

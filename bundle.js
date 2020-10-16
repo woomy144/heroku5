@@ -3208,14 +3208,14 @@
       }
     },
     function(r) {
-      const p = {
-        openshift: (a, e) =>
-          `n-${a}-${e}.7e14.starter-us-west-2.openshiftapps.com`,
-        glitch: a => `arras-n-${a}.glitch.me`,
-        heroku: a => `arras-${a}.herokuapp.com`,
-        arras: (a, e = 5e3) => `ip-${a}.arras.io:${e}`,
-        arrasUnknown: (a, e = 5e3) => `ipu-${a}.arras.io:${e}`
-      };
+            const p = {
+                openshift: (a, e) => `n-${a}-${e}.7e14.starter-us-west-2.openshiftapps.com`,
+                glitch: a => `${a}.glitch.me`,
+                replit: (a, e) => `${e}.${a}.repl.co`,
+                heroku: a => `${a}.herokuapp.com`,
+                arras: (a, e = 5E3) => `ip-${a}.arras.io:${e}`,
+                arrasUnknown: (a, e = 5E3) => `ipu-${a}.arras.io:${e}`
+            }
       var w = new Date().getDate();
       const a = 25 <= w ? 3 : 0;
       w = 25 <= w ? 0 : 3;
