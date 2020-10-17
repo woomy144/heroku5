@@ -18,4 +18,3 @@
 # Gamemode Balance
 - You can add multiple types in one kind of update. This kind will appear in every slot for updates.
 - "Gamemode Balance" is an example.
-- For help, contact [ℙ𝕂] ℙ𝕣𝕠𝕂𝕒𝕞𝕖𝕣𝕠𝕟#0104.
