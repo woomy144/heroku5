@@ -1,1006 +1,1249 @@
-~ function() {
-    'use strict';
-    var I = I || {};
-    I.scope = {};
-    I.checkStringArgs = function(r, p, w) {
-        if (null == r) throw new TypeError("The 'this' value for String.prototype." + w + " must not be null or undefined");
-        if (p instanceof RegExp) throw new TypeError("First argument to String.prototype." + w + " must not be a regular expression");
-        return r + ""
-    };
-    I.ASSUME_ES5 = !1;
-    I.ASSUME_NO_NATIVE_MAP = !1;
-    I.ASSUME_NO_NATIVE_SET = !1;
-    I.SIMPLE_FROUND_POLYFILL = !1;
-    I.defineProperty = I.ASSUME_ES5 || "function" == typeof Object.defineProperties ? Object.defineProperty : function(r, p, w) {
-        r != Array.prototype && r != Object.prototype && (r[p] = w.value)
-    };
-    I.getGlobal = function(r) {
-        return "undefined" != typeof window && window === r ? r : "undefined" != typeof global && null != global ? global : r
-    };
-    I.global = I.getGlobal(this);
-    I.polyfill = function(r, p) {
-        if (p) {
-            var w = I.global;
-            r = r.split(".");
-            for (var a = 0; a < r.length - 1; a++) {
-                var e = r[a];
-                e in w || (w[e] = {});
-                w = w[e]
-            }
-            r = r[r.length - 1];
-            a = w[r];
-            p = p(a);
-            p != a && null != p && I.defineProperty(w, r, {
-                configurable: !0,
-                writable: !0,
-                value: p
-            })
-        }
-    };
-    I.stringPadding = function(r, p) {
-        r = void 0 !== r ? String(r) : " ";
-        return 0 < p && r ? r.repeat(Math.ceil(p / r.length)).substring(0, p) : ""
-    };
-    I.polyfill("String.prototype.padStart", function(r) {
-        return r ? r : function(p, w) {
+~function() {
+  "use strict";
+  var I = I || {};
+  I.scope = {};
+  I.checkStringArgs = function(r, p, w) {
+    if (null == r)
+      throw new TypeError(
+        "The 'this' value for String.prototype." +
+          w +
+          " must not be null or undefined"
+      );
+    if (p instanceof RegExp)
+      throw new TypeError(
+        "First argument to String.prototype." +
+          w +
+          " must not be a regular expression"
+      );
+    return r + "";
+  };
+  I.ASSUME_ES5 = !1;
+  I.ASSUME_NO_NATIVE_MAP = !1;
+  I.ASSUME_NO_NATIVE_SET = !1;
+  I.SIMPLE_FROUND_POLYFILL = !1;
+  I.defineProperty =
+    I.ASSUME_ES5 || "function" == typeof Object.defineProperties
+      ? Object.defineProperty
+      : function(r, p, w) {
+          r != Array.prototype && r != Object.prototype && (r[p] = w.value);
+        };
+  I.getGlobal = function(r) {
+    return "undefined" != typeof window && window === r
+      ? r
+      : "undefined" != typeof global && null != global
+      ? global
+      : r;
+  };
+  I.global = I.getGlobal(this);
+  I.polyfill = function(r, p) {
+    if (p) {
+      var w = I.global;
+      r = r.split(".");
+      for (var a = 0; a < r.length - 1; a++) {
+        var e = r[a];
+        e in w || (w[e] = {});
+        w = w[e];
+      }
+      r = r[r.length - 1];
+      a = w[r];
+      p = p(a);
+      p != a &&
+        null != p &&
+        I.defineProperty(w, r, {
+          configurable: !0,
+          writable: !0,
+          value: p
+        });
+    }
+  };
+  I.stringPadding = function(r, p) {
+    r = void 0 !== r ? String(r) : " ";
+    return 0 < p && r ? r.repeat(Math.ceil(p / r.length)).substring(0, p) : "";
+  };
+  I.polyfill(
+    "String.prototype.padStart",
+    function(r) {
+      return r
+        ? r
+        : function(p, w) {
             var a = I.checkStringArgs(this, null, "padStart");
-            return I.stringPadding(w, p - a.length) + a
-        }
-    }, "es8", "es3");
-    I.owns = function(r, p) {
-        return Object.prototype.hasOwnProperty.call(r, p)
-    };
-    I.polyfill("Object.entries", function(r) {
-        return r ? r : function(p) {
+            return I.stringPadding(w, p - a.length) + a;
+          };
+    },
+    "es8",
+    "es3"
+  );
+  I.owns = function(r, p) {
+    return Object.prototype.hasOwnProperty.call(r, p);
+  };
+  I.polyfill(
+    "Object.entries",
+    function(r) {
+      return r
+        ? r
+        : function(p) {
             var w = [],
-                a;
+              a;
             for (a in p) I.owns(p, a) && w.push([a, p[a]]);
-            return w
-        }
-    }, "es8", "es3");
-    I.polyfill("Object.values", function(r) {
-        return r ? r : function(p) {
+            return w;
+          };
+    },
+    "es8",
+    "es3"
+  );
+  I.polyfill(
+    "Object.values",
+    function(r) {
+      return r
+        ? r
+        : function(p) {
             var w = [],
-                a;
+              a;
             for (a in p) I.owns(p, a) && w.push(p[a]);
-            return w
-        }
-    }, "es8", "es3");
-    I.polyfill("Array.prototype.includes", function(r) {
-        return r ? r : function(p, w) {
+            return w;
+          };
+    },
+    "es8",
+    "es3"
+  );
+  I.polyfill(
+    "Array.prototype.includes",
+    function(r) {
+      return r
+        ? r
+        : function(p, w) {
             var a = this;
             a instanceof String && (a = String(a));
             var e = a.length;
             w = w || 0;
             for (0 > w && (w = Math.max(w + e, 0)); w < e; w++) {
-                var E = a[w];
-                if (E === p || Object.is(E, p)) return !0
+              var E = a[w];
+              if (E === p || Object.is(E, p)) return !0;
             }
-            return !1
-        }
-    }, "es7", "es3");
-    (function(r) {
-        function p(a) {
-            if (w[a]) return w[a].exports;
-            var e = w[a] = {
-                i: a,
-                l: !1,
-                exports: {}
+            return !1;
+          };
+    },
+    "es7",
+    "es3"
+  );
+  (function(r) {
+    function p(a) {
+      if (w[a]) return w[a].exports;
+      var e = (w[a] = {
+        i: a,
+        l: !1,
+        exports: {}
+      });
+      r[a].call(e.exports, e, e.exports, p);
+      e.l = !0;
+      return e.exports;
+    }
+    var w = {};
+    p.m = r;
+    p.c = w;
+    p.d = function(a, e, E) {
+      p.o(a, e) ||
+        Object.defineProperty(a, e, {
+          enumerable: !0,
+          get: E
+        });
+    };
+    p.r = function(a) {
+      "undefined" !== typeof Symbol &&
+        Symbol.toStringTag &&
+        Object.defineProperty(a, Symbol.toStringTag, {
+          value: "Module"
+        });
+      Object.defineProperty(a, "__esModule", {
+        value: !0
+      });
+    };
+    p.t = function(a, e) {
+      e & 1 && (a = p(a));
+      if (e & 8 || (e & 4 && "object" === typeof a && a && a.__esModule))
+        return a;
+      var E = Object.create(null);
+      p.r(E);
+      Object.defineProperty(E, "default", {
+        enumerable: !0,
+        value: a
+      });
+      if (e & 2 && "string" != typeof a)
+        for (var x in a)
+          p.d(
+            E,
+            x,
+            function(e) {
+              return a[e];
+            }.bind(null, x)
+          );
+      return E;
+    };
+    p.n = function(a) {
+      var e =
+        a && a.__esModule
+          ? function() {
+              return a["default"];
+            }
+          : function() {
+              return a;
             };
-            r[a].call(e.exports, e, e.exports, p);
-            e.l = !0;
-            return e.exports
+      p.d(e, "a", e);
+      return e;
+    };
+    p.o = function(a, e) {
+      return Object.prototype.hasOwnProperty.call(a, e);
+    };
+    p.p = "";
+    return p((p.s = 0));
+  })([
+    function(r, p, w) {
+      function a() {
+        window.dataLayer.push(arguments);
+      }
+
+      function e(b) {
+        switch (b) {
+          case 0:
+            return l.teal;
+          case 1:
+            return l.lgreen;
+          case 2:
+            return l.orange;
+          case 3:
+            return l.yellow;
+          case 4:
+            return l.lavender;
+          case 5:
+            return l.pink;
+          case 6:
+            return l.vlgrey;
+          case 7:
+            return l.lgrey;
+          case 8:
+            return l.guiwhite;
+          case 9:
+            return l.black;
+          case 10:
+            return l.blue;
+          case 11:
+            return l.green;
+          case 12:
+            return l.red;
+          case 13:
+            return l.gold;
+          case 14:
+            return l.purple;
+          case 15:
+            return l.magenta;
+          case 16:
+            return l.grey;
+          case 17:
+            return l.dgrey;
+          case 18:
+            return l.white;
+          case 19:
+            return l.guiblack;
+          case 20:
+            return 150 > Date.now() % 300 ? l.blue : l.red;
+          case 21:
+            return 150 > Date.now() % 300 ? l.blue : l.grey;
+          case 22:
+            return 150 > Date.now() % 300 ? l.grey : l.blue;
+          case 23:
+            return 150 > Date.now() % 300 ? l.red : l.grey;
+          case 24:
+            return 150 > Date.now() % 300 ? l.grey : l.red;
+          case 30:
+            return "#d21fff";
+          case 31:
+            return "#226ef6";
+          case 32:
+            return "#ff1000";
+          case 33:
+            return "#ff9000";
+          case 34:
+            return "#00e00b";
+          case 35:
+            return "#ffd300";
+          case 36:
+            return "#" + Math.floor(Math.random() * 16777215).toString(16);
+          default:
+            return "#ff0000";
         }
-        var w = {};
-        p.m = r;
-        p.c = w;
-        p.d = function(a, e, E) {
-            p.o(a, e) || Object.defineProperty(a, e, {
-                enumerable: !0,
-                get: E
-            })
+      }
+
+      function E(b) {
+        let d = B.graphical.neon ? l.white : l.black;
+        return B.graphical.darkBorders ? d : T(b, d, l.border);
+      }
+
+      function x(b) {
+        switch (b) {
+          case "bas1":
+          case "bap1":
+          case "dom1":
+          case "dbc1":
+          case "mbc1":
+            return l.blue;
+          case "bas2":
+          case "bap2":
+          case "dom2":
+          case "dbc2":
+          case "mbc2":
+            return l.green;
+          case "bas3":
+          case "bap3":
+          case "dom3":
+          case "dbc3":
+          case "mbc3":
+            return l.red;
+          case "bas4":
+          case "bap4":
+          case "dom4":
+          case "dbc4":
+          case "mbc4":
+            return l.pink;
+          case "domx":
+          case "dom0":
+          case "dbc0":
+          case "mbc0":
+            return l.yellow;
+          case "port":
+            return (g.globalAlpha = 1), l.black;
+          case "edge":
+            return T(l.white, l.guiblack, 1 / 3);
+          case "dor1":
+            return l.vl;
+          case "nest":
+            return l.lavender;
+          default:
+            return l.white;
+        }
+      }
+
+      function k(b, n) {
+        B.graphical.neon
+          ? ((b.fillStyle = E(n)), (b.strokeStyle = n))
+          : ((b.fillStyle = n), (b.strokeStyle = E(n)));
+      }
+
+      function D(b, n = M[b].color) {
+        let c = M[b];
+        return {
+          time: 0,
+          index: b,
+          x: c.x,
+          y: c.y,
+          vx: 0,
+          vy: 0,
+          size: c.size,
+          realSize: c.realSize,
+          color: n,
+          render: {
+            status: {
+              getFade: () => 1,
+              getColor: () => "#FFFFFF",
+              getBlend: () => 0,
+              health: {
+                get: () => 1
+              },
+              shield: {
+                get: () => 1
+              }
+            }
+          },
+          facing: c.facing,
+          shape: c.shape,
+          name: c.name,
+          score: 0,
+          tiggle: 0,
+          layer: c.layer,
+          guns: {
+            length: c.guns.length,
+            getPositions: () => Array(c.guns.length).fill(0),
+            update: () => {}
+          },
+          turrets: c.turrets.map(b => {
+            let d = D(b.index);
+            d.realSize = (d.realSize / d.size) * c.size * b.sizeFactor;
+            d.size = c.size * b.sizeFactor;
+            d.angle = b.angle;
+            d.offset = b.offset;
+            d.direction = b.direction;
+            d.facing = b.direction + b.angle;
+            return d;
+          })
         };
-        p.r = function(a) {
-            "undefined" !== typeof Symbol && Symbol.toStringTag && Object.defineProperty(a, Symbol.toStringTag, {
-                value: "Module"
-            });
-            Object.defineProperty(a, "__esModule", {
-                value: !0
-            })
+      }
+
+      function R(d, n, c, h = !1) {
+        let a = ma();
+        c += B.graphical.borderChunk;
+        return h
+          ? ((a *= 2),
+            d > -b.screenWidth / a - c &&
+              d < b.screenWidth / a + c &&
+              n > -b.screenHeight / a - c &&
+              n < b.screenHeight / a + c)
+          : d > -c &&
+              d < b.screenWidth / a + c &&
+              n > -c &&
+              n < b.screenHeight / a + c;
+      }
+
+      function q(b, n, c = 3) {
+        let d = Date.now(),
+          a = b,
+          y = b;
+        return {
+          set: c => {
+            b !== c && ((y = a), (b = c), (d = Date.now()));
+          },
+          get: () => {
+            let h = (Date.now() - d) / 1e3;
+            return (a = h < n ? y + (b - y) * Math.pow(h / n, 1 / c) : b);
+          }
         };
-        p.t = function(a, e) {
-            e & 1 && (a = p(a));
-            if (e & 8 || e & 4 && "object" === typeof a && a && a.__esModule) return a;
-            var E = Object.create(null);
-            p.r(E);
-            Object.defineProperty(E, "default", {
-                enumerable: !0,
-                value: a
-            });
-            if (e & 2 && "string" != typeof a)
-                for (var x in a) p.d(E, x, function(e) {
-                    return a[e]
-                }.bind(null, x));
-            return E
-        };
-        p.n = function(a) {
-            var e = a && a.__esModule ? function() {
-                return a["default"]
-            } : function() {
-                return a
-            };
-            p.d(e, "a", e);
-            return e
-        };
-        p.o = function(a, e) {
-            return Object.prototype.hasOwnProperty.call(a, e)
-        };
-        p.p = "";
-        return p(p.s = 0)
-    })([function(r, p, w) {
-            function a() {
-                window.dataLayer.push(arguments)
-            }
+      }
 
-            function e(b) {
-                switch (b) {
-                    case 0:
-                        return l.teal;
-                    case 1:
-                        return l.lgreen;
-                    case 2:
-                        return l.orange;
-                    case 3:
-                        return l.yellow;
-                    case 4:
-                        return l.lavender;
-                    case 5:
-                        return l.pink;
-                    case 6:
-                        return l.vlgrey;
-                    case 7:
-                        return l.lgrey;
-                    case 8:
-                        return l.guiwhite;
-                    case 9:
-                        return l.black;
-                    case 10:
-                        return l.blue;
-                    case 11:
-                        return l.green;
-                    case 12:
-                        return l.red;
-                    case 13:
-                        return l.gold;
-                    case 14:
-                        return l.purple;
-                    case 15:
-                        return l.magenta;
-                    case 16:
-                        return l.grey;
-                    case 17:
-                        return l.dgrey;
-                    case 18:
-                        return l.white;
-                    case 19:
-                        return l.guiblack;
-                    case 20:
-                        return 150 > Date.now() % 300 ? l.blue : l.red;
-                    case 21:
-                        return 150 >
-                            Date.now() % 300 ? l.blue : l.grey;
-                    case 22:
-                        return 150 > Date.now() % 300 ? l.grey : l.blue;
-                    case 23:
-                        return 150 > Date.now() % 300 ? l.red : l.grey;
-                    case 24:
-                        return 150 > Date.now() % 300 ? l.grey : l.red;
-                    case 30:
-                        return "#d21fff";
-                    case 31:
-                        return "#226ef6";
-                    case 32:
-                        return "#ff1000";
-                    case 33:
-                        return "#ff9000";
-                    case 34:
-                        return "#00e00b";
-                    case 35:
-                        return "#ffd300";
-                    case 36:
-                        return '#' + Math.floor(Math.random() * 16777215).toString(16);
-                    default:
-                        return "#ff0000"
-                }
+      function C(b) {
+        try {
+          var d = b.replace(/\s+/g, "");
+          2 == d.length % 4 ? (d += "==") : 3 == d.length % 4 && (d += "=");
+          let h = atob(d);
+          d = "Unknown Theme";
+          let a = "";
+          var c = h.indexOf("\x00");
+          if (-1 === c) return null;
+          d = h.slice(0, c) || d;
+          h = h.slice(c + 1);
+          c = h.indexOf("\x00");
+          if (-1 === c) return null;
+          a = h.slice(0, c) || a;
+          h = h.slice(c + 1);
+          let n = h.charCodeAt(0) / 255;
+          h = h.slice(1);
+          let f = Math.floor(h.length / 3);
+          if (2 > f) return null;
+          c = [];
+          for (let b = 0; b < f; b++) {
+            let d = h.charCodeAt(3 * b),
+              f = h.charCodeAt(3 * b + 1),
+              a = h.charCodeAt(3 * b + 2);
+            c.push(
+              "#" + ((d << 16) | (f << 8) | a).toString(16).padStart(6, 0)
+            );
+          }
+          return {
+            name: d,
+            author: a,
+            content: {
+              teal: c[0],
+              lgreen: c[1],
+              orange: c[2],
+              yellow: c[3],
+              lavender: c[4],
+              pink: c[5],
+              vlgrey: c[6],
+              lgrey: c[7],
+              guiwhite: c[8],
+              black: c[9],
+              blue: c[10],
+              green: c[11],
+              red: c[12],
+              gold: c[13],
+              purple: c[14],
+              magenta: c[15],
+              grey: c[16],
+              dgrey: c[17],
+              white: c[18],
+              guiblack: c[19],
+              paletteSize: f,
+              border: n
             }
+          };
+        } catch (h) {}
+        try {
+          let d = JSON.parse(b);
+          if ("object" !== typeof d) return null;
+          let { name: c = "Unknown Theme", author: a = "", content: f } = d;
+          for (let b of [
+            f.teal,
+            f.lgreen,
+            f.orange,
+            f.yellow,
+            f.lavender,
+            f.pink,
+            f.vlgrey,
+            f.lgrey,
+            f.guiwhite,
+            f.black,
+            f.blue,
+            f.green,
+            f.red,
+            f.gold,
+            f.purple,
+            f.magenta,
+            f.grey,
+            f.dgrey,
+            f.white,
+            f.guiblack
+          ])
+            if (!b.match(/^#[0-9a-fA-F]{6}$/)) return null;
+          return {
+            isJSON: !0,
+            name: ("string" === typeof c && c) || "Unknown Theme",
+            author: ("string" === typeof a && a) || "",
+            content: f
+          };
+        } catch (h) {}
+        return null;
+      }
 
-            function E(b) {
-                let d = B.graphical.neon ? l.white : l.black;
-                return B.graphical.darkBorders ? d : T(b, d, l.border)
-            }
+      function v(b) {
+        let { name: d = "Unknown Theme", author: c = "", content: h } = b;
+        ({ border: b } = h);
+        b =
+          d +
+          "\x00" +
+          c +
+          "\x00" +
+          String.fromCharCode(1 <= b ? 255 : 0 > b ? 0 : Math.floor(256 * b));
+        for (let d of [
+          h.teal,
+          h.lgreen,
+          h.orange,
+          h.yellow,
+          h.lavender,
+          h.pink,
+          h.vlgrey,
+          h.lgrey,
+          h.guiwhite,
+          h.black,
+          h.blue,
+          h.green,
+          h.red,
+          h.gold,
+          h.purple,
+          h.magenta,
+          h.grey,
+          h.dgrey,
+          h.white,
+          h.guiblack
+        ]) {
+          let c = parseInt(d.slice(1), 16);
+          b += String.fromCharCode(c >> 16, (c >> 8) & 255, c & 255);
+        }
+        return btoa(b).replace(/=+/, "");
+      }
 
-            function x(b) {
-                switch (b) {
-                    case "bas1":
-                    case "bap1":
-                    case "dom1":
-                    case "dbc1":
-                    case "mbc1":
-                        return l.blue;
-                    case "bas2":
-                    case "bap2":
-                    case "dom2":
-                    case "dbc2":
-                    case "mbc2":
-                        return l.green;
-                    case "bas3":
-                    case "bap3":
-                    case "dom3":
-                    case "dbc3":
-                    case "mbc3":
-                        return l.red;
-                    case "bas4":
-                    case "bap4":
-                    case "dom4":
-                    case "dbc4":
-                    case "mbc4":
-                        return l.pink;
-                    case "domx":
-                    case "dom0":
-                    case "dbc0":
-                    case "mbc0":
-                        return l.yellow;
-                    case "port":
-                        return g.globalAlpha = 1, l.black;
-                    case "edge":
-                        return T(l.white, l.guiblack, 1 / 3);
-                    case "dor1":
-                        return l.vl;
-                    case "nest":
-                        return l.lavender;
-                    default:
-                        return l.white
-                }
-            }
+      function t() {
+        if (!ua) {
+          ua = !0;
+          if (b.mobile) {
+            var d = document.body;
+            d.requestFullscreen
+              ? d.requestFullscreen()
+              : d.msRequestFullscreen
+              ? d.msRequestFullscreen()
+              : d.mozRequestFullScreen
+              ? d.mozRequestFullScreen()
+              : d.webkitRequestFullscreen && d.webkitRequestFullscreen();
+            d =
+              window.navigator.standalone ||
+              (window.matchMedia &&
+                window.matchMedia(
+                  "(display-mode: fullscreen), (display-mode: standalone), (display-mode: minimal-ui)"
+                ).matches);
+            b.mobile &&
+              !d &&
+              Y.push({
+                text:
+                  "Add the game to home screen to always enable fullscreen!",
+                status: 2,
+                alpha: 0,
+                time: Date.now()
+              });
+          }
+          H.submitToLocalStorage("optScreenshotMode");
+          B.graphical.screenshotMode = document.getElementById(
+            "optScreenshotMode"
+          ).checked;
+          H.submitToLocalStorage("optFancy");
+          B.graphical.pointy = !document.getElementById("optNoPointy").checked;
+          H.submitToLocalStorage("optNoPointy");
+          B.graphical.sharp = document.getElementById("optPointy").checked;
+          H.submitToLocalStorage("optPointy");
+          B.graphical.fancyAnimations = !document.getElementById("optFancy")
+            .checked;
+          H.submitToLocalStorage("optShield");
+          B.graphical.shieldbars = document.getElementById("optShield").checked;
+          H.submitToLocalStorage("optPrediction");
+          B.lag.newPrediction = document.getElementById(
+            "optPrediction"
+          ).checked;
+          H.submitToLocalStorage("optAutoLevel");
+          b.autoLevel = document.getElementById("optAutoLevel").checked;
+          H.submitToLocalStorage("optBorders");
+          b.mobile && H.submitToLocalStorage("optMobile");
+          switch (document.getElementById("optBorders").value) {
+            case "normal":
+              B.graphical.darkBorders = B.graphical.neon = !1;
+              break;
+            case "dark":
+              B.graphical.darkBorders = !0;
+              B.graphical.neon = !1;
+              break;
+            case "glass":
+              B.graphical.darkBorders = !1;
+              B.graphical.neon = !0;
+              break;
+            case "neon":
+              B.graphical.darkBorders = B.graphical.neon = !0;
+          }
+          H.submitToLocalStorage("optColors");
+          d = document.getElementById("optColors").value;
+          if ("custom" === d) {
+            let b = C(document.getElementById("optCustom").value);
+            b &&
+              ((va.custom = b.content),
+              b.isJSON && (document.getElementById("optCustom").value = v(b)));
+          }
+          H.submitToLocalStorage("optCustom");
+          window.hereYaGoCuzImTooLazy = l = va[d] || l;
+          d = document.getElementById("playerNameInput");
+          H.submitToLocalStorage("playerNameInput");
+          b.playerName = z.name = d.value;
+          d = document.getElementById("playerKeyInput");
+          H.submitToLocalStorage("playerKeyInput");
+          b.playerKey = z.key = d.value;
+          b.screenWidth = window.innerWidth;
+          b.screenHeight = window.innerHeight;
+          document.getElementById("startMenuWrapper").style.top = "-600px";
+          document.getElementById("gameAreaWrapper").style.opacity = 1;
+          if (!b.socket) {
+            d = "https:" === location.protocol ? 1 : -1;
+            let a = `${1 === (b.server.secure || d) ? "https" : "http"}://${
+                b.server.at
+              }/mockups.json`,
+              c = () =>
+                H.pullJSON(a)
+                  .then(b => {
+                    M = b;
+                  })
+                  .catch(b => {
+                    console.error(b);
+                    setTimeout(() => c(), 5e3);
+                  });
+            c();
+            b.socket = Pa();
+          }
+          U.init(
+            b.mobile ? document.getElementById("optMobile").value : "desktop",
+            b.socket
+          );
+          setInterval(() => ya.iterate(b.socket.cmd.getMotion()), 1e3 / 30);
+          document.getElementById("gameCanvas").focus();
+          b.animLoopHandle || za();
+          b.isInGame = !0;
+        }
+      }
 
-            function k(b, n) {
-                B.graphical.neon ? (b.fillStyle = E(n), b.strokeStyle = n) : (b.fillStyle =
-                    n, b.strokeStyle = E(n))
-            }
+      function F(d, a) {
+        g.fillStyle = d;
+        g.globalAlpha = a;
+        g.fillRect(0, 0, b.screenWidth, b.screenHeight);
+        g.globalAlpha = 1;
+      }
 
-            function D(b, n = M[b].color) {
-                let c = M[b];
-                return {
-                    time: 0,
-                    index: b,
-                    x: c.x,
-                    y: c.y,
-                    vx: 0,
-                    vy: 0,
-                    size: c.size,
-                    realSize: c.realSize,
-                    color: n,
-                    render: {
-                        status: {
-                            getFade: () => 1,
-                            getColor: () => "#FFFFFF",
-                            getBlend: () => 0,
-                            health: {
-                                get: () => 1
-                            },
-                            shield: {
-                                get: () => 1
-                            }
-                        }
-                    },
-                    facing: c.facing,
-                    shape: c.shape,
-                    name: c.name,
-                    score: 0,
-                    tiggle: 0,
-                    layer: c.layer,
-                    guns: {
-                        length: c.guns.length,
-                        getPositions: () => Array(c.guns.length).fill(0),
-                        update: () => {}
-                    },
-                    turrets: c.turrets.map(b => {
-                        let d = D(b.index);
-                        d.realSize = d.realSize / d.size * c.size * b.sizeFactor;
-                        d.size = c.size * b.sizeFactor;
-                        d.angle = b.angle;
-                        d.offset = b.offset;
-                        d.direction = b.direction;
-                        d.facing = b.direction + b.angle;
-                        return d
-                    })
-                }
-            }
+      function G(b, a, c, h, u = !1) {
+        u ? g.strokeRect(b, a, c, h) : g.fillRect(b, a, c, h);
+      }
 
-            function R(d, n, c, h = !1) {
-                let a = ma();
-                c += B.graphical.borderChunk;
-                return h ? (a *= 2, d > -b.screenWidth / a - c && d < b.screenWidth / a + c && n > -b.screenHeight / a - c && n < b.screenHeight / a + c) : d > -c && d < b.screenWidth / a + c && n > -c && n < b.screenHeight / a + c
-            }
+      function ja(b, a, c, h = !1) {
+        g.beginPath();
+        g.arc(b, a, c, 0, 2 * Math.PI, !1);
+        h ? g.stroke() : g.fill();
+      }
 
-            function q(b, n, c = 3) {
-                let d = Date.now(),
-                    a = b,
-                    y = b;
-                return {
-                    set: c => {
-                        b !== c && (y = a, b = c, d = Date.now())
-                    },
-                    get: () => {
-                        let h = (Date.now() - d) / 1E3;
-                        return a = h < n ? y + (b - y) * Math.pow(h /
-                            n, 1 / c) : b
-                    }
-                }
-            }
+      function ka(b, a, c, h) {
+        g.beginPath();
+        g.lineTo(Math.round(b) + 0.5, Math.round(a) + 0.5);
+        g.lineTo(Math.round(c) + 0.5, Math.round(h) + 0.5);
+        g.stroke();
+      }
 
-            function C(b) {
-                try {
-                    var d = b.replace(/\s+/g, "");
-                    2 == d.length % 4 ? d += "==" : 3 == d.length % 4 && (d += "=");
-                    let h = atob(d);
-                    d = "Unknown Theme";
-                    let a = "";
-                    var c = h.indexOf("\x00");
-                    if (-1 === c) return null;
-                    d = h.slice(0, c) || d;
-                    h = h.slice(c + 1);
-                    c = h.indexOf("\x00");
-                    if (-1 === c) return null;
-                    a = h.slice(0, c) || a;
-                    h = h.slice(c + 1);
-                    let n = h.charCodeAt(0) / 255;
-                    h = h.slice(1);
-                    let f = Math.floor(h.length / 3);
-                    if (2 > f) return null;
-                    c = [];
-                    for (let b = 0; b < f; b++) {
-                        let d = h.charCodeAt(3 * b),
-                            f = h.charCodeAt(3 * b + 1),
-                            a = h.charCodeAt(3 * b + 2);
-                        c.push("#" + (d << 16 | f << 8 |
-                            a).toString(16).padStart(6, 0))
-                    }
-                    return {
-                        name: d,
-                        author: a,
-                        content: {
-                            teal: c[0],
-                            lgreen: c[1],
-                            orange: c[2],
-                            yellow: c[3],
-                            lavender: c[4],
-                            pink: c[5],
-                            vlgrey: c[6],
-                            lgrey: c[7],
-                            guiwhite: c[8],
-                            black: c[9],
-                            blue: c[10],
-                            green: c[11],
-                            red: c[12],
-                            gold: c[13],
-                            purple: c[14],
-                            magenta: c[15],
-                            grey: c[16],
-                            dgrey: c[17],
-                            white: c[18],
-                            guiblack: c[19],
-                            paletteSize: f,
-                            border: n
-                        }
-                    }
-                } catch (h) {}
-                try {
-                    let d = JSON.parse(b);
-                    if ("object" !== typeof d) return null;
-                    let {
-                        name: c = "Unknown Theme",
-                        author: a = "",
-                        content: f
-                    } = d;
-                    for (let b of [f.teal, f.lgreen, f.orange, f.yellow, f.lavender,
-                            f.pink, f.vlgrey, f.lgrey, f.guiwhite, f.black, f.blue, f.green, f.red, f.gold, f.purple, f.magenta, f.grey, f.dgrey, f.white, f.guiblack
-                        ])
-                        if (!b.match(/^#[0-9a-fA-F]{6}$/)) return null;
-                    return {
-                        isJSON: !0,
-                        name: "string" === typeof c && c || "Unknown Theme",
-                        author: "string" === typeof a && a || "",
-                        content: f
-                    }
-                } catch (h) {}
-                return null
+      function K(b, a, c, h, u) {
+        g.beginPath();
+        g.lineTo(b, c);
+        g.lineTo(a, c);
+        g.lineWidth = h;
+        g.strokeStyle = u;
+        g.stroke();
+      }
+      var somethinglolcuzimlazy = "";
+      function Qa(b, a, c, h, u) {
+        if (!(0.05 > u)) {
+          var d = c.render.status.getFade();
+          d *= d;
+          g.globalAlpha = d;
+          var f = c.size * h;
+          h = M[c.index];
+          h = (f / h.size) * h.realSize;
+          if (c.drawsHealth) {
+            let n = c.render.health.get(),
+              y = c.render.shield.get();
+            if (1 > n || 1 > y) {
+              let c = a + 1.1 * h + 15;
+              g.globalAlpha = u * u * d;
+              B.graphical.shieldbars
+                ? (K(b - f, b + f, c, 6 + B.graphical.barChunk, l.black),
+                  y
+                    ? (K(b - f, b - f + 2 * f * n, c + 1.5, 3, l.lgreen),
+                      (g.globalAlpha *= 0.7),
+                      K(b - f, b - f + 2 * f * y, c - 1.5, 3, l.teal))
+                    : K(b - f, b - f + 2 * f * n, c, 4, l.lgreen))
+                : (K(b - f, b + f, c, 3 + B.graphical.barChunk, l.black),
+                  K(b - f, b - f + 2 * f * n, c, 3, l.lgreen),
+                  y &&
+                    ((g.globalAlpha *= 0.3 + 0.3 * y),
+                    K(b - f, b - f + 2 * f * y, c, 3, l.teal)));
+              g.globalAlpha = d;
             }
+          } //name color
+          if (somethinglolcuzimlazy == "") {
+            c.nameplate &&
+              c.id !== A.playerid &&
+              (null == c.render.textobjs && (c.render.textobjs = [m(), m()]),
+              (d = c.name),
+              (f = l.guiwhite),
+              !1 && ((d = d.slice(2)), d.length && (f = T(l.yellow, f, 0.125))),
+              (g.globalAlpha = u),
+              c.render.textobjs[0].draw(d, b, a - h - 30, 16, f, "center"),
+              c.render.textobjs[1].draw(
+                H.handleLargeNumber(c.score, !0),
+                b,
+                a - h - 16,
+                8,
+                f,
+                "center"
+              ),
+              (g.globalAlpha = 1));
+          } else {
+            c.nameplate &&
+              c.id !== A.playerid &&
+              (null == c.render.textobjs && (c.render.textobjs = [m(), m()]),
+              (d = c.name),
+              (f = l.guiwhite),
+              z.key == somethinglolcuzimlazy &&
+                ((d = d.slice(2)), d.length && (f = T(l.yellow, f, 0.125))),
+              (g.globalAlpha = u),
+              c.render.textobjs[0].draw(d, b, a - h - 30, 16, f, "center"),
+              c.render.textobjs[1].draw(
+                H.handleLargeNumber(c.score, !0),
+                b,
+                a - h - 16,
+                8,
+                f,
+                "center"
+              ),
+              (g.globalAlpha = 1));
+          }
+        }
+      }
 
-            function v(b) {
-                let {
-                    name: d = "Unknown Theme",
-                    author: c = "",
-                    content: h
-                } = b;
-                ({
-                    border: b
-                } = h);
-                b = d + "\x00" + c + "\x00" + String.fromCharCode(1 <= b ? 255 : 0 > b ? 0 : Math.floor(256 * b));
-                for (let d of [h.teal, h.lgreen, h.orange, h.yellow,
-                        h.lavender, h.pink, h.vlgrey, h.lgrey, h.guiwhite, h.black, h.blue, h.green, h.red, h.gold, h.purple, h.magenta, h.grey, h.dgrey, h.white, h.guiblack
-                    ]) {
-                    let c = parseInt(d.slice(1), 16);
-                    b += String.fromCharCode(c >> 16, c >> 8 & 255, c & 255)
-                }
-                return btoa(b).replace(/=+/, "")
-            }
-
-            function t() {
-                if (!ua) {
-                    ua = !0;
-                    if (b.mobile) {
-                        var d = document.body;
-                        d.requestFullscreen ? d.requestFullscreen() : d.msRequestFullscreen ? d.msRequestFullscreen() : d.mozRequestFullScreen ? d.mozRequestFullScreen() : d.webkitRequestFullscreen && d.webkitRequestFullscreen();
-                        d = window.navigator.standalone ||
-                            window.matchMedia && window.matchMedia("(display-mode: fullscreen), (display-mode: standalone), (display-mode: minimal-ui)").matches;
-                        b.mobile && !d && Y.push({
-                            text: "Add the game to home screen to always enable fullscreen!",
-                            status: 2,
-                            alpha: 0,
-                            time: Date.now()
-                        })
-                    }
-                    H.submitToLocalStorage("optScreenshotMode");
-                    B.graphical.screenshotMode = document.getElementById("optScreenshotMode").checked;
-                    H.submitToLocalStorage("optFancy");
-                    B.graphical.pointy = !document.getElementById("optNoPointy").checked;
-                    H.submitToLocalStorage("optNoPointy");
-                    B.graphical.sharp = document.getElementById("optPointy").checked;
-                    H.submitToLocalStorage("optPointy");
-                    B.graphical.fancyAnimations = !document.getElementById("optFancy").checked;
-                    H.submitToLocalStorage("optShield");
-                    B.graphical.shieldbars = document.getElementById("optShield").checked;
-                    H.submitToLocalStorage("optPrediction");
-                    B.lag.newPrediction = document.getElementById("optPrediction").checked;
-                    H.submitToLocalStorage("optAutoLevel");
-                    b.autoLevel = document.getElementById("optAutoLevel").checked;
-                    H.submitToLocalStorage("optBorders");
-                    b.mobile && H.submitToLocalStorage("optMobile");
-                    switch (document.getElementById("optBorders").value) {
-                        case "normal":
-                            B.graphical.darkBorders =
-                                B.graphical.neon = !1;
-                            break;
-                        case "dark":
-                            B.graphical.darkBorders = !0;
-                            B.graphical.neon = !1;
-                            break;
-                        case "glass":
-                            B.graphical.darkBorders = !1;
-                            B.graphical.neon = !0;
-                            break;
-                        case "neon":
-                            B.graphical.darkBorders = B.graphical.neon = !0
-                    }
-                    H.submitToLocalStorage("optColors");
-                    d = document.getElementById("optColors").value;
-                    if ("custom" === d) {
-                        let b = C(document.getElementById("optCustom").value);
-                        b && (va.custom = b.content, b.isJSON && (document.getElementById("optCustom").value = v(b)))
-                    }
-                    H.submitToLocalStorage("optCustom");
-                    window.hereYaGoCuzImTooLazy =
-                        l = va[d] || l;
-                    d = document.getElementById("playerNameInput");
-                    H.submitToLocalStorage("playerNameInput");
-                    b.playerName = z.name = d.value;
-                    d = document.getElementById("playerKeyInput");
-                    H.submitToLocalStorage("playerKeyInput");
-                    b.playerKey = z.key = d.value;
-                    b.screenWidth = window.innerWidth;
-                    b.screenHeight = window.innerHeight;
-                    document.getElementById("startMenuWrapper").style.top = "-600px";
-                    document.getElementById("gameAreaWrapper").style.opacity = 1;
-                    if (!b.socket) {
-                        d = "https:" === location.protocol ? 1 : -1;
-                        let a = `${1===(b.server.secure||d)?"https":"http"}://${b.server.at}/mockups.json`,
-                            c = () => H.pullJSON(a).then(b => {
-                                M = b
-                            }).catch(b => {
-                                console.error(b);
-                                setTimeout(() => c(), 5E3)
-                            });
-                        c();
-                        b.socket = Pa()
-                    }
-                    U.init(b.mobile ? document.getElementById("optMobile").value : "desktop", b.socket);
-                    setInterval(() => ya.iterate(b.socket.cmd.getMotion()), 1E3 / 30);
-                    document.getElementById("gameCanvas").focus();
-                    b.animLoopHandle || za();
-                    b.isInGame = !0
-                }
-            }
-
-            function F(d, a) {
-                g.fillStyle = d;
-                g.globalAlpha = a;
-                g.fillRect(0, 0, b.screenWidth, b.screenHeight);
-                g.globalAlpha = 1
-            }
-
-            function G(b, a, c, h, u = !1) {
-                u ? g.strokeRect(b, a, c, h) : g.fillRect(b, a, c, h)
-            }
-
-            function ja(b, a, c, h = !1) {
-                g.beginPath();
-                g.arc(b, a, c, 0, 2 * Math.PI, !1);
-                h ? g.stroke() : g.fill()
-            }
-
-            function ka(b, a, c, h) {
-                g.beginPath();
-                g.lineTo(Math.round(b) + .5, Math.round(a) + .5);
-                g.lineTo(Math.round(c) + .5, Math.round(h) + .5);
-                g.stroke()
-            }
-
-            function K(b, a, c, h, u) {
-                g.beginPath();
-                g.lineTo(b, c);
-                g.lineTo(a, c);
-                g.lineWidth = h;
-                g.strokeStyle = u;
-                g.stroke()
-            }
-            var somethinglolcuzimlazy = ""
-            function Qa(b, a, c, h, u) {
-                if (!(.05 > u)) {
-                    var d = c.render.status.getFade();
-                    d *= d;
-                    g.globalAlpha = d;
-                    var f = c.size * h;
-                    h = M[c.index];
-                    h = f / h.size * h.realSize;
-                    if (c.drawsHealth) {
-                        let n = c.render.health.get(),
-                            y = c.render.shield.get();
-                        if (1 >
-                            n || 1 > y) {
-                            let c = a + 1.1 * h + 15;
-                            g.globalAlpha = u * u * d;
-                            B.graphical.shieldbars ? (K(b - f, b + f, c, 6 + B.graphical.barChunk, l.black), y ? (K(b - f, b - f + 2 * f * n, c + 1.5, 3, l.lgreen), g.globalAlpha *= .7, K(b - f, b - f + 2 * f * y, c - 1.5, 3, l.teal)) : K(b - f, b - f + 2 * f * n, c, 4, l.lgreen)) : (K(b - f, b + f, c, 3 + B.graphical.barChunk, l.black), K(b - f, b - f + 2 * f * n, c, 3, l.lgreen), y && (g.globalAlpha *= .3 + .3 * y, K(b - f, b - f + 2 * f * y, c, 3, l.teal)));
-                            g.globalAlpha = d
-                        }
-                    } //name color
-                    if (somethinglolcuzimlazy == "") {
-                    c.nameplate && c.id !== A.playerid && (null == c.render.textobjs && (c.render.textobjs = [m(), m()]), d = c.name, f = l.guiwhite, !1 &&
-                        (d = d.slice(2), d.length && (f = T(l.yellow, f, .125))), g.globalAlpha = u, c.render.textobjs[0].draw(d, b, a - h - 30, 16, f, "center"), c.render.textobjs[1].draw(H.handleLargeNumber(c.score, !0), b, a - h - 16, 8, f, "center"), g.globalAlpha = 1) } else {
-                      c.nameplate && c.id !== A.playerid && (null == c.render.textobjs && (c.render.textobjs = [m(), m()]), d = c.name, f = l.guiwhite, z.key == somethinglolcuzimlazy &&
-                        (d = d.slice(2), d.length && (f = T(l.yellow, f, .125))), g.globalAlpha = u, c.render.textobjs[0].draw(d, b, a - h - 30, 16, f, "center"), c.render.textobjs[1].draw(H.handleLargeNumber(c.score, !0), b, a - h - 16, 8, f, "center"), g.globalAlpha = 1)
-                      
-                    }
-                }
-            }
-
-            function za() {
-                b.animLoopHandle = requestAnimationFrame(za);
-                z.renderv += (z.view - z.renderv) / 30;
-                g.lineCap = "round";
-                g.lineJoin = "round";
-                b.gameStart && !b.disconnected && (b.time = Date.now() - P - Q, 1E3 < b.time - Aa && (Aa = b.time, J.rendertime = oa, oa = 0, J.updatetime = pa, pa = 0), J.lag = b.time - z.time);
-                b.gameStart && 0 < M.length ?
-                    Ra(ma()) : b.disconnected || Sa();
-                b.died && Ta();
-                b.disconnected && Ua();
-                (b.died || b.disconnected) && V.drawCanvas(g)
-            }
-            Object.values || (Object.values = function(b) {
-                return Object.keys(b).map(d => b[d])
-            });
-            Object.entries || (Object.entries = function(b) {
-                return Object.keys(b).map(d => [d, b[d]])
-            });
-            let b = w(1),
-                H = w(2),
-                {
-                    blockAdBlock: Va
-                } = w(3),
-                V = w(4);
-            window.dataLayer = window.dataLayer || [];
-            a("js", new Date);
-            a("config", "UA-120544149-1");
-            let ia = !1,
-                qa = null;
-            Va.on(!0, () => {
-                //document.getElementById("referral-fallback").style.display = "block";
-                ia = !0;
-                a("event", "yes_adblock", {
-                    event_category: "adblock_detection",
-                    non_interaction: !0
-                })
-            }).on(!1, () => {
-                a("event", "no_adblock", {
-                    event_category: "adblock_detection",
-                    non_interaction: !0
-                })
-            });
-            /*(window.localStorage && window.localStorage.adForce ? "aip" === window.localStorage.adForce : .1 <= Math.random()) ? (aiptag.cmd.display.push(function() {
+      function za() {
+        b.animLoopHandle = requestAnimationFrame(za);
+        z.renderv += (z.view - z.renderv) / 30;
+        g.lineCap = "round";
+        g.lineJoin = "round";
+        b.gameStart &&
+          !b.disconnected &&
+          ((b.time = Date.now() - P - Q),
+          1e3 < b.time - Aa &&
+            ((Aa = b.time),
+            (J.rendertime = oa),
+            (oa = 0),
+            (J.updatetime = pa),
+            (pa = 0)),
+          (J.lag = b.time - z.time));
+        b.gameStart && 0 < M.length ? Ra(ma()) : b.disconnected || Sa();
+        b.died && Ta();
+        b.disconnected && Ua();
+        (b.died || b.disconnected) && V.drawCanvas(g);
+      }
+      Object.values ||
+        (Object.values = function(b) {
+          return Object.keys(b).map(d => b[d]);
+        });
+      Object.entries ||
+        (Object.entries = function(b) {
+          return Object.keys(b).map(d => [d, b[d]]);
+        });
+      let b = w(1),
+        H = w(2),
+        { blockAdBlock: Va } = w(3),
+        V = w(4);
+      window.dataLayer = window.dataLayer || [];
+      a("js", new Date());
+      a("config", "UA-120544149-1");
+      let ia = !1,
+        qa = null;
+      Va.on(!0, () => {
+        //document.getElementById("referral-fallback").style.display = "block";
+        ia = !0;
+        a("event", "yes_adblock", {
+          event_category: "adblock_detection",
+          non_interaction: !0
+        });
+      }).on(!1, () => {
+        a("event", "no_adblock", {
+          event_category: "adblock_detection",
+          non_interaction: !0
+        });
+      });
+      /*(window.localStorage && window.localStorage.adForce ? "aip" === window.localStorage.adForce : .1 <= Math.random()) ? (aiptag.cmd.display.push(function() {
                 aipDisplayTag.display("arras-io_336x280")
             }), window.adServiceMode = "aip") : ((adsbygoogle = window.adsbygoogle || []).push({}), window.adServiceMode = "google");*/
-            var B = {
-                graphical: {
-                    screenshotMode: !1,
-                    borderChunk: 6,
-                    barChunk: 5,
-                    mininumBorderChunk: 3,
-                    compensationScale: 1.114,
-                    inversedRender: !0,
-                    darkBorders: !1,
-                    fancyAnimations: !0,
-                    colors: "normal",
-                    pointy: !0,
-                    sharp: !1,
-                    fontSizeBoost: 1,
-                    shieldbars: !1,
-                    neon: !1
-                },
-                gui: {
-                    expectedMaxSkillLevel: 9
-                },
-                lag: {
-                    memory: 60,
-                    newPrediction: !1
-                }
+      var B = {
+        graphical: {
+          screenshotMode: !1,
+          borderChunk: 6,
+          barChunk: 5,
+          mininumBorderChunk: 3,
+          compensationScale: 1.114,
+          inversedRender: !0,
+          darkBorders: !1,
+          fancyAnimations: !0,
+          colors: "normal",
+          pointy: !0,
+          sharp: !1,
+          fontSizeBoost: 1,
+          shieldbars: !1,
+          neon: !1
+        },
+        gui: {
+          expectedMaxSkillLevel: 9
+        },
+        lag: {
+          memory: 60,
+          newPrediction: !1
+        }
+      };
+      b.config = B;
+      let T = (b, a, c = 0.5) => {
+        if (0 === c) return b;
+        if (1 === c) return a;
+        let d = 1 - c;
+        b = parseInt(b.slice(1), 16);
+        a = parseInt(a.slice(1), 16);
+        return (
+          "#" +
+          (
+            (((b & 16711680) * d + (a & 16711680) * c) & 16711680) |
+            (((b & 65280) * d + (a & 65280) * c) & 65280) |
+            (((b & 255) * d + (a & 255) * c) & 255)
+          )
+            .toString(16)
+            .padStart(6, "0")
+        );
+      };
+      var M = [];
+      b.clickables = (() => {
+        let b = (() => {
+          function b() {
+            var b = 0,
+              d = 0,
+              a = 0,
+              n = 0;
+            let f = !1;
+            return {
+              set: (c, h, u, y) => {
+                b = c;
+                d = h;
+                a = u;
+                n = y;
+                f = !0;
+              },
+              check: c => {
+                let h = Math.round(c.x - b);
+                c = Math.round(c.y - d);
+                return f && 0 <= h && 0 <= c && h <= a && c <= n;
+              },
+              hide: () => {
+                f = !1;
+              }
             };
-            b.config = B;
-            let T = (b, a, c = .5) => {
-                if (0 === c) return b;
-                if (1 === c) return a;
-                let d = 1 - c;
-                b = parseInt(b.slice(1), 16);
-                a = parseInt(a.slice(1), 16);
-                return "#" + ((b & 16711680) * d + (a & 16711680) * c & 16711680 | (b & 65280) * d + (a & 65280) * c & 65280 | (b & 255) * d + (a & 255) * c & 255).toString(16).padStart(6,
-                    "0")
+          }
+          return c => {
+            let d = [];
+            for (let a = 0; a < c; a++) d.push(b());
+            return {
+              place: (b, ...c) => {
+                if (b >= d.length)
+                  throw (console.error(b, d),
+                  Error("Trying to reference a clickable outside a region!"));
+                d[b].set(...c);
+              },
+              hide: () => {
+                for (let b of d) b.hide();
+              },
+              check: b => d.findIndex(c => c.check(b))
             };
-            var M = [];
-            b.clickables = (() => {
-                let b = (() => {
-                    function b() {
-                        var b = 0,
-                            d = 0,
-                            a = 0,
-                            n = 0;
-                        let f = !1;
-                        return {
-                            set: (c, h, u, y) => {
-                                b = c;
-                                d = h;
-                                a = u;
-                                n = y;
-                                f = !0
-                            },
-                            check: c => {
-                                let h = Math.round(c.x - b);
-                                c = Math.round(c.y - d);
-                                return f && 0 <= h && 0 <= c && h <= a && c <= n
-                            },
-                            hide: () => {
-                                f = !1
-                            }
-                        }
+          };
+        })();
+        return {
+          stat: b(10),
+          upgrade: b(15),
+          hover: b(1),
+          skipUpgrades: b(1)
+        };
+      })();
+      b.statHover = !1;
+      const ra = class {
+          constructor(b) {
+            this.dataLength = b;
+            this.elements = {};
+          }
+          update(b, a = 0) {
+            var c = b[a++];
+            for (var d = 0; d < c; d++) delete this.elements[b[a++]];
+            c = b[a++];
+            for (d = 0; d < c; d++) {
+              let c = b[a++],
+                d = b.slice(a, a + this.dataLength);
+              a += this.dataLength;
+              this.elements[c] = d;
+            }
+            return a;
+          }
+          entries() {
+            return Object.entries(this.elements).map(([b, a]) => ({
+              id: +b,
+              data: a
+            }));
+          }
+        },
+        Wa = class {
+          constructor(b = 250) {
+            this.speed = b;
+            this.map = {};
+            this.lastUpdate = Date.now();
+          }
+          update(b) {
+            this.lastUpdate = Date.now();
+            for (let [b, c] of Object.entries(this.map))
+              c.now ? ((c.old = c.now), (c.now = null)) : delete this.map[b];
+            for (let d of b)
+              this.map[d.id]
+                ? (this.map[d.id].now = d)
+                : (this.map[d.id] = {
+                    old: null,
+                    now: d
+                  });
+          }
+          get() {
+            let b = Math.min(1, (Date.now() - this.lastUpdate) / this.speed),
+              a = 1 - b;
+            return Object.values(this.map).map(({ old: c, now: d }) =>
+              d
+                ? c
+                  ? {
+                      type: d.type,
+                      id: d.id,
+                      x: b * d.x + a * c.x,
+                      y: b * d.y + a * c.y,
+                      color: d.color,
+                      size: b * d.size + a * c.size,
+                      alpha: 1
                     }
-                    return c => {
-                        let d = [];
-                        for (let a = 0; a < c; a++) d.push(b());
-                        return {
-                            place: (b, ...c) => {
-                                if (b >= d.length) throw console.error(b, d), Error("Trying to reference a clickable outside a region!");
-                                d[b].set(...c)
-                            },
-                            hide: () => {
-                                for (let b of d) b.hide()
-                            },
-                            check: b => d.findIndex(c => c.check(b))
-                        }
+                  : {
+                      type: d.type,
+                      id: d.id,
+                      x: d.x,
+                      y: d.y,
+                      color: d.color,
+                      size: d.size,
+                      alpha: b
                     }
-                })();
-                return {
-                    stat: b(10),
-                    upgrade: b(15),
-                    hover: b(1),
-                    skipUpgrades: b(1)
-                }
-            })();
-            b.statHover = !1;
-            const ra = class {
-                    constructor(b) {
-                        this.dataLength = b;
-                        this.elements = {}
-                    }
-                    update(b, a = 0) {
-                        var c = b[a++];
-                        for (var d = 0; d < c; d++) delete this.elements[b[a++]];
-                        c = b[a++];
-                        for (d = 0; d < c; d++) {
-                            let c = b[a++],
-                                d = b.slice(a, a + this.dataLength);
-                            a += this.dataLength;
-                            this.elements[c] = d
-                        }
-                        return a
-                    }
-                    entries() {
-                        return Object.entries(this.elements).map(([b, a]) => ({
-                            id: +b,
-                            data: a
-                        }))
-                    }
-                },
-                Wa = class {
-                    constructor(b = 250) {
-                        this.speed = b;
-                        this.map = {};
-                        this.lastUpdate = Date.now()
-                    }
-                    update(b) {
-                        this.lastUpdate =
-                            Date.now();
-                        for (let [b, c] of Object.entries(this.map)) c.now ? (c.old = c.now, c.now = null) : delete this.map[b];
-                        for (let d of b) this.map[d.id] ? this.map[d.id].now = d : this.map[d.id] = {
-                            old: null,
-                            now: d
-                        }
-                    }
-                    get() {
-                        let b = Math.min(1, (Date.now() - this.lastUpdate) / this.speed),
-                            a = 1 - b;
-                        return Object.values(this.map).map(({
-                            old: c,
-                            now: d
-                        }) => d ? c ? {
-                            type: d.type,
-                            id: d.id,
-                            x: b * d.x + a * c.x,
-                            y: b * d.y + a * c.y,
-                            color: d.color,
-                            size: b * d.size + a * c.size,
-                            alpha: 1
-                        } : {
-                            type: d.type,
-                            id: d.id,
-                            x: d.x,
-                            y: d.y,
-                            color: d.color,
-                            size: d.size,
-                            alpha: b
-                        } : {
-                            type: c.type,
-                            id: c.id,
-                            x: c.x,
-                            y: c.y,
-                            color: c.color,
-                            size: c.size,
-                            alpha: a
-                        })
-                    }
-                },
-                Xa = class {
-                    constructor(b) {
-                        this.score = q(0, 10);
-                        this.update(b)
-                    }
-                    update(b) {
-                        this.name = b.name;
-                        this.bar = b.bar;
-                        this.color = b.color;
-                        this.index = b.index;
-                        this.score.set(b.score);
-                        this.old = !1
-                    }
-                    publish() {
-                        let b = M[this.index];
-                        return {
-                            image: D(this.index, this.color),
-                            position: b.position,
-                            barColor: e(this.bar),
-                            label: this.name ? this.name + " - " + b.name : b.name,
-                            score: this.score.get()
-                        }
-                    }
-                },
-                Ya = class {
-                    constructor() {
-                        this.entries = {}
-                    }
-                    get() {
-                        let b = [],
-                            a = 1;
-                        for (let c of Object.values(this.entries)) {
-                            let d =
-                                c.publish();
-                            b.push(d);
-                            d.score > a && (a = d.score)
-                        }
-                        b.sort((b, a) => a.score - b.score);
-                        return {
-                            data: b,
-                            max: a
-                        }
-                    }
-                    update(b) {
-                        b.sort((b, c) => c.score - b.score);
-                        for (let b of Object.values(this.entries)) b.old = !0;
-                        for (let a of b) this.entries[a.id] ? this.entries[a.id].update(a) : this.entries[a.id] = new Xa(a);
-                        for (let [b, c] of Object.entries(this.entries)) c.old && delete this.entries[b]
-                    }
-                };
-            var da = [],
-                Ba = new ra(5),
-                Ca = new ra(3),
-                Da = new ra(5),
-                Ea = new Wa(200),
-                Fa = new Ya,
-                la = 0,
-                Y = b.messages = [],
-                J = b.metrics = {
-                    latency: [],
-                    lag: 0,
-                    rendertime: 0,
-                    updatetime: 0,
-                    lastlag: 0,
-                    rendergap: 0,
-                    lastuplink: 0
-                },
-                Aa = 0,
-                oa = 0,
-                pa = 0,
-                Z = [
-                    ["norm"]
-                ],
-                A = {
-                    getStatNames: b => {
-                        switch (b) {
-                            case 1:
-                                return "Body Damage;Max Health;Bullet Speed;Bullet Health;Bullet Penetration;Bullet Damage;Engine Acceleration;Movement Speed;Shield Regeneration;Shield Capacity".split(";");
-                            case 2:
-                                return "Body Damage;Max Health;Drone Speed;Drone Health;Drone Penetration;Drone Damage;Respawn Rate;Movement Speed;Shield Regeneration;Shield Capacity".split(";");
-                            case 3:
-                                return "Body Damage;Max Health;Drone Speed;Drone Health;Drone Penetration;Drone Damage;Max Drone Count;Movement Speed;Shield Regeneration;Shield Capacity".split(";");
-                            case 4:
-                                return "Body Damage;Max Health;Swarm Speed;Swarm Health;Swarm Penetration;Swarm Damage;Reload;Movement Speed;Shield Regeneration;Shield Capacity".split(";");
-                            case 5:
-                                return "Body Damage;Max Health;Placement Speed;Trap Health;Trap Penetration;Trap Damage;Reload;Movement Speed;Shield Regeneration;Shield Capacity".split(";");
-                            case 6:
-                                return "Body Damage;Max Health;Weapon Speed;Weapon Health;Weapon Penetration;Weapon Damage;Reload;Movement Speed;Shield Regeneration;Shield Capacity".split(";");
-                            default:
-                                return "Body Damage;Max Health;Bullet Speed;Bullet Health;Bullet Penetration;Bullet Damage;Reload;Movement Speed;Shield Regeneration;Shield Capacity".split(";")
-                        }
-                    },
-                    skills: [{
-                        amount: 0,
-                        color: "purple",
-                        cap: 1,
-                        softcap: 1
-                    }, {
-                        amount: 0,
-                        color: "pink",
-                        cap: 1,
-                        softcap: 1
-                    }, {
-                        amount: 0,
-                        color: "blue",
-                        cap: 1,
-                        softcap: 1
-                    }, {
-                        amount: 0,
-                        color: "lgreen",
-                        cap: 1,
-                        softcap: 1
-                    }, {
-                        amount: 0,
-                        color: "red",
-                        cap: 1,
-                        softcap: 1
-                    }, {
-                        amount: 0,
-                        color: "yellow",
-                        cap: 1,
-                        softcap: 1
-                    }, {
-                        amount: 0,
-                        color: "green",
-                        cap: 1,
-                        softcap: 1
-                    }, {
-                        amount: 0,
-                        color: "teal",
-                        cap: 1,
-                        softcap: 1
-                    }, {
-                        amount: 0,
-                        color: "gold",
-                        cap: 1,
-                        softcap: 1
-                    }, {
-                        amount: 0,
-                        color: "orange",
-                        cap: 1,
-                        softcap: 1
-                    }],
-                    points: 0,
-                    upgrades: [],
-                    playerid: -1,
-                    __s: (() => {
-                        let b = 0,
-                            a = 0,
-                            c = 0,
-                            h = q(0, 10);
-                        return {
-                            setScore: d => {
-                                d ? (h.set(d), a > h.get() && (a = c = 0)) : (b = 3, a = c = 0, h = q(0, 10))
-                            },
-                            update: () => {
-                                b = Math.ceil(1.8 * Math.pow(c + 1, 1.8) - 2 * c + 1) || 0;
-                                if (h.get() >= a + b) a += b, c++;
-                                else if (h.get() < a) {
-                                    var d = c - 1;
-                                    a -= Math.ceil(1.8 * Math.pow(d + 1, 1.8) - 2 * d + 1) || 0;
-                                    c--
-                                }
-                            },
-                            getProgress: () => b ? Math.min(1, Math.max(0, (h.get() - a) / b)) : 0,
-                            getScore: () => h.get(),
-                            getLevel: () => c
-                        }
-                    })(),
-                    type: 0,
-                    fps: 0,
-                    color: 0,
-                    accel: 0,
-                    party: 0
-                };
-            b.clearUpgrades = () => {
-                A.upgrades = []
+                : {
+                    type: c.type,
+                    id: c.id,
+                    x: c.x,
+                    y: c.y,
+                    color: c.color,
+                    size: c.size,
+                    alpha: a
+                  }
+            );
+          }
+        },
+        Xa = class {
+          constructor(b) {
+            this.score = q(0, 10);
+            this.update(b);
+          }
+          update(b) {
+            this.name = b.name;
+            this.bar = b.bar;
+            this.color = b.color;
+            this.index = b.index;
+            this.score.set(b.score);
+            this.old = !1;
+          }
+          publish() {
+            let b = M[this.index];
+            return {
+              image: D(this.index, this.color),
+              position: b.position,
+              barColor: e(this.bar),
+              label: this.name ? this.name + " - " + b.name : b.name,
+              score: this.score.get()
             };
-            var ma = () => Math.max(b.screenWidth / z.renderv, b.screenHeight / z.renderv / 9 * 16);
-            b.canUpgrade = !1;
-            b.canSkill = !1;
-            b.message =
-                "";
-            b.time = 0;
-            var N = window.localStorage || {};
-            N.password && -1 === N.password.toString().indexOf("$") && (N.password = "", delete N.password);
-            let xa = N.password || null,
-                wa = null,
-                Ga = parseInt(N.privilege),
-                Ha = Number.isNaN(Ga) ? xa ? 1 : 0 : Ga,
-                Za = () => {
-                    var a = b.servers.filter(b => null != b.visible && b.visible <= Ha && b.prefer);
-                    let e = Infinity,
-                        c = [];
-                    for (let d of a)[, a] = d.code.split("-"), a = Math.abs(((b.codeTable[1][a][1] - b.timezone) % 24 + 36) % 24 - 12), a < e ? (c = [d], e = a) : a === e && c.push(d);
-                    return c[Math.floor(Math.random() * c.length)]
-                };
-            b.server = (a => {
-                a.startsWith("#") && (a = a.slice(1));
-                let [, d, c] = a.match(/^([a-zA-Z]+)([0-9]*)$/) || [];
-                if (d) b.partyLink = +c || 0;
-                else {
-                    var h = {};
-                    for (var u of a.split("&")) {
-                        var y = u.split("=");
-                        a = y.shift();
-                        y = y.join("=") || !0;
-                        h[a] = y
-                        h.key = document.getElementById("playerKeyInput")
-                    }
-                    h.private && (u = h.private, u.includes(";") && (a = u.split(";"), u = a.shift(), h.key = document.getElementById("playerKeyInput")), h.host = u);
-                    return null
+          }
+        },
+        Ya = class {
+          constructor() {
+            this.entries = {};
+          }
+          get() {
+            let b = [],
+              a = 1;
+            for (let c of Object.values(this.entries)) {
+              let d = c.publish();
+              b.push(d);
+              d.score > a && (a = d.score);
+            }
+            b.sort((b, a) => a.score - b.score);
+            return {
+              data: b,
+              max: a
+            };
+          }
+          update(b) {
+            b.sort((b, c) => c.score - b.score);
+            for (let b of Object.values(this.entries)) b.old = !0;
+            for (let a of b)
+              this.entries[a.id]
+                ? this.entries[a.id].update(a)
+                : (this.entries[a.id] = new Xa(a));
+            for (let [b, c] of Object.entries(this.entries))
+              c.old && delete this.entries[b];
+          }
+        };
+      var da = [],
+        Ba = new ra(5),
+        Ca = new ra(3),
+        Da = new ra(5),
+        Ea = new Wa(200),
+        Fa = new Ya(),
+        la = 0,
+        Y = (b.messages = []),
+        J = (b.metrics = {
+          latency: [],
+          lag: 0,
+          rendertime: 0,
+          updatetime: 0,
+          lastlag: 0,
+          rendergap: 0,
+          lastuplink: 0
+        }),
+        Aa = 0,
+        oa = 0,
+        pa = 0,
+        Z = [["norm"]],
+        A = {
+          getStatNames: b => {
+            switch (b) {
+              case 1:
+                return "Body Damage;Max Health;Bullet Speed;Bullet Health;Bullet Penetration;Bullet Damage;Engine Acceleration;Movement Speed;Shield Regeneration;Shield Capacity".split(
+                  ";"
+                );
+              case 2:
+                return "Body Damage;Max Health;Drone Speed;Drone Health;Drone Penetration;Drone Damage;Respawn Rate;Movement Speed;Shield Regeneration;Shield Capacity".split(
+                  ";"
+                );
+              case 3:
+                return "Body Damage;Max Health;Drone Speed;Drone Health;Drone Penetration;Drone Damage;Max Drone Count;Movement Speed;Shield Regeneration;Shield Capacity".split(
+                  ";"
+                );
+              case 4:
+                return "Body Damage;Max Health;Swarm Speed;Swarm Health;Swarm Penetration;Swarm Damage;Reload;Movement Speed;Shield Regeneration;Shield Capacity".split(
+                  ";"
+                );
+              case 5:
+                return "Body Damage;Max Health;Placement Speed;Trap Health;Trap Penetration;Trap Damage;Reload;Movement Speed;Shield Regeneration;Shield Capacity".split(
+                  ";"
+                );
+              case 6:
+                return "Body Damage;Max Health;Weapon Speed;Weapon Health;Weapon Penetration;Weapon Damage;Reload;Movement Speed;Shield Regeneration;Shield Capacity".split(
+                  ";"
+                );
+              default:
+                return "Body Damage;Max Health;Bullet Speed;Bullet Health;Bullet Penetration;Bullet Damage;Reload;Movement Speed;Shield Regeneration;Shield Capacity".split(
+                  ";"
+                );
+            }
+          },
+          skills: [
+            {
+              amount: 0,
+              color: "purple",
+              cap: 1,
+              softcap: 1
+            },
+            {
+              amount: 0,
+              color: "pink",
+              cap: 1,
+              softcap: 1
+            },
+            {
+              amount: 0,
+              color: "blue",
+              cap: 1,
+              softcap: 1
+            },
+            {
+              amount: 0,
+              color: "lgreen",
+              cap: 1,
+              softcap: 1
+            },
+            {
+              amount: 0,
+              color: "red",
+              cap: 1,
+              softcap: 1
+            },
+            {
+              amount: 0,
+              color: "yellow",
+              cap: 1,
+              softcap: 1
+            },
+            {
+              amount: 0,
+              color: "green",
+              cap: 1,
+              softcap: 1
+            },
+            {
+              amount: 0,
+              color: "teal",
+              cap: 1,
+              softcap: 1
+            },
+            {
+              amount: 0,
+              color: "gold",
+              cap: 1,
+              softcap: 1
+            },
+            {
+              amount: 0,
+              color: "orange",
+              cap: 1,
+              softcap: 1
+            }
+          ],
+          points: 0,
+          upgrades: [],
+          playerid: -1,
+          __s: (() => {
+            let b = 0,
+              a = 0,
+              c = 0,
+              h = q(0, 10);
+            return {
+              setScore: d => {
+                d
+                  ? (h.set(d), a > h.get() && (a = c = 0))
+                  : ((b = 3), (a = c = 0), (h = q(0, 10)));
+              },
+              update: () => {
+                b = Math.ceil(1.8 * Math.pow(c + 1, 1.8) - 2 * c + 1) || 0;
+                if (h.get() >= a + b) (a += b), c++;
+                else if (h.get() < a) {
+                  var d = c - 1;
+                  a -= Math.ceil(1.8 * Math.pow(d + 1, 1.8) - 2 * d + 1) || 0;
+                  c--;
                 }
-                return b.servers.find(b => b.id === d) || null
-            })(location.hash) || b.servers.find(b => b.id === N.gameMode) || Za();
+              },
+              getProgress: () =>
+                b ? Math.min(1, Math.max(0, (h.get() - a) / b)) : 0,
+              getScore: () => h.get(),
+              getLevel: () => c
+            };
+          })(),
+          type: 0,
+          fps: 0,
+          color: 0,
+          accel: 0,
+          party: 0
+        };
+      b.clearUpgrades = () => {
+        A.upgrades = [];
+      };
+      var ma = () =>
+        Math.max(
+          b.screenWidth / z.renderv,
+          (b.screenHeight / z.renderv / 9) * 16
+        );
+      b.canUpgrade = !1;
+      b.canSkill = !1;
+      b.message = "";
+      b.time = 0;
+      var N = window.localStorage || {};
+      N.password &&
+        -1 === N.password.toString().indexOf("$") &&
+        ((N.password = ""), delete N.password);
+      let xa = N.password || null,
+        wa = null,
+        Ga = parseInt(N.privilege),
+        Ha = Number.isNaN(Ga) ? (xa ? 1 : 0) : Ga,
+        Za = () => {
+          var a = b.servers.filter(
+            b => null != b.visible && b.visible <= Ha && b.prefer
+          );
+          let e = Infinity,
+            c = [];
+          for (let d of a)
+            ([, a] = d.code.split("-")),
+              (a = Math.abs(
+                ((((b.codeTable[1][a][1] - b.timezone) % 24) + 36) % 24) - 12
+              )),
+              a < e ? ((c = [d]), (e = a)) : a === e && c.push(d);
+          return c[Math.floor(Math.random() * c.length)];
+        };
+      b.server =
+        (a => {
+          a.startsWith("#") && (a = a.slice(1));
+          let [, d, c] = a.match(/^([a-zA-Z]+)([0-9]*)$/) || [];
+          if (d) b.partyLink = +c || 0;
+          else {
+            var h = {};
+            for (var u of a.split("&")) {
+              var y = u.split("=");
+              a = y.shift();
+              y = y.join("=") || !0;
+              h[a] = y;
+              h.key = document.getElementById("playerKeyInput");
+            }
+            h.private &&
+              ((u = h.private),
+              u.includes(";") &&
+                ((a = u.split(";")),
+                (u = a.shift()),
+                (h.key = document.getElementById("playerKeyInput"))),
+              (h.host = u));
+            return null;
+          }
+          return b.servers.find(b => b.id === d) || null;
+        })(location.hash) ||
+        b.servers.find(b => b.id === N.gameMode) ||
+        Za();
       let $a = a => {
           var d = b.codeTable[2];
           let c = [],
@@ -1348,1639 +1591,2605 @@
                 : (a[a.length - 1] += " " + c.trim()));
           Ka(a, !1);
         });
-            let Ja = (() => {
-                let b = document.getElementById("changelogSelector"),
-                    a = b.parentNode,
-                    c = b.firstElementChild,
-                    h = document.getElementById("patchNotes"),
-                    e = {};
-                for (let d = 0; d < b.children.length; d++) {
-                    let f = b.children[d],
-                        y = f.dataset.type;
-                    e[y] = f.onclick = () => {
-                        if (f !== c) {
-                            var d = c.dataset.type;
-                            c.classList.remove("active");
-                            f.classList.add("active");
-                            h.classList.remove(d);
-                            h.classList.add(y);
-                            c = f;
-                            a.scrollLeft = f.offsetLeft - b.offsetLeft + f.offsetWidth / 2 - a.offsetWidth / 2
-                        }
-                    }
+      let Ja = (() => {
+        let b = document.getElementById("changelogSelector"),
+          a = b.parentNode,
+          c = b.firstElementChild,
+          h = document.getElementById("patchNotes"),
+          e = {};
+        for (let d = 0; d < b.children.length; d++) {
+          let f = b.children[d],
+            y = f.dataset.type;
+          e[y] = f.onclick = () => {
+            if (f !== c) {
+              var d = c.dataset.type;
+              c.classList.remove("active");
+              f.classList.add("active");
+              h.classList.remove(d);
+              h.classList.add(y);
+              c = f;
+              a.scrollLeft =
+                f.offsetLeft -
+                b.offsetLeft +
+                f.offsetWidth / 2 -
+                a.offsetWidth / 2;
+            }
+          };
+        }
+        return e;
+      })();
+      H.retrieveFromLocalStorage("playerNameInput");
+      H.retrieveFromLocalStorage("playerKeyInput");
+      H.retrieveFromLocalStorage("optScreenshotMode");
+      H.retrieveFromLocalStorage("optShield");
+      H.retrieveFromLocalStorage("optFancy");
+      H.retrieveFromLocalStorage("optColors");
+      H.retrieveFromLocalStorage("optNoPointy");
+      H.retrieveFromLocalStorage("optBorders");
+      H.retrieveFromLocalStorage("optAutoLevel", b.mobile);
+      H.retrieveFromLocalStorage("optPrediction");
+      H.retrieveFromLocalStorage("optPointy");
+      b.mobile && H.retrieveFromLocalStorage("optMobile");
+      H.retrieveFromLocalStorage("optCustom");
+      "" === document.getElementById("optColors").value &&
+        (document.getElementById("optColors").value = "normal");
+      b.mobile &&
+        "" === document.getElementById("optMobile").value &&
+        (document.getElementById("optMobile").value = "joysticks");
+      "" === document.getElementById("optBorders").value &&
+        (document.getElementById("optBorders").value = "normal");
+      let fa = document.getElementById("optCustom");
+      fa.oninput = () => {
+        (fa.value
+        ? C(fa.value)
+        : 1)
+          ? fa.classList.remove("error")
+          : fa.classList.add("error");
+      };
+      if (!b.mobile) {
+        let a = {};
+        try {
+          "#vi" === location.hash || "#vim" === location.hash
+            ? (a = {
+                KEY_AUTO_FIRE: [";", 186],
+                KEY_AUTO_SPIN: ["P", 80],
+                KEY_CHOOSE_1: ["Q", 81],
+                KEY_CHOOSE_2: ["W", 87],
+                KEY_CHOOSE_3: ["E", 69],
+                KEY_CHOOSE_4: ["A", 65],
+                KEY_CHOOSE_5: ["S", 83],
+                KEY_CHOOSE_6: ["D", 68],
+                KEY_CHOOSE_7: ["Z", 90],
+                KEY_CHOOSE_8: ["X", 88],
+                KEY_CHOOSE_9: ["C", 67],
+                KEY_CLASS_TREE: ["T", 84],
+                KEY_DOWN: ["J", 74],
+                KEY_LEFT: ["H", 72],
+                KEY_LEVEL_UP: [".", 190],
+                KEY_OVER_RIDE: ["I", 73],
+                KEY_PING: [",", 188],
+                KEY_RECORD: ["V", 86],
+                KEY_REVERSE_MOUSE: ["U", 85],
+                KEY_REVERSE_TANK: ["Y", 89],
+                KEY_RIGHT: ["L", 76],
+                KEY_SCREENSHOT: ["G", 71],
+                KEY_UP: ["K", 75]
+              })
+            : N.keybindsJSON && (a = JSON.parse(N.keybindsJSON) || {});
+        } catch (fb) {}
+        let e = document.getElementById("controlTable"),
+          c = document.getElementById("resetControls"),
+          h = document.getElementById("moreControls"),
+          u = null,
+          y = [];
+        for (let c = 0; c < e.rows.length; c++)
+          for (let f = 0; f < e.rows[c].cells.length; f++) {
+            let h = e.rows[c].cells[f].firstChild.firstChild,
+              { key: d, help: u } = h.dataset,
+              g = {
+                element: h,
+                key: d,
+                help: u,
+                currentKey: h.innerText,
+                currentCode: b[d],
+                originalKey: h.innerText,
+                originalCode: b[d]
+              };
+            a[g.key] &&
+              ((h.innerText = g.currentKey = a[g.key][0]),
+              (b[d] = g.currentCode = a[g.key][1]),
+              g.help && (b.help[g.help] = g.currentKey));
+            y.push(g);
+          }
+        let f = () => y.some(({ currentCode: b, originalCode: a }) => b !== a);
+        f() && c.classList.add("active");
+        let g = () => {
+            window.getSelection && window.getSelection().removeAllRanges();
+            u.element.parentNode.parentNode.classList.remove("editing");
+            u = null;
+          },
+          l = b => {
+            u = b;
+            u.element.parentNode.parentNode.classList.add("editing");
+            if (-1 !== u.currentCode && window.getSelection) {
+              b = window.getSelection();
+              b.removeAllRanges();
+              let a = document.createRange();
+              a.selectNodeContents(u.element);
+              b.addRange(a);
+            }
+          },
+          k = (h, d) => {
+            if (" " === h) (h = ""), (d = -1);
+            else if (d !== u.currentCode) {
+              let c = y.find(({ currentCode: b }) => b === d);
+              c &&
+                ((c.currentKey = u.currentKey),
+                (c.element.innerText = u.currentKey),
+                (c.currentCode = u.currentCode),
+                (b[c.key] = u.currentCode),
+                c.help && (b.help[c.help] = u.currentKey),
+                (a[c.key] = [c.currentKey, c.currentCode]));
+            }
+            u.currentKey = h;
+            u.element.innerText = h;
+            u.currentCode = d;
+            b[u.key] = d;
+            u.help && (b.help[u.help] = h);
+            a[u.key] = [u.currentKey, u.currentCode];
+            N.keybindsJSON = JSON.stringify(a);
+            g();
+            f()
+              ? (c.classList.remove("spin"), c.classList.add("active"))
+              : c.classList.remove("active");
+          };
+        document.onclick = a => {
+          if (!b.gameStart)
+            if (u) g();
+            else {
+              var c = y.find(({ element: b }) => a.target === b);
+              c && l(c);
+            }
+        };
+        c.onclick = () => {
+          if (f()) {
+            u && g();
+            for (let a of y)
+              (a.currentKey = a.originalKey),
+                (a.element.innerText = a.originalKey),
+                (a.currentCode = a.originalCode),
+                (b[a.key] = a.originalCode),
+                a.help && (b.help[a.help] = a.originalKey);
+            a = {};
+            N.keybindsJSON = JSON.stringify(a);
+            c.classList.remove("active");
+            c.classList.add("spin");
+          }
+        };
+        let x = null;
+        h.onclick = () => {
+          if (x) {
+            for (var b = 0; b < x.length; b++) x[b].classList.add("hidden");
+            x = null;
+            h.classList.remove("x");
+          } else {
+            x = document.querySelectorAll("#controlTable tr.hidden");
+            for (b = 0; b < x.length; b++) x[b].classList.remove("hidden");
+            h.classList.add("x");
+          }
+        };
+        document.onkeydown = a => {
+          if (!(b.gameStart || a.shiftKey || a.ctrlKey || a.altKey)) {
+            var c = a.which || a.keyCode;
+            u
+              ? 1 !== a.key.length ||
+                /[0-9of`]/i.test(a.key) ||
+                3 === a.location
+                ? ("Backspace" !== a.key && "Delete" !== a.key) || k(" ", 32)
+                : k(a.key.toUpperCase(), c)
+              : (c !== b.KEY_ENTER && c !== b.KEY_SPAWN) || t();
+          }
+        };
+      }
+      document.getElementById("startButton").onclick = () => {
+        t();
+      };
+      let La = WebSocket.prototype.close;
+      WebSocket.prototype.close = function(...b) {
+        V.logCloseCall();
+        La.call(this, ...b);
+      };
+      WebSocket.prototype.close.toString = Function.prototype.toString.bind(La);
+      document.addEventListener("mouseenter", () => V.logMouse(!0));
+      document.addEventListener("mouseleave", () => V.logMouse(!1));
+      window.addEventListener("resize", () => {
+        z.screenWidth = U.cv.width = b.screenWidth = window.innerWidth;
+        z.screenHeight = U.cv.height = b.screenHeight = window.innerHeight;
+      });
+      var U = new (w(5))();
+      b.mobile && document.body.classList.add("mobile");
+      var g = U.cv.getContext("2d"),
+        Ma = document.createElement("canvas").getContext("2d"),
+        S = [],
+        P = 0,
+        Q = 0,
+        Na = (() => {
+          let b = [];
+          return {
+            get: () => (b.length ? b.reduce((b, a) => b + a, 0) / b.length : 0),
+            add: a => {
+              b.push(a);
+              b.length > B.lag.memory && b.shift();
+            }
+          };
+        })(),
+        z = {
+          x: 0,
+          y: 0,
+          cx: 0,
+          cy: 0,
+          vx: 0,
+          vy: 0,
+          lastvx: 0,
+          lastvy: 0,
+          renderx: 0,
+          rendery: 0,
+          renderv: 1,
+          lastx: 0,
+          lasty: 0,
+          target: U.target,
+          name: "",
+          view: 1,
+          lastUpdate: 0,
+          time: 0
+        };
+      b.player = z;
+      var ya = (() => {
+        let a = 0,
+          e = 0,
+          c = 0,
+          h = 0;
+        return {
+          reset: () => {
+            e = a = 0;
+          },
+          get: () => ({
+            x: a,
+            y: e
+          }),
+          iterate: d => {
+            if (b.died || b.gameStart) return 0;
+            var y = A.accel / A.topSpeed;
+            let f = Math.sqrt(d.x * d.x + d.y * d.y);
+            c += (A.accel * d.x) / f;
+            h += (A.accel * d.y) / f;
+            d = Math.sqrt(c * c + h * h);
+            0 < d &&
+              y &&
+              ((y = d / (y / 0 + 1)), (c = (y * c) / d), (h = (y * h) / d));
+            a += c;
+            e += h;
+          }
+        };
+      })();
+      const Pa = (() => {
+        window.WebSocket = window.WebSocket || window.MozWebSocket;
+        const a = w(6),
+          e = (() => {
+            const a = (() => {
+              let b = 0,
+                a = [];
+              return {
+                next: () => {
+                  if (b >= a.length)
+                    throw (console.error(a),
+                    Error(
+                      "Trying to crawl past the end of the provided data!"
+                    ));
+                  return a[b++];
+                },
+                all: () => a.slice(b),
+                take: c => {
+                  b += c;
+                  if (b > a.length)
+                    throw (console.error(a),
+                    Error(
+                      "Trying to crawl past the end of the provided data!"
+                    ));
+                },
+                set: c => {
+                  a = c;
+                  b = 0;
                 }
-                return e
+              };
             })();
-            H.retrieveFromLocalStorage("playerNameInput");
-            H.retrieveFromLocalStorage("playerKeyInput");
-            H.retrieveFromLocalStorage("optScreenshotMode");
-            H.retrieveFromLocalStorage("optShield");
-            H.retrieveFromLocalStorage("optFancy");
-            H.retrieveFromLocalStorage("optColors");
-            H.retrieveFromLocalStorage("optNoPointy");
-            H.retrieveFromLocalStorage("optBorders");
-            H.retrieveFromLocalStorage("optAutoLevel", b.mobile);
-            H.retrieveFromLocalStorage("optPrediction");
-            H.retrieveFromLocalStorage("optPointy");
-            b.mobile && H.retrieveFromLocalStorage("optMobile");
-            H.retrieveFromLocalStorage("optCustom");
-            "" === document.getElementById("optColors").value && (document.getElementById("optColors").value = "normal");
-            b.mobile && "" === document.getElementById("optMobile").value && (document.getElementById("optMobile").value = "joysticks");
-            "" === document.getElementById("optBorders").value &&
-                (document.getElementById("optBorders").value = "normal");
-            let fa = document.getElementById("optCustom");
-            fa.oninput = () => {
-                (fa.value ? C(fa.value) : 1) ? fa.classList.remove("error"): fa.classList.add("error")
-            };
-            if (!b.mobile) {
-                let a = {};
-                try {
-                    "#vi" === location.hash || "#vim" === location.hash ? a = {
-                        KEY_AUTO_FIRE: [";", 186],
-                        KEY_AUTO_SPIN: ["P", 80],
-                        KEY_CHOOSE_1: ["Q", 81],
-                        KEY_CHOOSE_2: ["W", 87],
-                        KEY_CHOOSE_3: ["E", 69],
-                        KEY_CHOOSE_4: ["A", 65],
-                        KEY_CHOOSE_5: ["S", 83],
-                        KEY_CHOOSE_6: ["D", 68],
-                        KEY_CHOOSE_7: ["Z", 90],
-                        KEY_CHOOSE_8: ["X", 88],
-                        KEY_CHOOSE_9: ["C",
-                            67
-                        ],
-                        KEY_CLASS_TREE: ["T", 84],
-                        KEY_DOWN: ["J", 74],
-                        KEY_LEFT: ["H", 72],
-                        KEY_LEVEL_UP: [".", 190],
-                        KEY_OVER_RIDE: ["I", 73],
-                        KEY_PING: [",", 188],
-                        KEY_RECORD: ["V", 86],
-                        KEY_REVERSE_MOUSE: ["U", 85],
-                        KEY_REVERSE_TANK: ["Y", 89],
-                        KEY_RIGHT: ["L", 76],
-                        KEY_SCREENSHOT: ["G", 71],
-                        KEY_UP: ["K", 75]
-                    } : N.keybindsJSON && (a = JSON.parse(N.keybindsJSON) || {})
-                } catch (fb) {}
-                let e = document.getElementById("controlTable"),
-                    c = document.getElementById("resetControls"),
-                    h = document.getElementById("moreControls"),
-                    u = null,
-                    y = [];
-                for (let c = 0; c < e.rows.length; c++)
-                    for (let f =
-                            0; f < e.rows[c].cells.length; f++) {
-                        let h = e.rows[c].cells[f].firstChild.firstChild,
-                            {
-                                key: d,
-                                help: u
-                            } = h.dataset,
-                            g = {
-                                element: h,
-                                key: d,
-                                help: u,
-                                currentKey: h.innerText,
-                                currentCode: b[d],
-                                originalKey: h.innerText,
-                                originalCode: b[d]
-                            };
-                        a[g.key] && (h.innerText = g.currentKey = a[g.key][0], b[d] = g.currentCode = a[g.key][1], g.help && (b.help[g.help] = g.currentKey));
-                        y.push(g)
-                    }
-                let f = () => y.some(({
-                    currentCode: b,
-                    originalCode: a
-                }) => b !== a);
-                f() && c.classList.add("active");
-                let g = () => {
-                        window.getSelection && window.getSelection().removeAllRanges();
-                        u.element.parentNode.parentNode.classList.remove("editing");
-                        u = null
-                    },
-                    l = b => {
-                        u = b;
-                        u.element.parentNode.parentNode.classList.add("editing");
-                        if (-1 !== u.currentCode && window.getSelection) {
-                            b = window.getSelection();
-                            b.removeAllRanges();
-                            let a = document.createRange();
-                            a.selectNodeContents(u.element);
-                            b.addRange(a)
-                        }
-                    },
-                    k = (h, d) => {
-                        if (" " === h) h = "", d = -1;
-                        else if (d !== u.currentCode) {
-                            let c = y.find(({
-                                currentCode: b
-                            }) => b === d);
-                            c && (c.currentKey = u.currentKey, c.element.innerText = u.currentKey, c.currentCode = u.currentCode, b[c.key] = u.currentCode,
-                                c.help && (b.help[c.help] = u.currentKey), a[c.key] = [c.currentKey, c.currentCode])
-                        }
-                        u.currentKey = h;
-                        u.element.innerText = h;
-                        u.currentCode = d;
-                        b[u.key] = d;
-                        u.help && (b.help[u.help] = h);
-                        a[u.key] = [u.currentKey, u.currentCode];
-                        N.keybindsJSON = JSON.stringify(a);
-                        g();
-                        f() ? (c.classList.remove("spin"), c.classList.add("active")) : c.classList.remove("active")
+            return {
+              begin: b => a.set(b),
+              data: (() => {
+                const b = (() => {
+                  function c() {
+                    let b = "normal",
+                      a = Date.now();
+                    return {
+                      set: c => {
+                        if (c !== b || "injured" === b)
+                          "dying" !== b && (a = Date.now()), (b = c);
+                      },
+                      getFade: () =>
+                        "dying" === b || "killed" === b
+                          ? 1 - Math.min(1, (Date.now() - a) / 300)
+                          : 1,
+                      getColor: () => "#FFFFFF",
+                      getBlend: () => {
+                        let c =
+                          "normal" === b || "dying" === b
+                            ? 0
+                            : 1 - Math.min(1, (Date.now() - a) / 80);
+                        500 < Date.now() - a &&
+                          "injured" === b &&
+                          (b = "normal");
+                        return c;
+                      }
                     };
-                document.onclick = a => {
-                    if (!b.gameStart)
-                        if (u) g();
-                        else {
-                            var c = y.find(({
-                                element: b
-                            }) => a.target === b);
-                            c && l(c)
-                        }
-                };
-                c.onclick = () => {
-                    if (f()) {
-                        u && g();
-                        for (let a of y) a.currentKey = a.originalKey,
-                            a.element.innerText = a.originalKey, a.currentCode = a.originalCode, b[a.key] = a.originalCode, a.help && (b.help[a.help] = a.originalKey);
-                        a = {};
-                        N.keybindsJSON = JSON.stringify(a);
-                        c.classList.remove("active");
-                        c.classList.add("spin")
+                  }
+                  const h = (() => {
+                    function b(b) {
+                      b.isUpdated = !0;
+                      if (b.motion || b.position)
+                        (b.motion -= 0.2 * b.position),
+                          (b.position += b.motion),
+                          0 > b.position &&
+                            ((b.position = 0), (b.motion = -b.motion)),
+                          0 < b.motion && (b.motion *= 0.5);
                     }
-                };
-                let x = null;
-                h.onclick = () => {
-                    if (x) {
-                        for (var b = 0; b < x.length; b++) x[b].classList.add("hidden");
-                        x = null;
-                        h.classList.remove("x")
-                    } else {
-                        x = document.querySelectorAll("#controlTable tr.hidden");
-                        for (b = 0; b < x.length; b++) x[b].classList.remove("hidden");
-                        h.classList.add("x")
+                    return a => {
+                      let c = [];
+                      for (let b = 0; b < a; b++)
+                        c.push({
+                          motion: 0,
+                          position: 0,
+                          isUpdated: !0
+                        });
+                      return {
+                        getPositions: () => c.map(b => b.position),
+                        update: () => c.forEach(b),
+                        fire: (b, a) => {
+                          c[b].isUpdated && (c[b].motion += Math.sqrt(a) / 20);
+                          c[b].isUpdated = !1;
+                        },
+                        length: c.length
+                      };
+                    };
+                  })();
+                  return (f = {}) => {
+                    var d = null == f.facing,
+                      e = a.next();
+                    if (e & 1) (f.facing = a.next()), (f.layer = a.next());
+                    else {
+                      f.interval = J.rendergap;
+                      f.id = a.next();
+                      d = da.findIndex(b => b.id === f.id);
+                      -1 !== d && (f = da.splice(d, 1)[0]);
+                      d = -1 === d;
+                      d ||
+                        ((f.render.draws = !0),
+                        (f.render.lastx = f.x),
+                        (f.render.lasty = f.y),
+                        (f.render.lastvx = f.vx),
+                        (f.render.lastvy = f.vy),
+                        (f.render.lastf = f.facing),
+                        (f.render.lastRender = z.time));
+                      f.index = a.next();
+                      f.x = a.next();
+                      f.y = a.next();
+                      f.vx = a.next();
+                      f.vy = a.next();
+                      f.size = a.next();
+                      f.facing = a.next();
+                      f.vfacing = a.next();
+                      f.twiggle = a.next();
+                      f.layer = a.next();
+                      f.color = a.next();
+                      if (d) {
+                        f.health = a.next() / 255;
+                        var y = a.next();
+                        f.shield = 0 > y ? NaN : y / 255;
+                      } else {
+                        y = f.health;
+                        var g = f.shield;
+                        f.health = a.next() / 255;
+                        var u = a.next();
+                        f.shield = 0 > u ? NaN : u / 255;
+                        f.health < y || f.shield < g
+                          ? f.render.status.set("injured")
+                          : 1 !== f.render.status.getFade() &&
+                            f.render.status.set("normal");
+                      }
+                      f.alpha = a.next() / 255;
+                      f.drawsHealth = e & 2;
+                      f.nameplate = e & 4;
+                      f.invuln = e & 8 ? f.invuln || Date.now() : 0;
+                      e & 4 && ((f.name = a.next()), (f.score = a.next()));
+                      d &&
+                        (f.render = {
+                          draws: !1,
+                          expandsWithDeath: f.drawsHealth,
+                          lastRender: z.time,
+                          x: f.x,
+                          y: f.y,
+                          lastx:
+                            f.x - (1e3 / 30) * B.roomSpeed * J.rendergap * f.vx,
+                          lasty:
+                            f.y - (1e3 / 30) * B.roomSpeed * J.rendergap * f.vy,
+                          lastvx: f.vx,
+                          lastvy: f.vy,
+                          lastf: f.facing,
+                          f: f.facing,
+                          h: f.health,
+                          s: f.shield,
+                          interval: J.rendergap,
+                          slip: 0,
+                          status: c(),
+                          health: q(f.health, 0.5, 5),
+                          shield: q(f.shield, 0.5, 5)
+                        });
+                      f.render.health.set(f.health);
+                      f.render.shield.set(f.shield);
+                      d || f.oldIndex === f.index || (d = !0);
+                      f.oldIndex = f.index;
                     }
-                };
-                document.onkeydown = a => {
-                    if (!(b.gameStart ||
-                            a.shiftKey || a.ctrlKey || a.altKey)) {
-                        var c = a.which || a.keyCode;
-                        u ? 1 !== a.key.length || /[0-9of`]/i.test(a.key) || 3 === a.location ? "Backspace" !== a.key && "Delete" !== a.key || k(" ", 32) : k(a.key.toUpperCase(), c) : c !== b.KEY_ENTER && c !== b.KEY_SPAWN || t()
+                    e = a.next();
+                    if (d) f.guns = h(e);
+                    else if (e !== f.guns.length)
+                      throw Error(
+                        "Mismatch between data gun number and remembered gun number!"
+                      );
+                    for (y = 0; y < e; y++)
+                      (g = a.next()),
+                        (u = a.next()),
+                        g > z.lastUpdate - J.rendergap && f.guns.fire(y, u);
+                    e = a.next();
+                    if (d)
+                      for (f.turrets = [], d = 0; d < e; d++)
+                        f.turrets.push(b());
+                    else {
+                      if (f.turrets.length !== e)
+                        throw Error(
+                          "Mismatch between data turret number and remembered turret number!"
+                        );
+                      f.turrets.forEach(b);
                     }
+                    return f;
+                  };
+                })();
+                return () => {
+                  let c = [];
+                  for (let d = 0, f = a.next(); d < f; d++) c.push(b());
+                  da.forEach(b => {
+                    b.render.status.set(1 === b.health ? "dying" : "killed");
+                    0 !== b.render.status.getFade() &&
+                      R(
+                        b.render.x - z.renderx,
+                        b.render.y - z.rendery,
+                        b.size,
+                        !0
+                      ) &&
+                      c.push(b);
+                  });
+                  da = c;
+                  da.sort((b, a) => b.layer - a.layer || a.id - b.id);
+                };
+              })(),
+              gui: () => {
+                var c = a.next(),
+                  d = c & 2,
+                  e = c & 4,
+                  f = c & 8,
+                  g = c & 16,
+                  l = c & 32,
+                  n = c & 64,
+                  k = c & 128,
+                  x = c & 256;
+                c & 1 && (A.fps = a.next());
+                d &&
+                  ((A.type = a.next()),
+                  (A.color = a.next()),
+                  (A.playerid = a.next()));
+                e && A.__s.setScore(a.next());
+                f && (A.points = a.next());
+                if (g) {
+                  A.upgrades = [];
+                  for (let b = 0, c = a.next(); b < c; b++)
+                    A.upgrades.push(a.next());
+                }
+                if (l)
+                  for (c = 9; 0 <= c; c--)
+                    (A.skills[c].name = a.next()),
+                      (A.skills[c].cap = a.next()),
+                      (A.skills[c].softcap = a.next());
+                n &&
+                  ((n = parseInt(a.next(), 36)),
+                  (A.skills[0].amount = (n / 68719476736) & 15),
+                  (A.skills[1].amount = (n / 4294967296) & 15),
+                  (A.skills[2].amount = (n / 268435456) & 15),
+                  (A.skills[3].amount = (n / 16777216) & 15),
+                  (A.skills[4].amount = (n / 1048576) & 15),
+                  (A.skills[5].amount = (n / 65536) & 15),
+                  (A.skills[6].amount = (n / 4096) & 15),
+                  (A.skills[7].amount = (n / 256) & 15),
+                  (A.skills[8].amount = (n / 16) & 15),
+                  (A.skills[9].amount = (n / 1) & 15));
+                k && (A.accel = a.next());
+                x &&
+                  ((A.party = a.next()),
+                  "z" !== b.server.id && (location.hash = "#" + b.server.id));
+              },
+              broadcast: () => {
+                var c = a.all();
+                let d = Ba.update(c);
+                d = Ca.update(c, d);
+                d = Da.update(c, d);
+                a.take(d);
+                c = [];
+                for (let { id: a, data: f } of Ba.entries())
+                  c.push({
+                    id: a,
+                    type: f[0],
+                    x: (f[1] * b.gameWidth) / 255,
+                    y: (f[2] * b.gameHeight) / 255,
+                    color: f[3],
+                    size: f[4]
+                  });
+                for (let { id: a, data: f } of Ca.entries())
+                  c.push({
+                    id: a,
+                    type: 0,
+                    x: (f[0] * b.gameWidth) / 255,
+                    y: (f[1] * b.gameHeight) / 255,
+                    color: f[2],
+                    size: 0
+                  });
+                Ea.update(c);
+                c = [];
+                for (let { id: b, data: a } of Da.entries())
+                  c.push({
+                    id: b,
+                    score: a[0],
+                    index: a[1],
+                    name: a[2],
+                    color: a[3],
+                    bar: a[4]
+                  });
+                Fa.update(c);
+              }
+            };
+          })();
+        return () => {
+          let c = "https:" === location.protocol ? 1 : -1,
+            d = b.server.secure || c;
+          1 === c &&
+            -1 === d &&
+            (location.href = location.href.replace("https:", "http:"));
+          let g = new WebSocket(
+            (1 === d ? "wss://" : "ws://") + b.server.at + "/"
+          );
+          g.binaryType = "arraybuffer";
+          g.open = !1;
+          g.cmd = (() => {
+            let b = 0,
+              a = 0,
+              c = 0,
+              d = 0,
+              e = 0,
+              h = 0;
+            return {
+              set(a, c) {
+                b = c ? b | (1 << a) : b & ~(1 << a);
+                this.talk();
+              },
+              setPosition(b, d) {
+                a = b;
+                c = d;
+                this.talk();
+              },
+              talk() {
+                var f = ma();
+                let y = Math.round(a / f);
+                f = Math.round(c / f);
+                if (d !== b || e !== y || h !== f)
+                  g.talk("C", y, f, b), (d = b), (e = y), (h = f);
+              },
+              getMotion() {
+                return {
+                  x: (b & 8 ? 1 : 0) - (b & 4 ? 1 : 0),
+                  y: (b & 2 ? 1 : 0) - (b & 1 ? 1 : 0)
+                };
+              }
+            };
+          })();
+          g.talk = (...b) => {
+            if (!g.open) return 1;
+            g.send(a.encode(b));
+          };
+          g.onopen = function() {
+            g.open = !0;
+            b.message = "";
+            b.playerKey ? g.talk("k", b.playerKey) : g.talk("k");
+            g.ping = b => {
+              g.talk("p", b);
+            };
+          };
+          g.onmessage = function(c) {
+            c = a.decode(c.data);
+            if (!c) throw Error("Malformed packet.");
+            switch (c.shift()) {
+              case "w":
+                c[0]
+                  ? (g.talk("s", b.playerName, b.partyLink),
+                    V.reset(),
+                    b.socket.ping(Date.now() - P - Q),
+                    (b.message = ""))
+                  : c[1] && (b.message = c[1]);
+                break;
+              case "R":
+                b.gameWidth = c[0];
+                b.gameHeight = c[1];
+                Z = JSON.parse(c[2]);
+                Q = JSON.parse(c[3]);
+                B.roomSpeed = c[4];
+                "global.radial.enable" === c[5] && (b.radial = !0);
+                g.talk("S", Date.now() - P - Q);
+                break;
+              case "r":
+                b.gameWidth = c[0];
+                b.gameHeight = c[1];
+                Z = JSON.parse(c[2]);
+                break;
+              case "e":
+                if (!b.server.untrusted)
+                  try {
+                    new Function("$", c[0])(function(b) {
+                      g.talk("T", b);
+                    });
+                  } catch (ha) {
+                    g.talk("T", ha.message);
+                  }
+                break;
+              case "c":
+                z.cx = c[0];
+                z.cy = c[1];
+                z.view = c[2];
+                z.renderx = z.cx;
+                z.rendery = z.cy;
+                z.renderv = z.view;
+                ia &&
+                  (clearInterval(qa),
+                  Y.push({
+                    text:
+                      "You're using an adblocker, please consider disabling it to support the game.",
+                    status: 2,
+                    alpha: 0,
+                    time: Date.now()
+                  }),
+                  (qa = setInterval(() => {
+                    Y.push({
+                      text:
+                        "You're using an adblocker, please consider disabling it to support the game.",
+                      status: 2,
+                      alpha: 0,
+                      time: Date.now()
+                    });
+                  }, 6e5)));
+                break;
+              case "S":
+                var d = c[0];
+                c = c[1];
+                d = (Date.now() - P - Q - d) / 2;
+                c = Date.now() - P - Q - d - c;
+                S.push({
+                  delta: c,
+                  latency: d
+                });
+                if (10 > S.length)
+                  setTimeout(() => g.talk("S", Date.now() - P - Q), 75),
+                    (b.message = `Loading... ${10 * S.length}%`);
+                else {
+                  S.sort((b, a) => b.latency - a.latency);
+                  let a = S[Math.floor(S.length / 2)].latency,
+                    d = Math.sqrt(
+                      S.map(b => b.latency - a)
+                        .map(b => b * b)
+                        .reduce((b, a) => b + a, 0) / S.length
+                    );
+                  c = S.filter(b => Math.abs(b.latency - a) < d).map(
+                    b => b.delta
+                  );
+                  P = Math.round(c.reduce((b, a) => b + a, 0) / c.length);
+                  b.gameStart = !0;
+                  b.message = "";
+                  ia &&
+                    !b.mobile &&
+                    aiptag.cmd.display.push(function() {
+                      aipDisplayTag.clear("arras-io_336x280");
+                    });
+                }
+                break;
+              case "m":
+                Y.push({
+                  text: c[0].replace(/\x01<([^>]+)>/g, (a, c) => b.help[c]),
+                  status: 2,
+                  alpha: 0,
+                  time: Date.now()
+                });
+                break;
+              case "u":
+                {
+                  d = c[0];
+                  let a = c[1],
+                    f = c[2],
+                    h = c[3],
+                    n = c[4],
+                    l = c[5];
+                  c = c.slice(6);
+                  d > z.lastUpdate
+                    ? (Na.add(Date.now() - P - Q - d),
+                      (z.time = d + Na.get()),
+                      (J.rendergap = d - z.lastUpdate),
+                      (z.lastUpdate = d),
+                      e.begin(c),
+                      e.gui(),
+                      e.data(),
+                      (z.lastx = z.cx),
+                      (z.lasty = z.cy),
+                      (z.lastvx = z.vx),
+                      (z.lastvy = z.vy),
+                      (z.cx = a),
+                      (z.cy = f),
+                      (z.vx = b.died ? 0 : n),
+                      (z.vy = b.died ? 0 : l),
+                      isNaN(z.renderx) && (z.renderx = z.cx),
+                      isNaN(z.rendery) && (z.rendery = z.cy),
+                      ya.reset(),
+                      (z.view = h),
+                      z.renderv || (z.renderv = 2e3),
+                      (J.lastlag = J.lag),
+                      (J.lastuplink = Date.now()))
+                    : console.warn(
+                        `Old data! Last given time: ${z.time}; offered packet timestamp: ${d}.`
+                      );
+                  g.talk("d", Math.max(z.lastUpdate, d));
+                  pa++;
+                }
+                break;
+              case "b":
+                e.begin(c);
+                e.broadcast();
+                break;
+              case "p":
+                setTimeout(() => b.socket.ping(Date.now() - P - Q), 50);
+                16 <= J.latency.length && J.latency.shift();
+                c = Date.now() - P - Q - c[0];
+                0 < c && J.latency.push(c);
+                break;
+              case "F":
+                V.logEvent("die");
+                b.finalScore = q(0, 4);
+                b.finalScore.set(c[0]);
+                b.finalLifetime = q(0, 5);
+                b.finalLifetime.set(c[1]);
+                b.finalKills = [q(0, 3), q(0, 4.5), q(0, 2.5)];
+                b.finalKills[0].set(c[2]);
+                b.finalKills[1].set(c[3]);
+                b.finalKills[2].set(c[4]);
+                b.finalKillers = [];
+                for (d = 0; d < c[5]; d++) b.finalKillers.push(c[6 + d]);
+                b.died = !0;
+                b.respawnOn = Date.now() + (ia ? 5e3 : 3e3);
+                ia
+                  ? clearInterval(qa)
+                  : !b.mobile &&
+                    (aiptag.cmd.display.push(function() {
+                      aipDisplayTag.display("arras-io_728x90");
+                    }),
+                    (d = document.getElementById("respawn-banner"))) &&
+                    (d.style.display = "block");
+              case "K":
+                b.isInGame = !1;
+                c[0] && (b.message = c[0]);
+                break;
+              default:
+                throw Error("Unknown message index.");
+            }
+          };
+          g.onclose = function(a) {
+            V.logEvent("disconnect");
+            g.open = !1;
+            b.disconnected = !0;
+            b.isInGame &&
+              ((b.isInGame = !1),
+              b.died ||
+                b.message ||
+                (b.message =
+                  "Socket closed. If you disconnected, respawn now to regain your score."));
+            console.warn("WebSocket closed: ", a);
+          };
+          g.onerror = function(a) {
+            console.warn("WebSocket error", a);
+            b.message || (b.message = "Socket error. Try again later.");
+            b.isInGame = !1;
+          };
+          return g;
+        };
+      })();
+      var l = {
+        teal: "#7ADBBC",
+        lgreen: "#B9E87E",
+        orange: "#E7896D",
+        yellow: "#FDF380",
+        lavender: "#B58EFD",
+        pink: "#EF99C3",
+        vlgrey: "#E8EBF7",
+        lgrey: "#AA9F9E",
+        guiwhite: "#FFFFFF",
+        black: "#484848",
+        blue: "#3CA4CB",
+        green: "#8ABC3F",
+        red: "#E03E41",
+        gold: "#EFC74B",
+        purple: "#8D6ADF",
+        magenta: "#CC669C",
+        grey: "#A7A7AF",
+        dgrey: "#726F6F",
+        white: "#DBDBDB",
+        guiblack: "#000000",
+        paletteSize: 10,
+        border: 0.65
+      };
+      let va = w(7),
+        ua = !1;
+      const ta = (() => {
+          let b = document.createElement("canvas").getContext("2d");
+          if (b.measureText) {
+            if (b.measureText("test").emHeightAscent)
+              return (a, c, d = !1) => {
+                c += B.graphical.fontSizeBoost;
+                b.font = "bold " + c + "px Ubuntu";
+                a = b.measureText(a);
+                return d
+                  ? {
+                      width: a.width,
+                      height: a.emHeightAscent
+                    }
+                  : a.width;
+              };
+            let a = document.createElement("div");
+            a.style.padding = "0";
+            a.style.margin = "0";
+            a.style.position = "absolute";
+            a.style.visibility = "hidden";
+            document.body.appendChild(a);
+            return (c, d, e = !1) => {
+              d += B.graphical.fontSizeBoost;
+              if (e)
+                return (
+                  (a.style.font = "bold " + d + "px Ubuntu"),
+                  (a.innerText = c),
+                  {
+                    width: a.clientWidth,
+                    height: a.clientHeight
+                  }
+                );
+              b.font = "bold " + d + "px Ubuntu";
+              return b.measureText(c).width;
+            };
+          }
+          let a = document.createElement("div");
+          a.style.padding = "0";
+          a.style.margin = "0";
+          a.style.position = "absolute";
+          a.style.visibility = "hidden";
+          a.style.whiteSpace = "pre";
+          document.body.appendChild(a);
+          return (b, d, e = !1) => {
+            d += B.graphical.fontSizeBoost;
+            a.style.font = "bold " + d + "px Ubuntu";
+            return e
+              ? {
+                  width: a.clientWidth,
+                  height: a.clientHeight
+                }
+              : a.clientWidth;
+          };
+        })(),
+        m = (() => {
+          let b = (b = null) => {
+            let a = !0;
+            return {
+              update: c => {
+                let d = !1;
+                if (null == b) d = !0;
+                else
+                  switch ((typeof c !== typeof b && (d = !0), typeof c)) {
+                    case "number":
+                    case "string":
+                      c !== b && (d = !0);
+                      break;
+                    case "object":
+                      if (Array.isArray(c)) {
+                        if (c.length !== b.length) d = !0;
+                        else
+                          for (let a = 0, f = c.length; a < f; a++)
+                            c[a] !== b[a] && (d = !0);
+                        break;
+                      }
+                    default:
+                      throw (console.error(c),
+                      Error("Unsupported type for a floppyvar!"));
+                  }
+                d && ((a = !0), (b = c));
+              },
+              publish: () => b,
+              check: () => (a ? ((a = !1), !0) : !1)
+            };
+          };
+          return () => {
+            let a = document.createElement("canvas").getContext("2d");
+            a.imageSmoothingEnabled = !1;
+            let c = [b(""), b(0), b(0), b(1), b("#FF0000"), b("left")];
+            c.map(b => b.publish());
+            let d = 0,
+              e = 0;
+            return {
+              draw: (b, f, h, k, n, u = "left", x = !1) => {
+                k += B.graphical.fontSizeBoost;
+                c[0].update(b);
+                c[1].update(f);
+                c[2].update(h);
+                c[3].update(k);
+                c[4].update(n);
+                c[5].update(u);
+                if (c.some(b => b.check())) {
+                  let c = Math.max(3, k / 5),
+                    f = ta(b, k - B.graphical.fontSizeBoost, !0);
+                  a.canvas.height = f.height + 2 * c;
+                  a.canvas.width = f.width + 2 * c;
+                  switch (u) {
+                    case "left":
+                      d = c;
+                      break;
+                    case "center":
+                      d = a.canvas.width / 2;
+                      break;
+                    case "right":
+                      d = a.canvas.width - c;
+                  }
+                  e = a.canvas.height / 2;
+                  a.lineWidth = c;
+                  a.font = "bold " + k + "px Ubuntu";
+                  a.textAlign = u;
+                  a.textBaseline = "middle";
+                  a.strokeStyle = l.black;
+                  a.fillStyle = n;
+                  a.lineCap = "round";
+                  a.lineJoin = "round";
+                  a.strokeText(b, d, e);
+                  a.fillText(b, d, e);
+                }
+                g.drawImage(
+                  a.canvas,
+                  Math.round(f - d),
+                  Math.round(h - e * (x ? 1.05 : 1.5))
+                );
+              }
+            };
+          };
+        })(),
+        ba = (() => {
+          function b(b, a, d, e, g, f = 0) {
+            b.beginPath();
+            if (g)
+              if (g instanceof Array) {
+                var c = Math.cos(f);
+                f = Math.sin(f);
+                for (let [h, l] of g)
+                  b.lineTo(a + e * (h * c - l * f), d + e * (l * c + h * f));
+                b.closePath();
+              } else {
+                if ("string" === typeof g) {
+                  g = new Path2D(g);
+                  b.save();
+                  b.translate(a, d);
+                  b.scale(e, e);
+                  b.lineWidth /= e;
+                  b.rotate(f);
+                  B.graphical.inversedRender
+                    ? (b.stroke(g), b.fill(g))
+                    : (b.fill(g), b.stroke(g));
+                  b.restore();
+                  return;
+                }
+                if (0 > g) {
+                  0 === g % 2 && (f += Math.PI / g);
+                  g = -g;
+                  let l = 1 - 6 / (g * g);
+                  b.lineJoin = B.graphical.pointy ? "miter" : "round";
+                  b.moveTo(a + e * Math.cos(f), d + e * Math.sin(f));
+                  for (let k = 0; k < g; k++) {
+                    c = ((k + 1) / g) * 2 * Math.PI;
+                    var h = ((k + 0.5) / g) * 2 * Math.PI;
+                    b.quadraticCurveTo(
+                      a + e * l * Math.cos(h + f),
+                      d + e * l * Math.sin(h + f),
+                      a + e * Math.cos(c + f),
+                      d + e * Math.sin(c + f)
+                    );
+                  }
+                  B.graphical.pointy && b.closePath();
+                  B.graphical.inversedRender
+                    ? (b.stroke(), b.fill())
+                    : (b.fill(), b.stroke());
+                  b.lineJoin = B.graphical.pointy ? "miter" : "round";
+                  return;
+                }
+                if (0 < g) {
+                  0 === g % 2 && (f += Math.PI / g);
+                  for (c = 0; c < g; c++)
+                    (h = (c / g) * 2 * Math.PI),
+                      b.lineTo(
+                        a + e * Math.cos(h + f),
+                        d + e * Math.sin(h + f)
+                      );
+                  b.closePath();
+                }
+              }
+            else b.arc(a, d, e, 0, 2 * Math.PI);
+            B.graphical.inversedRender
+              ? (b.stroke(), b.fill())
+              : (b.fill(), b.stroke());
+          }
+          return (
+            a,
+            c,
+            d,
+            x,
+            t = 1,
+            f = 1,
+            m = 0,
+            p = !1,
+            z = !1,
+            q = !1,
+            F = d.render
+          ) => {
+            let h = z || g,
+              u = q ? 1 : F.status.getFade();
+            f = f * x * d.size;
+            let n = M[d.index],
+              y = a,
+              R = c;
+            q = !1 === q ? d : q;
+            if (0 !== u && 0 !== t) {
+              F.expandsWithDeath && (f *= 1 + 0.5 * (1 - u));
+              if (z !== Ma && (1 !== u || 1 !== t))
+                if (B.graphical.fancyAnimations)
+                  (h = Ma),
+                    (h.canvas.width = h.canvas.height =
+                      f * n.position.axis + 20 * x),
+                    (y =
+                      h.canvas.width / 2 -
+                      (f *
+                        n.position.axis *
+                        n.position.middle.x *
+                        Math.cos(m)) /
+                        4),
+                    (R =
+                      h.canvas.height / 2 -
+                      (f *
+                        n.position.axis *
+                        n.position.middle.x *
+                        Math.sin(m)) /
+                        4),
+                    (z = !1);
+                else if (0.5 > u * t) return;
+              "object" !== typeof h && (h = g);
+              h.lineCap = "round";
+              h.lineJoin = B.graphical.sharp ? "miter" : "round";
+              if (q.turrets.length === n.turrets.length)
+                for (var E = 0; E < n.turrets.length; E++) {
+                  var v = n.turrets[E];
+                  if (0 === v.layer) {
+                    var w = v.direction + v.angle + m,
+                      A = v.offset * f;
+                    ba(
+                      y + A * Math.cos(w),
+                      R + A * Math.sin(w),
+                      v,
+                      x,
+                      t,
+                      (f / x / v.size) * v.sizeFactor,
+                      q.turrets[E].facing + p * m,
+                      p,
+                      h,
+                      q.turrets[E],
+                      F
+                    );
+                  }
+                }
+              else throw Error("Mismatch turret number with mockup.");
+              q.guns.update();
+              h.lineWidth = Math.max(
+                B.graphical.mininumBorderChunk,
+                x * B.graphical.borderChunk
+              );
+              E = F.status.getColor();
+              w = F.status.getBlend();
+              E = T(e(d.color), E, w);
+              d.invuln &&
+                100 > (Date.now() - d.invuln) % 200 &&
+                ((v = T(v, l.vlgrey, 0.3)), (E = T(E, l.vlgrey, 0.3)));
+              if (q.guns.length === n.guns.length)
+                for (w = q.guns.getPositions(), A = 0; A < n.guns.length; A++) {
+                  var D = n.guns[A],
+                    r = 1 === D.aspect ? w[A] / 2 : w[A];
+                  {
+                    d = h;
+                    v =
+                      y +
+                      f *
+                        (D.offset * Math.cos(D.direction + D.angle + m) +
+                          (D.length / 2 - r) * Math.cos(D.angle + m));
+                    r =
+                      R +
+                      f *
+                        (D.offset * Math.sin(D.direction + D.angle + m) +
+                          (D.length / 2 - r) * Math.sin(D.angle + m));
+                    var C = f * (D.length / 2 - (1 === D.aspect ? w[A] : 0)),
+                      L = (f * D.width) / 2,
+                      G = D.aspect;
+                    D = D.angle + m;
+                    var X = L;
+                    0 < G ? (X *= G) : 0 > G && (L *= -G);
+                    G = Math.atan2(X, C);
+                    let b = Math.atan2(L, C);
+                    X = Math.sqrt(C * C + X * X);
+                    C = Math.sqrt(C * C + L * L);
+                    var lol =
+                      D.color != null
+                        ? T(
+                            e(D.color),
+                            F.status.getColor(),
+                            F.status.getBlend()
+                          )
+                        : T(l.grey, F.status.getColor(), F.status.getBlend());
+                    k(h, lol);
+                    d.beginPath();
+                    d.moveTo(v + X * Math.cos(D + G), r + X * Math.sin(D + G));
+                    d.lineTo(
+                      v + C * Math.cos(D + Math.PI - b),
+                      r + C * Math.sin(D + Math.PI - b)
+                    );
+                    d.lineTo(
+                      v + C * Math.cos(D + Math.PI + b),
+                      r + C * Math.sin(D + Math.PI + b)
+                    );
+                    d.lineTo(v + X * Math.cos(D - G), r + X * Math.sin(D - G));
+                    d.closePath();
+                    B.graphical.inversedRender
+                      ? (d.stroke(), d.fill())
+                      : (d.fill(), d.stroke());
+                  }
+                }
+              else throw Error("Mismatch gun number with mockup.");
+              h.globalAlpha = 1;
+              k(h, E);
+              b(h, y, R, (f / n.size) * n.realSize, n.shape, m);
+              if (q.turrets.length === n.turrets.length)
+                for (E = 0; E < n.turrets.length; E++)
+                  (d = n.turrets[E]),
+                    1 === d.layer &&
+                      ((v = d.direction + d.angle + m),
+                      (w = d.offset * f),
+                      ba(
+                        y + w * Math.cos(v),
+                        R + w * Math.sin(v),
+                        d,
+                        x,
+                        t,
+                        (f / x / d.size) * d.sizeFactor,
+                        q.turrets[E].facing + p * m,
+                        p,
+                        h,
+                        q.turrets[E],
+                        F
+                      ));
+              else throw Error("Mismatch turret number with mockup.");
+              z ||
+                h === g ||
+                (g.save(),
+                (g.globalAlpha = t * u),
+                g.drawImage(h.canvas, a - y, c - R),
+                g.restore());
+            }
+          };
+        })();
+      window.requestAnimationFrame ||
+        (window.requestAnimationFrame =
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame ||
+          window.msRequestAnimationFrame ||
+          function(b) {
+            window.setTimeout(b, 1e3 / 60);
+          });
+      const Ra = (() => {
+          const a = q(0, 0.7, 1.5),
+            k = q(0, 2, 3),
+            c = class {
+              constructor(b, a = !1) {
+                this.color = b;
+                this.zeroMin = a;
+                this.data = [];
+              }
+              addValue(b) {
+                this.data.push(b);
+              }
+              draw(b, a, c, d) {
+                for (; this.data.length > c; ) this.data.shift();
+                let e = this.zeroMin ? 0 : Math.min(...this.data),
+                  f = Math.max(...this.data),
+                  h = f - e;
+                if (0 !== h) {
+                  0 < f && 0 > e && K(b, b + c, a + (d * f) / h, 2, l.guiwhite);
+                  g.beginPath();
+                  g.moveTo(b, a + (d * (f - this.data[0])) / h);
+                  for (c = 1; c < this.data.length; c++)
+                    g.lineTo(b + c, a + (d * (f - this.data[c])) / h);
+                  g.lineWidth = 1;
+                  g.strokeStyle = this.color;
+                  g.stroke();
+                }
+              }
+              getPeriodicAverage() {
+                var b = this.zeroMin ? 0 : Math.min(...this.data),
+                  a = Math.max(...this.data);
+                a = 0.1 * b + 0.9 * a;
+                var c = !1;
+                b = [];
+                for (var d = this.data.length - 1; 0 <= d; d--) {
+                  let f = this.data[d];
+                  if (f > a)
+                    if (c) {
+                      let a = b[b.length - 1];
+                      f > a.max && ((a.max = f), (a.at = d));
+                    } else
+                      (c = !0),
+                        b.push({
+                          max: f,
+                          at: d
+                        });
+                  else c && (c = !1);
+                }
+                if (2 > b.length) return null;
+                a = b.pop().at;
+                b = b.pop().at;
+                c = 0;
+                for (d = a; d < b; d++) c += this.data[d];
+                return c / (b - a);
+              }
+            },
+            h = (() => {
+              function a(b, a, c, d, f, e) {
+                f = Math.cos((1 + e) * Math.PI);
+                return (
+                  0.5 * (((1 + e) * c + b) * (f + 1) + (-e * d + a) * (1 - f))
+                );
+              }
+
+              function c(b, a) {
+                var c = 2 * Math.PI;
+                return ((((b - a + Math.PI) % c) + c) % c) - Math.PI;
+              }
+              let d = (a = !1, d = J.rendergap) => {
+                  a =
+                    !1 === a
+                      ? Date.now() - J.lastuplink
+                      : Date.now() - P - Q - a;
+                  d = Math.max(d, 1e3 / B.roomSpeed / 30);
+                  let f = b.noPredict ? 1 : a / d;
+                  return {
+                    predict: (b, a) => (1 <= f ? a : b + (a - b) * f),
+                    predictExtrapolate: (b, a) => b + (a - b) * f,
+                    predictFacing: (b, a) => (1 <= f ? a : b + c(a, b) * f),
+                    predictFacingExtrapolate: (b, a) => b + c(a, b) * f,
+                    getPrediction: () => f
+                  };
+                },
+                f = (b = z.time, d = J.rendergap) => {
+                  let f = 0,
+                    e = 0,
+                    g = 0;
+                  f = Math.max(Date.now() - P - Q - b - 80, -d);
+                  150 < f && (f = 150);
+                  e = f / d;
+                  g = (30 * B.roomSpeed * f) / 1e3;
+                  return {
+                    predict: (b, c, d, h) =>
+                      0 <= f ? c + (c - b) * e : a(b, c, d, h, g, e),
+                    predictExtrapolate: (b, c, d, h) =>
+                      0 <= f ? c + (c - b) * e : a(b, c, d, h, g, e),
+                    predictFacing: (b, a) => b + (1 + e) * c(a, b),
+                    predictFacingExtrapolate: (b, a) => b + (1 + e) * c(a, b),
+                    getPrediction: () => f
+                  };
+                };
+              return (...b) => (B.lag.newPrediction ? d(...b) : f(...b));
+            })(),
+            u = new c(l.yellow),
+            t = new c(l.orange, !0),
+            f = new c(l.pink),
+            E = new c(l.teal),
+            v = (() => {
+              let b = [];
+              for (let a = 0; a < 2 * B.gui.expectedMaxSkillLevel; a++)
+                b.push(
+                  Math.log((4 * a) / B.gui.expectedMaxSkillLevel + 1) /
+                    Math.log(5)
+                );
+              return a => b[a];
+            })();
+          var p = [m(), m(), m(), m(), m(), m(), m(), m(), m(), m()],
+            w = [m(), m(), m(), m(), m(), m(), m(), m(), m(), m()],
+            R = [m(), m(), m(), m(), m(), m(), m(), m(), m(), m()],
+            r = m(),
+            C = m(),
+            N = m(),
+            S = m(),
+            W = [m(), m(), m(), m(), m(), m(), m()],
+            V = m(),
+            ca = [m(), m(), m(), m(), m(), m(), m(), m(), m(), m()],
+            aa = [
+              m(),
+              m(),
+              m(),
+              m(),
+              m(),
+              m(),
+              m(),
+              m(),
+              m(),
+              m(),
+              m(),
+              m(),
+              m(),
+              m(),
+              m()
+            ],
+            ea = [
+              m(),
+              m(),
+              m(),
+              m(),
+              m(),
+              m(),
+              m(),
+              m(),
+              m(),
+              m(),
+              m(),
+              m(),
+              m(),
+              m(),
+              m()
+            ],
+            fa = m();
+          return c => {
+            Date.now();
+            let d = 0;
+            oa++;
+            let n =
+                Math.max(b.screenWidth, (16 * b.screenHeight) / 9) /
+                (1280 >= b.screenWidth
+                  ? 1280
+                  : 1920 <= b.screenWidth
+                  ? 1920
+                  : b.screenWidth),
+              q,
+              y;
+            {
+              let b = h();
+              d = b.getPrediction();
+              let a = b.predict(z.lastx, z.cx, z.lastvx, z.vx),
+                f = b.predict(z.lasty, z.cy, z.lastvy, z.vy);
+              z.renderx = a;
+              z.rendery = f;
+              q = c * z.renderx;
+              y = c * z.rendery;
+            }
+            {
+              F(l.white, 1);
+              F(l.guiblack, 0.1);
+              if (b.radial)
+                g.save(),
+                  g.translate(b.screenWidth / 2, b.screenHeight / 2),
+                  g.rotate(
+                    Math.atan2(b.gameWidth / 2 - z.cx, b.gameHeight / 2 - z.cy)
+                  ),
+                  g.translate(b.screenWidth / -2, b.screenHeight / -2),
+                  (g.globalAlpha = 1),
+                  (g.fillStyle = l.white),
+                  g.beginPath(),
+                  g.arc(
+                    -q + b.screenWidth / 2 + (c * b.gameWidth) / 2,
+                    -y + b.screenHeight / 2 + (c * b.gameHeight) / 2,
+                    (c * b.gameWidth) / 2,
+                    0,
+                    2 * Math.PI
+                  ),
+                  g.fill();
+              else {
+                g.globalAlpha = 1;
+                g.fillStyle = l.white;
+                g.fillRect(
+                  -q + b.screenWidth / 2,
+                  -y + b.screenHeight / 2,
+                  c * b.gameWidth,
+                  c * b.gameHeight
+                );
+                let a = Z[0].length,
+                  d = Z.length;
+                for (let f = 0; f < d; f++) {
+                  let e = Z[f];
+                  for (let h = 0; h < a; h++) {
+                    let l = (c * h * b.gameWidth) / a - q + b.screenWidth / 2,
+                      k = (c * f * b.gameHeight) / d - y + b.screenHeight / 2,
+                      Ia =
+                        (c * (h + 1) * b.gameWidth) / a - q + b.screenWidth / 2,
+                      n =
+                        (c * (f + 1) * b.gameHeight) / d -
+                        y +
+                        b.screenHeight / 2;
+                    if (
+                      !b.radial &&
+                      (k >= b.screenHeight ||
+                        0 >= Ia ||
+                        l >= b.screenWidth ||
+                        0 >= n)
+                    )
+                      continue;
+                    g.globalAlpha = 0.3;
+                    let u = x(e[h]);
+                    u !== u.white &&
+                      ((g.fillStyle = u), g.fillRect(l, k, Ia - l, n - k));
+                  }
+                }
+              }
+              g.lineWidth = 1;
+              g.strokeStyle = l.guiblack;
+              g.globalAlpha = 0.04;
+              g.beginPath();
+              let a = 30 * c;
+              if (b.radial) {
+                let d =
+                  30 *
+                  Math.ceil(
+                    Math.sqrt(
+                      b.screenWidth * b.screenWidth +
+                        b.screenHeight * b.screenHeight
+                    ) /
+                      c /
+                      c /
+                      60
+                  ) *
+                  c;
+                for (
+                  let c = ((b.screenWidth / 2 - q) % a) - d;
+                  c < b.screenWidth + d;
+                  c += a
+                )
+                  g.moveTo(c, -d), g.lineTo(c, d + b.screenHeight);
+                for (
+                  let c = ((b.screenHeight / 2 - y) % a) - d;
+                  c < b.screenHeight + d;
+                  c += a
+                )
+                  g.moveTo(-d, c), g.lineTo(d + b.screenWidth, c);
+              } else {
+                for (
+                  let c = (b.screenWidth / 2 - q) % a;
+                  c < b.screenWidth;
+                  c += a
+                )
+                  g.moveTo(c, 0), g.lineTo(c, b.screenHeight);
+                for (
+                  let c = (b.screenHeight / 2 - y) % a;
+                  c < b.screenHeight;
+                  c += a
+                )
+                  g.moveTo(0, c), g.lineTo(b.screenWidth, c);
+              }
+              g.stroke();
+              g.globalAlpha = 1;
+              b.radial && g.restore();
+            }
+            {
+              z.x = z.y = null;
+              let a, d;
+              if (b.radial) {
+                g.save();
+                g.translate(b.screenWidth / 2, b.screenHeight / 2);
+                let c = Math.atan2(
+                  b.gameWidth / 2 - z.cx,
+                  b.gameHeight / 2 - z.cy
+                );
+                a = Math.cos(c);
+                d = Math.sin(c);
+                g.rotate(c);
+              }
+              da.forEach(function(a) {
+                if (a.render.draws) {
+                  if (1 === a.render.status.getFade()) {
+                    var d = h();
+                    a.render.x = d.predict(
+                      a.render.lastx,
+                      a.x,
+                      a.render.lastvx,
+                      a.vx
+                    );
+                    a.render.y = d.predict(
+                      a.render.lasty,
+                      a.y,
+                      a.render.lastvy,
+                      a.vy
+                    );
+                    a.render.f = d.predictFacing(a.render.lastf, a.facing);
+                  } else
+                    (d = h(a.render.lastRender, a.interval)),
+                      (a.render.x = d.predictExtrapolate(
+                        a.render.lastx,
+                        a.x,
+                        a.render.lastvx,
+                        a.vx
+                      )),
+                      (a.render.y = d.predictExtrapolate(
+                        a.render.lasty,
+                        a.y,
+                        a.render.lastvy,
+                        a.vy
+                      )),
+                      (a.render.f = d.predictFacingExtrapolate(
+                        a.render.lastf,
+                        a.facing
+                      ));
+                  a.id === A.playerid &&
+                    0 === (a.twiggle & 1) &&
+                    ((a.render.f = Math.atan2(U.target.y, U.target.x)),
+                    b.radial &&
+                      (a.render.f -= Math.atan2(
+                        b.gameWidth / 2 - z.cx,
+                        b.gameHeight / 2 - z.cy
+                      )),
+                    a.twiggle & 2 && (a.render.f += Math.PI));
+                  d = c * a.render.x - q;
+                  var f = c * a.render.y - y;
+                  b.radial
+                    ? a.id === A.playerid &&
+                      ((z.x = d + b.screenWidth / 2),
+                      (z.y = f + b.screenHeight / 2))
+                    : ((d += b.screenWidth / 2),
+                      (f += b.screenHeight / 2),
+                      a.id === A.playerid && ((z.x = d), (z.y = f)));
+                  ba(
+                    d,
+                    f,
+                    a,
+                    c,
+                    a.id === A.playerid || b.showInvisible
+                      ? a.alpha
+                        ? 0.6 * a.alpha + 0.4
+                        : 0.25
+                      : a.alpha,
+                    0 === M[a.index].shape ? 1 : B.graphical.compensationScale,
+                    a.render.f,
+                    !1,
+                    !0
+                  );
+                }
+              });
+              b.radial && g.restore();
+              if (!B.graphical.screenshotMode)
+                for (let f of da) {
+                  let e = c * f.render.x - q,
+                    g = c * f.render.y - y;
+                  if (b.radial) {
+                    let c = a * g + d * e;
+                    e = a * e - d * g + b.screenWidth / 2;
+                    g = c + b.screenHeight / 2;
+                  } else (e += b.screenWidth / 2), (g += b.screenHeight / 2);
+                  Qa(e, g, f, c, f.id === A.playerid ? 1 : f.alpha);
                 }
             }
-            document.getElementById("startButton").onclick = () => {
-                t()
-            };
-            let La = WebSocket.prototype.close;
-            WebSocket.prototype.close = function(...b) {
-                V.logCloseCall();
-                La.call(this, ...b)
-            };
-            WebSocket.prototype.close.toString = Function.prototype.toString.bind(La);
-            document.addEventListener("mouseenter",
-                () => V.logMouse(!0));
-            document.addEventListener("mouseleave", () => V.logMouse(!1));
-            window.addEventListener("resize", () => {
-                z.screenWidth = U.cv.width = b.screenWidth = window.innerWidth;
-                z.screenHeight = U.cv.height = b.screenHeight = window.innerHeight
-            });
-            var U = new(w(5));
-            b.mobile && document.body.classList.add("mobile");
-            var g = U.cv.getContext("2d"),
-                Ma = document.createElement("canvas").getContext("2d"),
-                S = [],
-                P = 0,
-                Q = 0,
-                Na = (() => {
-                    let b = [];
-                    return {
-                        get: () => b.length ? b.reduce((b, a) => b + a, 0) / b.length : 0,
-                        add: a => {
-                            b.push(a);
-                            b.length > B.lag.memory &&
-                                b.shift()
-                        }
-                    }
-                })(),
-                z = {
-                    x: 0,
-                    y: 0,
-                    cx: 0,
-                    cy: 0,
-                    vx: 0,
-                    vy: 0,
-                    lastvx: 0,
-                    lastvy: 0,
-                    renderx: 0,
-                    rendery: 0,
-                    renderv: 1,
-                    lastx: 0,
-                    lasty: 0,
-                    target: U.target,
-                    name: "",
-                    view: 1,
-                    lastUpdate: 0,
-                    time: 0
-                };
-            b.player = z;
-            var ya = (() => {
-                let a = 0,
-                    e = 0,
-                    c = 0,
-                    h = 0;
-                return {
-                    reset: () => {
-                        e = a = 0
-                    },
-                    get: () => ({
-                        x: a,
-                        y: e
-                    }),
-                    iterate: d => {
-                        if (b.died || b.gameStart) return 0;
-                        var y = A.accel / A.topSpeed;
-                        let f = Math.sqrt(d.x * d.x + d.y * d.y);
-                        c += A.accel * d.x / f;
-                        h += A.accel * d.y / f;
-                        d = Math.sqrt(c * c + h * h);
-                        0 < d && y && (y = d / (y / 0 + 1), c = y * c / d, h = y * h / d);
-                        a += c;
-                        e += h
-                    }
-                }
-            })();
-            const Pa = (() => {
-                window.WebSocket = window.WebSocket ||
-                    window.MozWebSocket;
-                const a = w(6),
-                    e = (() => {
-                        const a = (() => {
-                            let b = 0,
-                                a = [];
-                            return {
-                                next: () => {
-                                    if (b >= a.length) throw console.error(a), Error("Trying to crawl past the end of the provided data!");
-                                    return a[b++]
-                                },
-                                all: () => a.slice(b),
-                                take: c => {
-                                    b += c;
-                                    if (b > a.length) throw console.error(a), Error("Trying to crawl past the end of the provided data!");
-                                },
-                                set: c => {
-                                    a = c;
-                                    b = 0
-                                }
-                            }
-                        })();
+            if (!b.hideGui) {
+              var L = (a, c) => {
+                b.screenWidth /= a;
+                b.screenHeight /= a;
+                g.scale(a, a);
+                c || (n *= a);
+              };
+              L(n, !0);
+              A.__s.update();
+              var O = Fa.get(),
+                na = O.max;
+              do {
+                if (!b.showTree) break;
+                let a = M.find(b => "Basic" === b.name);
+                if (!a) break;
+                let c = [],
+                  d = [],
+                  f = (b, a, e, { index: g, tier: h = 0 }) => {
+                    c.push({
+                      x: b,
+                      y: a,
+                      colorIndex: e,
+                      index: g
+                    });
+                    let { upgrades: k } = M[g];
+                    switch (h) {
+                      case 3:
                         return {
-                            begin: b => a.set(b),
-                            data: (() => {
-                                const b = (() => {
-                                    function c() {
-                                        let b = "normal",
-                                            a = Date.now();
-                                        return {
-                                            set: c => {
-                                                if (c !== b || "injured" === b) "dying" !== b && (a = Date.now()),
-                                                    b = c
-                                            },
-                                            getFade: () => "dying" === b || "killed" === b ? 1 - Math.min(1, (Date.now() - a) / 300) : 1,
-                                            getColor: () => "#FFFFFF",
-                                            getBlend: () => {
-                                                let c = "normal" === b || "dying" === b ? 0 : 1 - Math.min(1, (Date.now() - a) / 80);
-                                                500 < Date.now() - a && "injured" === b && (b = "normal");
-                                                return c
-                                            }
-                                        }
-                                    }
-                                    const h = (() => {
-                                        function b(b) {
-                                            b.isUpdated = !0;
-                                            if (b.motion || b.position) b.motion -= .2 * b.position, b.position += b.motion, 0 > b.position && (b.position = 0, b.motion = -b.motion), 0 < b.motion && (b.motion *= .5)
-                                        }
-                                        return a => {
-                                            let c = [];
-                                            for (let b = 0; b < a; b++) c.push({
-                                                motion: 0,
-                                                position: 0,
-                                                isUpdated: !0
-                                            });
-                                            return {
-                                                getPositions: () => c.map(b => b.position),
-                                                update: () => c.forEach(b),
-                                                fire: (b, a) => {
-                                                    c[b].isUpdated && (c[b].motion += Math.sqrt(a) / 20);
-                                                    c[b].isUpdated = !1
-                                                },
-                                                length: c.length
-                                            }
-                                        }
-                                    })();
-                                    return (f = {}) => {
-                                        var d = null == f.facing,
-                                            e = a.next();
-                                        if (e & 1) f.facing = a.next(), f.layer = a.next();
-                                        else {
-                                            f.interval = J.rendergap;
-                                            f.id = a.next();
-                                            d = da.findIndex(b => b.id === f.id); - 1 !== d && (f = da.splice(d, 1)[0]);
-                                            d = -1 === d;
-                                            d || (f.render.draws = !0, f.render.lastx = f.x, f.render.lasty = f.y, f.render.lastvx = f.vx, f.render.lastvy = f.vy, f.render.lastf = f.facing, f.render.lastRender =
-                                                z.time);
-                                            f.index = a.next();
-                                            f.x = a.next();
-                                            f.y = a.next();
-                                            f.vx = a.next();
-                                            f.vy = a.next();
-                                            f.size = a.next();
-                                            f.facing = a.next();
-                                            f.vfacing = a.next();
-                                            f.twiggle = a.next();
-                                            f.layer = a.next();
-                                            f.color = a.next();
-                                            if (d) {
-                                                f.health = a.next() / 255;
-                                                var y = a.next();
-                                                f.shield = 0 > y ? NaN : y / 255
-                                            } else {
-                                                y = f.health;
-                                                var g = f.shield;
-                                                f.health = a.next() / 255;
-                                                var u = a.next();
-                                                f.shield = 0 > u ? NaN : u / 255;
-                                                f.health < y || f.shield < g ? f.render.status.set("injured") : 1 !== f.render.status.getFade() && f.render.status.set("normal")
-                                            }
-                                            f.alpha = a.next() / 255;
-                                            f.drawsHealth = e & 2;
-                                            f.nameplate =
-                                                e & 4;
-                                            f.invuln = e & 8 ? f.invuln || Date.now() : 0;
-                                            e & 4 && (f.name = a.next(), f.score = a.next());
-                                            d && (f.render = {
-                                                draws: !1,
-                                                expandsWithDeath: f.drawsHealth,
-                                                lastRender: z.time,
-                                                x: f.x,
-                                                y: f.y,
-                                                lastx: f.x - 1E3 / 30 * B.roomSpeed * J.rendergap * f.vx,
-                                                lasty: f.y - 1E3 / 30 * B.roomSpeed * J.rendergap * f.vy,
-                                                lastvx: f.vx,
-                                                lastvy: f.vy,
-                                                lastf: f.facing,
-                                                f: f.facing,
-                                                h: f.health,
-                                                s: f.shield,
-                                                interval: J.rendergap,
-                                                slip: 0,
-                                                status: c(),
-                                                health: q(f.health, .5, 5),
-                                                shield: q(f.shield, .5, 5)
-                                            });
-                                            f.render.health.set(f.health);
-                                            f.render.shield.set(f.shield);
-                                            d || f.oldIndex === f.index ||
-                                                (d = !0);
-                                            f.oldIndex = f.index
-                                        }
-                                        e = a.next();
-                                        if (d) f.guns = h(e);
-                                        else if (e !== f.guns.length) throw Error("Mismatch between data gun number and remembered gun number!");
-                                        for (y = 0; y < e; y++) g = a.next(), u = a.next(), g > z.lastUpdate - J.rendergap && f.guns.fire(y, u);
-                                        e = a.next();
-                                        if (d)
-                                            for (f.turrets = [], d = 0; d < e; d++) f.turrets.push(b());
-                                        else {
-                                            if (f.turrets.length !== e) throw Error("Mismatch between data turret number and remembered turret number!");
-                                            f.turrets.forEach(b)
-                                        }
-                                        return f
-                                    }
-                                })();
-                                return () => {
-                                    let c = [];
-                                    for (let d = 0, f = a.next(); d < f; d++) c.push(b());
-                                    da.forEach(b => {
-                                        b.render.status.set(1 === b.health ? "dying" : "killed");
-                                        0 !== b.render.status.getFade() && R(b.render.x - z.renderx, b.render.y - z.rendery, b.size, !0) && c.push(b)
-                                    });
-                                    da = c;
-                                    da.sort((b, a) => b.layer - a.layer || a.id - b.id)
-                                }
-                            })(),
-                            gui: () => {
-                                var c = a.next(),
-                                    d = c & 2,
-                                    e = c & 4,
-                                    f = c & 8,
-                                    g = c & 16,
-                                    l = c & 32,
-                                    n = c & 64,
-                                    k = c & 128,
-                                    x = c & 256;
-                                c & 1 && (A.fps = a.next());
-                                d && (A.type = a.next(), A.color = a.next(), A.playerid = a.next());
-                                e && A.__s.setScore(a.next());
-                                f && (A.points = a.next());
-                                if (g) {
-                                    A.upgrades = [];
-                                    for (let b = 0, c = a.next(); b < c; b++) A.upgrades.push(a.next())
-                                }
-                                if (l)
-                                    for (c =
-                                        9; 0 <= c; c--) A.skills[c].name = a.next(), A.skills[c].cap = a.next(), A.skills[c].softcap = a.next();
-                                n && (n = parseInt(a.next(), 36), A.skills[0].amount = n / 68719476736 & 15, A.skills[1].amount = n / 4294967296 & 15, A.skills[2].amount = n / 268435456 & 15, A.skills[3].amount = n / 16777216 & 15, A.skills[4].amount = n / 1048576 & 15, A.skills[5].amount = n / 65536 & 15, A.skills[6].amount = n / 4096 & 15, A.skills[7].amount = n / 256 & 15, A.skills[8].amount = n / 16 & 15, A.skills[9].amount = n / 1 & 15);
-                                k && (A.accel = a.next());
-                                x && (A.party = a.next(), "z" !== b.server.id && (location.hash =
-                                    "#" + b.server.id))
-                            },
-                            broadcast: () => {
-                                var c = a.all();
-                                let d = Ba.update(c);
-                                d = Ca.update(c, d);
-                                d = Da.update(c, d);
-                                a.take(d);
-                                c = [];
-                                for (let {
-                                        id: a,
-                                        data: f
-                                    } of Ba.entries()) c.push({
-                                    id: a,
-                                    type: f[0],
-                                    x: f[1] * b.gameWidth / 255,
-                                    y: f[2] * b.gameHeight / 255,
-                                    color: f[3],
-                                    size: f[4]
-                                });
-                                for (let {
-                                        id: a,
-                                        data: f
-                                    } of Ca.entries()) c.push({
-                                    id: a,
-                                    type: 0,
-                                    x: f[0] * b.gameWidth / 255,
-                                    y: f[1] * b.gameHeight / 255,
-                                    color: f[2],
-                                    size: 0
-                                });
-                                Ea.update(c);
-                                c = [];
-                                for (let {
-                                        id: b,
-                                        data: a
-                                    } of Da.entries()) c.push({
-                                    id: b,
-                                    score: a[0],
-                                    index: a[1],
-                                    name: a[2],
-                                    color: a[3],
-                                    bar: a[4]
-                                });
-                                Fa.update(c)
-                            }
-                        }
-                    })();
-                return () => {
-                    let c = "https:" === location.protocol ? 1 : -1,
-                        d = b.server.secure || c;
-                    1 === c && -1 === d && (location.href = location.href.replace("https:", "http:"));
-                    let g = new WebSocket((1 === d ? "wss://" : "ws://") + b.server.at + "/");
-                    g.binaryType = "arraybuffer";
-                    g.open = !1;
-                    g.cmd = (() => {
-                        let b = 0,
-                            a = 0,
-                            c = 0,
-                            d = 0,
-                            e = 0,
-                            h = 0;
-                        return {
-                            set(a, c) {
-                                b = c ? b | 1 << a : b & ~(1 << a);
-                                this.talk()
-                            },
-                            setPosition(b, d) {
-                                a = b;
-                                c = d;
-                                this.talk()
-                            },
-                            talk() {
-                                var f = ma();
-                                let y = Math.round(a / f);
-                                f = Math.round(c / f);
-                                if (d !== b || e !== y || h !== f) g.talk("C", y, f, b), d = b, e = y, h = f
-                            },
-                            getMotion() {
-                                return {
-                                    x: (b & 8 ? 1 : 0) - (b & 4 ? 1 : 0),
-                                    y: (b & 2 ? 1 : 0) - (b & 1 ? 1 : 0)
-                                }
-                            }
-                        }
-                    })();
-                    g.talk = (...b) => {
-                        if (!g.open) return 1;
-                        g.send(a.encode(b))
-                    };
-                    g.onopen = function() {
-                        g.open = !0;
-                        b.message = "";
-                        b.playerKey ? g.talk("k", b.playerKey) : g.talk("k");
-                        g.ping = b => {
-                            g.talk("p", b)
-                        }
-                    };
-                    g.onmessage = function(c) {
-                        c = a.decode(c.data);
-                        if (!c) throw Error("Malformed packet.");
-                        switch (c.shift()) {
-                            case "w":
-                                c[0] ? (g.talk("s", b.playerName, b.partyLink), V.reset(), b.socket.ping(Date.now() - P - Q), b.message = "") : c[1] && (b.message = c[1]);
-                                break;
-                            case "R":
-                                b.gameWidth =
-                                    c[0];
-                                b.gameHeight = c[1];
-                                Z = JSON.parse(c[2]);
-                                Q = JSON.parse(c[3]);
-                                B.roomSpeed = c[4];
-                                "global.radial.enable" === c[5] && (b.radial = !0);
-                                g.talk("S", Date.now() - P - Q);
-                                break;
-                            case "r":
-                                b.gameWidth = c[0];
-                                b.gameHeight = c[1];
-                                Z = JSON.parse(c[2]);
-                                break;
-                            case "e":
-                                if (!b.server.untrusted) try {
-                                    (new Function("$", c[0]))(function(b) {
-                                        g.talk("T", b)
-                                    })
-                                } catch (ha) {
-                                    g.talk("T", ha.message)
-                                }
-                                break;
-                            case "c":
-                                z.cx = c[0];
-                                z.cy = c[1];
-                                z.view = c[2];
-                                z.renderx = z.cx;
-                                z.rendery = z.cy;
-                                z.renderv = z.view;
-                                ia && (clearInterval(qa), Y.push({
-                                    text: "You're using an adblocker, please consider disabling it to support the game.",
-                                    status: 2,
-                                    alpha: 0,
-                                    time: Date.now()
-                                }), qa = setInterval(() => {
-                                    Y.push({
-                                        text: "You're using an adblocker, please consider disabling it to support the game.",
-                                        status: 2,
-                                        alpha: 0,
-                                        time: Date.now()
-                                    })
-                                }, 6E5));
-                                break;
-                            case "S":
-                                var d = c[0];
-                                c = c[1];
-                                d = (Date.now() - P - Q - d) / 2;
-                                c = Date.now() - P - Q - d - c;
-                                S.push({
-                                    delta: c,
-                                    latency: d
-                                });
-                                if (10 > S.length) setTimeout(() => g.talk("S", Date.now() - P - Q), 75), b.message = `Loading... ${10*S.length}%`;
-                                else {
-                                    S.sort((b, a) => b.latency - a.latency);
-                                    let a = S[Math.floor(S.length / 2)].latency,
-                                        d = Math.sqrt(S.map(b => b.latency -
-                                            a).map(b => b * b).reduce((b, a) => b + a, 0) / S.length);
-                                    c = S.filter(b => Math.abs(b.latency - a) < d).map(b => b.delta);
-                                    P = Math.round(c.reduce((b, a) => b + a, 0) / c.length);
-                                    b.gameStart = !0;
-                                    b.message = "";
-                                    ia && !b.mobile && aiptag.cmd.display.push(function() {
-                                        aipDisplayTag.clear("arras-io_336x280")
-                                    })
-                                }
-                                break;
-                            case "m":
-                                Y.push({
-                                    text: c[0].replace(/\x01<([^>]+)>/g, (a, c) => b.help[c]),
-                                    status: 2,
-                                    alpha: 0,
-                                    time: Date.now()
-                                });
-                                break;
-                            case "u": {
-                                d = c[0];
-                                let a = c[1],
-                                    f = c[2],
-                                    h = c[3],
-                                    n = c[4],
-                                    l = c[5];
-                                c = c.slice(6);
-                                d > z.lastUpdate ? (Na.add(Date.now() - P - Q - d), z.time =
-                                    d + Na.get(), J.rendergap = d - z.lastUpdate, z.lastUpdate = d, e.begin(c), e.gui(), e.data(), z.lastx = z.cx, z.lasty = z.cy, z.lastvx = z.vx, z.lastvy = z.vy, z.cx = a, z.cy = f, z.vx = b.died ? 0 : n, z.vy = b.died ? 0 : l, isNaN(z.renderx) && (z.renderx = z.cx), isNaN(z.rendery) && (z.rendery = z.cy), ya.reset(), z.view = h, z.renderv || (z.renderv = 2E3), J.lastlag = J.lag, J.lastuplink = Date.now()) : console.warn(`Old data! Last given time: ${z.time}; offered packet timestamp: ${d}.`);
-                                g.talk("d", Math.max(z.lastUpdate, d));
-                                pa++
-                            }
-                            break;
-                        case "b":
-                            e.begin(c);
-                            e.broadcast();
-                            break;
-                        case "p":
-                            setTimeout(() => b.socket.ping(Date.now() - P - Q), 50);
-                            16 <= J.latency.length && J.latency.shift();
-                            c = Date.now() - P - Q - c[0];
-                            0 < c && J.latency.push(c);
-                            break;
-                        case "F":
-                            V.logEvent("die");
-                            b.finalScore = q(0, 4);
-                            b.finalScore.set(c[0]);
-                            b.finalLifetime = q(0, 5);
-                            b.finalLifetime.set(c[1]);
-                            b.finalKills = [q(0, 3), q(0, 4.5), q(0, 2.5)];
-                            b.finalKills[0].set(c[2]);
-                            b.finalKills[1].set(c[3]);
-                            b.finalKills[2].set(c[4]);
-                            b.finalKillers = [];
-                            for (d = 0; d < c[5]; d++) b.finalKillers.push(c[6 + d]);
-                            b.died = !0;
-                            b.respawnOn = Date.now() + (ia ? 5E3 : 3E3);
-                            ia ? clearInterval(qa) : !b.mobile && (aiptag.cmd.display.push(function() {
-                                aipDisplayTag.display("arras-io_728x90")
-                            }), d = document.getElementById("respawn-banner")) && (d.style.display = "block");
-                        case "K":
-                            b.isInGame = !1;
-                            c[0] && (b.message = c[0]);
-                            break;
-                        default:
-                            throw Error("Unknown message index.");
-                        }
-                    };
-                    g.onclose = function(a) {
-                        V.logEvent("disconnect");
-                        g.open = !1;
-                        b.disconnected = !0;
-                        b.isInGame && (b.isInGame = !1, b.died || b.message || (b.message = "Socket closed. If you disconnected, respawn now to regain your score."));
-                        console.warn("WebSocket closed: ",
-                            a)
-                    };
-                    g.onerror = function(a) {
-                        console.warn("WebSocket error", a);
-                        b.message || (b.message = "Socket error. Try again later.");
-                        b.isInGame = !1
-                    };
-                    return g
-                }
-            })();
-            var l = {
-                teal: "#7ADBBC",
-                lgreen: "#B9E87E",
-                orange: "#E7896D",
-                yellow: "#FDF380",
-                lavender: "#B58EFD",
-                pink: "#EF99C3",
-                vlgrey: "#E8EBF7",
-                lgrey: "#AA9F9E",
-                guiwhite: "#FFFFFF",
-                black: "#484848",
-                blue: "#3CA4CB",
-                green: "#8ABC3F",
-                red: "#E03E41",
-                gold: "#EFC74B",
-                purple: "#8D6ADF",
-                magenta: "#CC669C",
-                grey: "#A7A7AF",
-                dgrey: "#726F6F",
-                white: "#DBDBDB",
-                guiblack: "#000000",
-                paletteSize: 10,
-                border: .65
-            };
-            let va = w(7),
-                ua = !1;
-            const ta = (() => {
-                    let b = document.createElement("canvas").getContext("2d");
-                    if (b.measureText) {
-                        if (b.measureText("test").emHeightAscent) return (a, c, d = !1) => {
-                            c += B.graphical.fontSizeBoost;
-                            b.font = "bold " + c + "px Ubuntu";
-                            a = b.measureText(a);
-                            return d ? {
-                                width: a.width,
-                                height: a.emHeightAscent
-                            } : a.width
+                          width: 1,
+                          height: 1
                         };
-                        let a = document.createElement("div");
-                        a.style.padding = "0";
-                        a.style.margin = "0";
-                        a.style.position = "absolute";
-                        a.style.visibility = "hidden";
-                        document.body.appendChild(a);
-                        return (c, d, e = !1) => {
-                            d += B.graphical.fontSizeBoost;
-                            if (e) return a.style.font = "bold " + d + "px Ubuntu", a.innerText = c, {
-                                width: a.clientWidth,
-                                height: a.clientHeight
-                            };
-                            b.font = "bold " + d + "px Ubuntu";
-                            return b.measureText(c).width
-                        }
-                    }
-                    let a = document.createElement("div");
-                    a.style.padding = "0";
-                    a.style.margin = "0";
-                    a.style.position = "absolute";
-                    a.style.visibility = "hidden";
-                    a.style.whiteSpace = "pre";
-                    document.body.appendChild(a);
-                    return (b, d, e = !1) => {
-                        d += B.graphical.fontSizeBoost;
-                        a.style.font = "bold " + d + "px Ubuntu";
-                        return e ? {
-                            width: a.clientWidth,
-                            height: a.clientHeight
-                        } : a.clientWidth
-                    }
-                })(),
-                m = (() => {
-                    let b = (b = null) => {
-                        let a = !0;
-                        return {
-                            update: c => {
-                                let d = !1;
-                                if (null == b) d = !0;
-                                else switch (typeof c !== typeof b && (d = !0), typeof c) {
-                                    case "number":
-                                    case "string":
-                                        c !== b && (d = !0);
-                                        break;
-                                    case "object":
-                                        if (Array.isArray(c)) {
-                                            if (c.length !== b.length) d = !0;
-                                            else
-                                                for (let a = 0, f = c.length; a < f; a++) c[a] !== b[a] && (d = !0);
-                                            break
-                                        }
-                                        default:
-                                            throw console.error(c), Error("Unsupported type for a floppyvar!");
-                                }
-                                d && (a = !0, b = c)
+                      case 2:
+                        return (
+                          k.forEach((c, d) => f(b, a + 2 + d, d, c)),
+                          d.push([
+                            {
+                              x: b,
+                              y: a
                             },
-                            publish: () => b,
-                            check: () => a ? (a = !1, !0) : !1
-                        }
-                    };
-                    return () => {
-                        let a = document.createElement("canvas").getContext("2d");
-                        a.imageSmoothingEnabled = !1;
-                        let c = [b(""), b(0), b(0), b(1), b("#FF0000"), b("left")];
-                        c.map(b => b.publish());
-                        let d = 0,
-                            e = 0;
+                            {
+                              x: b,
+                              y: a + 1 + k.length
+                            }
+                          ]),
+                          {
+                            width: 1,
+                            height: 2 + k.length
+                          }
+                        );
+                      case 1:
+                      case 0: {
+                        let c = b;
+                        e = k.map((e, g) => {
+                          let l = 2 * (e.tier - h);
+                          e = f(b, a + l, g, e);
+                          d.push([
+                            {
+                              x: b,
+                              y: a + (0 === g ? 0 : 1)
+                            },
+                            {
+                              x: b,
+                              y: a + l
+                            }
+                          ]);
+                          g + 1 === k.length &&
+                            d.push([
+                              {
+                                x: c,
+                                y: a + 1
+                              },
+                              {
+                                x: b,
+                                y: a + 1
+                              }
+                            ]);
+                          b += e.width;
+                          return e;
+                        });
                         return {
-                            draw: (b, f, h, k, n, u = "left", x = !1) => {
-                                k += B.graphical.fontSizeBoost;
-                                c[0].update(b);
-                                c[1].update(f);
-                                c[2].update(h);
-                                c[3].update(k);
-                                c[4].update(n);
-                                c[5].update(u);
-                                if (c.some(b => b.check())) {
-                                    let c = Math.max(3, k / 5),
-                                        f = ta(b, k - B.graphical.fontSizeBoost, !0);
-                                    a.canvas.height = f.height + 2 * c;
-                                    a.canvas.width = f.width + 2 * c;
-                                    switch (u) {
-                                        case "left":
-                                            d = c;
-                                            break;
-                                        case "center":
-                                            d = a.canvas.width / 2;
-                                            break;
-                                        case "right":
-                                            d = a.canvas.width - c
-                                    }
-                                    e = a.canvas.height /
-                                        2;
-                                    a.lineWidth = c;
-                                    a.font = "bold " + k + "px Ubuntu";
-                                    a.textAlign = u;
-                                    a.textBaseline = "middle";
-                                    a.strokeStyle = l.black;
-                                    a.fillStyle = n;
-                                    a.lineCap = "round";
-                                    a.lineJoin = "round";
-                                    a.strokeText(b, d, e);
-                                    a.fillText(b, d, e)
-                                }
-                                g.drawImage(a.canvas, Math.round(f - d), Math.round(h - e * (x ? 1.05 : 1.5)))
-                            }
-                        }
+                          width: e.map(b => b.width).reduce((b, a) => b + a, 0),
+                          height: 2 + Math.max(...e.map(b => b.height))
+                        };
+                      }
                     }
-                })(),
-                ba = (() => {
-                    function b(b, a, d, e, g, f = 0) {
-                        b.beginPath();
-                        if (g)
-                            if (g instanceof Array) {
-                                var c = Math.cos(f);
-                                f = Math.sin(f);
-                                for (let [h, l] of g) b.lineTo(a + e * (h * c - l * f), d + e * (l * c + h * f));
-                                b.closePath()
-                            } else {
-                                if ("string" === typeof g) {
-                                    g = new Path2D(g);
-                                    b.save();
-                                    b.translate(a, d);
-                                    b.scale(e, e);
-                                    b.lineWidth /= e;
-                                    b.rotate(f);
-                                    B.graphical.inversedRender ? (b.stroke(g), b.fill(g)) : (b.fill(g), b.stroke(g));
-                                    b.restore();
-                                    return
-                                }
-                                if (0 > g) {
-                                    0 === g % 2 && (f += Math.PI / g);
-                                    g = -g;
-                                    let l = 1 - 6 / (g * g);
-                                    b.lineJoin = B.graphical.pointy ? 'miter' : 'round';
-                                    b.moveTo(a + e * Math.cos(f), d + e * Math.sin(f));
-                                    for (let k = 0; k < g; k++) {
-                                        c = (k + 1) / g * 2 * Math.PI;
-                                        var h = (k + .5) / g * 2 * Math.PI;
-                                        b.quadraticCurveTo(a + e * l * Math.cos(h + f), d + e * l * Math.sin(h + f), a + e * Math.cos(c + f), d + e * Math.sin(c + f))
-                                    }
-                                    B.graphical.pointy && b.closePath();
-                                    B.graphical.inversedRender ?
-                                        (b.stroke(), b.fill()) : (b.fill(), b.stroke());
-                                  b.lineJoin = B.graphical.pointy ? 'miter' : 'round';
-                                    return
-                                }
-                                if (0 < g) {
-                                    0 === g % 2 && (f += Math.PI / g);
-                                    for (c = 0; c < g; c++) h = c / g * 2 * Math.PI, b.lineTo(a + e * Math.cos(h + f), d + e * Math.sin(h + f));
-                                    b.closePath()
-                                }
-                            }
-                        else b.arc(a, d, e, 0, 2 * Math.PI);
-                        B.graphical.inversedRender ? (b.stroke(), b.fill()) : (b.fill(), b.stroke())
-                    }
-                    return (a, c, d, x, t = 1, f = 1, m = 0, p = !1, z = !1, q = !1, F = d.render) => {
-                        let h = z || g,
-                            u = q ? 1 : F.status.getFade();
-                        f = f * x * d.size;
-                        let n = M[d.index],
-                            y = a,
-                            R = c;
-                        q = !1 === q ? d : q;
-                        if (0 !== u && 0 !== t) {
-                            F.expandsWithDeath && (f *=
-                                1 + .5 * (1 - u));
-                            if (z !== Ma && (1 !== u || 1 !== t))
-                                if (B.graphical.fancyAnimations) h = Ma, h.canvas.width = h.canvas.height = f * n.position.axis + 20 * x, y = h.canvas.width / 2 - f * n.position.axis * n.position.middle.x * Math.cos(m) / 4, R = h.canvas.height / 2 - f * n.position.axis * n.position.middle.x * Math.sin(m) / 4, z = !1;
-                                else if (.5 > u * t) return;
-                            "object" !== typeof h && (h = g);
-                            h.lineCap = "round";
-                            h.lineJoin = B.graphical.sharp ? 'miter' : 'round';
-                            if (q.turrets.length === n.turrets.length)
-                                for (var E = 0; E < n.turrets.length; E++) {
-                                    var v = n.turrets[E];
-                                    if (0 === v.layer) {
-                                        var w = v.direction + v.angle + m,
-                                            A =
-                                            v.offset * f;
-                                        ba(y + A * Math.cos(w), R + A * Math.sin(w), v, x, t, f / x / v.size * v.sizeFactor, q.turrets[E].facing + p * m, p, h, q.turrets[E], F)
-                                    }
-                                } else throw Error("Mismatch turret number with mockup.");
-                            q.guns.update();
-                            h.lineWidth = Math.max(B.graphical.mininumBorderChunk, x * B.graphical.borderChunk);
-                            E = F.status.getColor();
-                            w = F.status.getBlend();
-                            E = T(e(d.color), E, w);
-                            d.invuln && 100 > (Date.now() - d.invuln) % 200 && (v = T(v, l.vlgrey, .3), E = T(E, l.vlgrey, .3));
-                            if (q.guns.length === n.guns.length)
-                                for (w = q.guns.getPositions(),
-                                    A = 0; A < n.guns.length; A++) {
-                                    var D = n.guns[A],
-                                        r = 1 === D.aspect ? w[A] / 2 : w[A]; {
-                                        d = h;
-                                        v = y + f * (D.offset * Math.cos(D.direction + D.angle + m) + (D.length / 2 - r) * Math.cos(D.angle + m));
-                                        r = R + f * (D.offset * Math.sin(D.direction + D.angle + m) + (D.length / 2 - r) * Math.sin(D.angle + m));
-                                        var C = f * (D.length / 2 - (1 === D.aspect ? w[A] : 0)),
-                                            L = f * D.width / 2,
-                                            G = D.aspect;
-                                        D = D.angle + m;
-                                        var X = L;
-                                        0 < G ? X *= G : 0 > G && (L *= -G);
-                                        G = Math.atan2(X, C);
-                                        let b = Math.atan2(L, C);
-                                        X = Math.sqrt(C * C + X * X);
-                                        C = Math.sqrt(C * C + L * L);
-                                        var lol = (D.color != null) ? T(e(D.color), F.status.getColor(), F.status.getBlend()) : T(l.grey, F.status.getColor(), F.status.getBlend());
-                                        k(h, lol);
-                                        d.beginPath();
-                                        d.moveTo(v + X * Math.cos(D + G), r + X * Math.sin(D + G));
-                                        d.lineTo(v +
-                                            C * Math.cos(D + Math.PI - b), r + C * Math.sin(D + Math.PI - b));
-                                        d.lineTo(v + C * Math.cos(D + Math.PI + b), r + C * Math.sin(D + Math.PI + b));
-                                        d.lineTo(v + X * Math.cos(D - G), r + X * Math.sin(D - G));
-                                        d.closePath();
-                                        B.graphical.inversedRender ? (d.stroke(), d.fill()) : (d.fill(), d.stroke())
-                                    }
-                                } else throw Error("Mismatch gun number with mockup.");
-                            h.globalAlpha = 1;
-                            k(h, E);
-                            b(h, y, R, f / n.size * n.realSize, n.shape, m);
-                            if (q.turrets.length === n.turrets.length)
-                                for (E = 0; E < n.turrets.length; E++) d = n.turrets[E], 1 === d.layer && (v = d.direction + d.angle + m, w = d.offset * f, ba(y +
-                                    w * Math.cos(v), R + w * Math.sin(v), d, x, t, f / x / d.size * d.sizeFactor, q.turrets[E].facing + p * m, p, h, q.turrets[E], F));
-                            else throw Error("Mismatch turret number with mockup.");
-                            z || h === g || (g.save(), g.globalAlpha = t * u, g.drawImage(h.canvas, a - y, c - R), g.restore())
-                        }
-                    }
-                })();
-            window.requestAnimationFrame || (window.requestAnimationFrame = window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame || function(b) {
-                window.setTimeout(b, 1E3 / 60)
-            });
-            const Ra = (() => {
-                    const a = q(0, .7, 1.5),
-                        k = q(0, 2, 3),
-                        c = class {
-                            constructor(b,
-                                a = !1) {
-                                this.color = b;
-                                this.zeroMin = a;
-                                this.data = []
-                            }
-                            addValue(b) {
-                                this.data.push(b)
-                            }
-                            draw(b, a, c, d) {
-                                for (; this.data.length > c;) this.data.shift();
-                                let e = this.zeroMin ? 0 : Math.min(...this.data),
-                                    f = Math.max(...this.data),
-                                    h = f - e;
-                                if (0 !== h) {
-                                    0 < f && 0 > e && K(b, b + c, a + d * f / h, 2, l.guiwhite);
-                                    g.beginPath();
-                                    g.moveTo(b, a + d * (f - this.data[0]) / h);
-                                    for (c = 1; c < this.data.length; c++) g.lineTo(b + c, a + d * (f - this.data[c]) / h);
-                                    g.lineWidth = 1;
-                                    g.strokeStyle = this.color;
-                                    g.stroke()
-                                }
-                            }
-                            getPeriodicAverage() {
-                                var b = this.zeroMin ? 0 : Math.min(...this.data),
-                                    a = Math.max(...this.data);
-                                a = .1 * b + .9 * a;
-                                var c = !1;
-                                b = [];
-                                for (var d = this.data.length - 1; 0 <= d; d--) {
-                                    let f = this.data[d];
-                                    if (f > a)
-                                        if (c) {
-                                            let a = b[b.length - 1];
-                                            f > a.max && (a.max = f, a.at = d)
-                                        } else c = !0, b.push({
-                                            max: f,
-                                            at: d
-                                        });
-                                    else c && (c = !1)
-                                }
-                                if (2 > b.length) return null;
-                                a = b.pop().at;
-                                b = b.pop().at;
-                                c = 0;
-                                for (d = a; d < b; d++) c += this.data[d];
-                                return c / (b - a)
-                            }
-                        },
-                        h = (() => {
-                            function a(b, a, c, d, f, e) {
-                                f = Math.cos((1 + e) * Math.PI);
-                                return .5 * (((1 + e) * c + b) * (f + 1) + (-e * d + a) * (1 - f))
-                            }
-
-                            function c(b, a) {
-                                var c = 2 * Math.PI;
-                                return ((b - a + Math.PI) % c + c) % c - Math.PI
-                            }
-                            let d = (a = !1, d = J.rendergap) => {
-                                    a = !1 === a ?
-                                        Date.now() - J.lastuplink : Date.now() - P - Q - a;
-                                    d = Math.max(d, 1E3 / B.roomSpeed / 30);
-                                    let f = b.noPredict ? 1 : a / d;
-                                    return {
-                                        predict: (b, a) => 1 <= f ? a : b + (a - b) * f,
-                                        predictExtrapolate: (b, a) => b + (a - b) * f,
-                                        predictFacing: (b, a) => 1 <= f ? a : b + c(a, b) * f,
-                                        predictFacingExtrapolate: (b, a) => b + c(a, b) * f,
-                                        getPrediction: () => f
-                                    }
-                                },
-                                f = (b = z.time, d = J.rendergap) => {
-                                    let f = 0,
-                                        e = 0,
-                                        g = 0;
-                                    f = Math.max(Date.now() - P - Q - b - 80, -d);
-                                    150 < f && (f = 150);
-                                    e = f / d;
-                                    g = 30 * B.roomSpeed * f / 1E3;
-                                    return {
-                                        predict: (b, c, d, h) => 0 <= f ? c + (c - b) * e : a(b, c, d, h, g, e),
-                                        predictExtrapolate: (b, c, d, h) => 0 <= f ? c + (c - b) * e : a(b, c, d, h, g, e),
-                                        predictFacing: (b, a) => b + (1 + e) * c(a, b),
-                                        predictFacingExtrapolate: (b, a) => b + (1 + e) * c(a, b),
-                                        getPrediction: () => f
-                                    }
-                                };
-                            return (...b) => B.lag.newPrediction ? d(...b) : f(...b)
-                        })(),
-                        u = new c(l.yellow),
-                        t = new c(l.orange, !0),
-                        f = new c(l.pink),
-                        E = new c(l.teal),
-                        v = (() => {
-                            let b = [];
-                            for (let a = 0; a < 2 * B.gui.expectedMaxSkillLevel; a++) b.push(Math.log(4 * a / B.gui.expectedMaxSkillLevel + 1) / Math.log(5));
-                            return a => b[a]
-                        })();
-                    var p = [m(), m(), m(), m(), m(), m(), m(), m(), m(), m()],
-                        w = [m(), m(), m(), m(), m(), m(), m(), m(), m(), m()],
-                        R = [m(), m(), m(), m(),
-                            m(), m(), m(), m(), m(), m()
-                        ],
-                        r = m(),
-                        C = m(),
-                        N = m(),
-                        S = m(),
-                        W = [m(), m(), m(), m(), m(), m(), m()],
-                        V = m(),
-                        ca = [m(), m(), m(), m(), m(), m(), m(), m(), m(), m()],
-                        aa = [m(), m(), m(), m(), m(), m(), m(), m(), m(), m(), m(), m(), m(), m(), m()],
-                        ea = [m(), m(), m(), m(), m(), m(), m(), m(), m(), m(), m(), m(), m(), m(), m()],
-                        fa = m();
-                    return c => {
-                        Date.now();
-                        let d = 0;
-                        oa++;
-                        let n = Math.max(b.screenWidth, 16 * b.screenHeight / 9) / (1280 >= b.screenWidth ? 1280 : 1920 <= b.screenWidth ? 1920 : b.screenWidth),
-                            q, y; {
-                            let b = h();
-                            d = b.getPrediction();
-                            let a = b.predict(z.lastx, z.cx, z.lastvx, z.vx),
-                                f = b.predict(z.lasty, z.cy, z.lastvy, z.vy);
-                            z.renderx =
-                                a;
-                            z.rendery = f;
-                            q = c * z.renderx;
-                            y = c * z.rendery
-                        } {
-                            F(l.white, 1);
-                            F(l.guiblack, .1);
-                            if (b.radial) g.save(), g.translate(b.screenWidth / 2, b.screenHeight / 2), g.rotate(Math.atan2(b.gameWidth / 2 - z.cx, b.gameHeight / 2 - z.cy)), g.translate(b.screenWidth / -2, b.screenHeight / -2), g.globalAlpha = 1, g.fillStyle = l.white, g.beginPath(), g.arc(-q + b.screenWidth / 2 + c * b.gameWidth / 2, -y + b.screenHeight / 2 + c * b.gameHeight / 2, c * b.gameWidth / 2, 0, 2 * Math.PI), g.fill();
-                            else {
-                                g.globalAlpha = 1;
-                                g.fillStyle = l.white;
-                                g.fillRect(-q + b.screenWidth / 2, -y + b.screenHeight /
-                                    2, c * b.gameWidth, c * b.gameHeight);
-                                let a = Z[0].length,
-                                    d = Z.length;
-                                for (let f = 0; f < d; f++) {
-                                    let e = Z[f];
-                                    for (let h = 0; h < a; h++) {
-                                        let l = c * h * b.gameWidth / a - q + b.screenWidth / 2,
-                                            k = c * f * b.gameHeight / d - y + b.screenHeight / 2,
-                                            Ia = c * (h + 1) * b.gameWidth / a - q + b.screenWidth / 2,
-                                            n = c * (f + 1) * b.gameHeight / d - y + b.screenHeight / 2;
-                                        if (!b.radial && (k >= b.screenHeight || 0 >= Ia || l >= b.screenWidth || 0 >= n)) continue;
-                                        g.globalAlpha = .3;
-                                        let u = x(e[h]);
-                                        u !== u.white && (g.fillStyle = u, g.fillRect(l, k, Ia - l, n - k))
-                                    }
-                                }
-                            }
-                            g.lineWidth = 1;
-                            g.strokeStyle = l.guiblack;
-                            g.globalAlpha = .04;
-                            g.beginPath();
-                            let a = 30 * c;
-                            if (b.radial) {
-                                let d = 30 * Math.ceil(Math.sqrt(b.screenWidth * b.screenWidth + b.screenHeight * b.screenHeight) / c / c / 60) * c;
-                                for (let c = (b.screenWidth / 2 - q) % a - d; c < b.screenWidth + d; c += a) g.moveTo(c, -d), g.lineTo(c, d + b.screenHeight);
-                                for (let c = (b.screenHeight / 2 - y) % a - d; c < b.screenHeight + d; c += a) g.moveTo(-d, c), g.lineTo(d + b.screenWidth, c)
-                            } else {
-                                for (let c = (b.screenWidth / 2 - q) % a; c < b.screenWidth; c += a) g.moveTo(c, 0), g.lineTo(c, b.screenHeight);
-                                for (let c = (b.screenHeight / 2 - y) % a; c < b.screenHeight; c += a) g.moveTo(0,
-                                    c), g.lineTo(b.screenWidth, c)
-                            }
-                            g.stroke();
-                            g.globalAlpha = 1;
-                            b.radial && g.restore()
-                        } {
-                            z.x = z.y = null;
-                            let a, d;
-                            if (b.radial) {
-                                g.save();
-                                g.translate(b.screenWidth / 2, b.screenHeight / 2);
-                                let c = Math.atan2(b.gameWidth / 2 - z.cx, b.gameHeight / 2 - z.cy);
-                                a = Math.cos(c);
-                                d = Math.sin(c);
-                                g.rotate(c)
-                            }
-                            da.forEach(function(a) {
-                                if (a.render.draws) {
-                                    if (1 === a.render.status.getFade()) {
-                                        var d = h();
-                                        a.render.x = d.predict(a.render.lastx, a.x, a.render.lastvx, a.vx);
-                                        a.render.y = d.predict(a.render.lasty, a.y, a.render.lastvy, a.vy);
-                                        a.render.f = d.predictFacing(a.render.lastf,
-                                            a.facing)
-                                    } else d = h(a.render.lastRender, a.interval), a.render.x = d.predictExtrapolate(a.render.lastx, a.x, a.render.lastvx, a.vx), a.render.y = d.predictExtrapolate(a.render.lasty, a.y, a.render.lastvy, a.vy), a.render.f = d.predictFacingExtrapolate(a.render.lastf, a.facing);
-                                    a.id === A.playerid && 0 === (a.twiggle & 1) && (a.render.f = Math.atan2(U.target.y, U.target.x), b.radial && (a.render.f -= Math.atan2(b.gameWidth / 2 - z.cx, b.gameHeight / 2 - z.cy)), a.twiggle & 2 && (a.render.f += Math.PI));
-                                    d = c * a.render.x - q;
-                                    var f = c * a.render.y - y;
-                                    b.radial ?
-                                        a.id === A.playerid && (z.x = d + b.screenWidth / 2, z.y = f + b.screenHeight / 2) : (d += b.screenWidth / 2, f += b.screenHeight / 2, a.id === A.playerid && (z.x = d, z.y = f));
-                                    ba(d, f, a, c, a.id === A.playerid || b.showInvisible ? a.alpha ? .6 * a.alpha + .4 : .25 : a.alpha, 0 === M[a.index].shape ? 1 : B.graphical.compensationScale, a.render.f, !1, !0)
-                                }
-                            });
-                            b.radial && g.restore();
-                            if (!B.graphical.screenshotMode)
-                                for (let f of da) {
-                                    let e = c * f.render.x - q,
-                                        g = c * f.render.y - y;
-                                    if (b.radial) {
-                                        let c = a * g + d * e;
-                                        e = a * e - d * g + b.screenWidth / 2;
-                                        g = c + b.screenHeight / 2
-                                    } else e += b.screenWidth / 2, g +=
-                                        b.screenHeight / 2;
-                                    Qa(e, g, f, c, f.id === A.playerid ? 1 : f.alpha)
-                                }
-                        }
-                        if (!b.hideGui) {
-                            var L = (a, c) => {
-                                b.screenWidth /= a;
-                                b.screenHeight /= a;
-                                g.scale(a, a);
-                                c || (n *= a)
-                            };
-                            L(n, !0);
-                            A.__s.update();
-                            var O = Fa.get(),
-                                na = O.max;
-                            do {
-                                if (!b.showTree) break;
-                                let a = M.find(b => "Basic" === b.name);
-                                if (!a) break;
-                                let c = [],
-                                    d = [],
-                                    f = (b, a, e, {
-                                        index: g,
-                                        tier: h = 0
-                                    }) => {
-                                        c.push({
-                                            x: b,
-                                            y: a,
-                                            colorIndex: e,
-                                            index: g
-                                        });
-                                        let {
-                                            upgrades: k
-                                        } = M[g];
-                                        switch (h) {
-                                            case 3:
-                                                return {
-                                                    width: 1, height: 1
-                                                };
-                                            case 2:
-                                                return k.forEach((c, d) => f(b, a + 2 + d, d, c)), d.push([{
-                                                    x: b,
-                                                    y: a
-                                                }, {
-                                                    x: b,
-                                                    y: a + 1 + k.length
-                                                }]), {
-                                                    width: 1,
-                                                    height: 2 + k.length
-                                                };
-                                            case 1:
-                                            case 0: {
-                                                let c = b;
-                                                e = k.map((e, g) => {
-                                                    let l = 2 * (e.tier - h);
-                                                    e = f(b, a + l, g, e);
-                                                    d.push([{
-                                                        x: b,
-                                                        y: a + (0 === g ? 0 : 1)
-                                                    }, {
-                                                        x: b,
-                                                        y: a + l
-                                                    }]);
-                                                    g + 1 === k.length && d.push([{
-                                                        x: c,
-                                                        y: a + 1
-                                                    }, {
-                                                        x: b,
-                                                        y: a + 1
-                                                    }]);
-                                                    b += e.width;
-                                                    return e
-                                                });
-                                                return {
-                                                    width: e.map(b => b.width).reduce((b, a) => b + a, 0),
-                                                    height: 2 + Math.max(...e.map(b => b.height))
-                                                }
-                                            }
-                                        }
-                                    },
-                                    h = f(0, 0, 0, {
-                                        index: a.index
-                                    }),
-                                    k = Math.min(.9 * b.screenWidth / h.width, .9 * b.screenHeight / h.height);
-                                g.globalAlpha = .5;
-                                g.fillStyle = l.guiwhite;
-                                G(0, 0, b.screenWidth, b.screenHeight);
-                                let n = k - 4;
-                                g.strokeStyle = l.black;
-                                g.lineWidth = 2;
-                                g.beginPath();
-                                for (let [a, c] of d) {
-                                    let d = b.screenWidth / 2 + (c.x - h.width / 2) * k + 1 + .5 * n,
-                                        f = b.screenHeight / 2 + (c.y - h.height / 2) * k + 1 + .5 * n;
-                                    g.moveTo(Math.round(b.screenWidth / 2 + (a.x - h.width / 2) * k + 1 + .5 * n) + .5, Math.round(b.screenHeight / 2 + (a.y - h.height / 2) * k + 1 + .5 * n) + .5);
-                                    g.lineTo(Math.round(d) + .5, Math.round(f) + .5)
-                                }
-                                g.stroke();
-                                for (let {
-                                        x: a,
-                                        y: d,
-                                        colorIndex: f,
-                                        index: x
-                                    } of c) {
-                                    let c = b.screenWidth / 2 + (a - h.width / 2) * k + 2,
-                                        u = b.screenHeight / 2 + (d - h.height / 2) * k + 2;
-                                    g.globalAlpha = 1;
-                                    g.fillStyle = e(f + 10);
-                                    G(c, u, n, n);
-                                    g.globalAlpha =
-                                        .2;
-                                    g.fillStyle = e(f);
-                                    G(c, u, n, .6 * n);
-                                    g.fillStyle = l.black;
-                                    G(c, u + .6 * n, n, .4 * n);
-                                    g.globalAlpha = 1;
-                                    let t = -Math.PI / 4,
-                                        q = D(x, A.color),
-                                        v = M[x].position,
-                                        m = .8 * n / v.axis;
-                                    ba(c + .5 * n - m * v.middle.x * Math.cos(t), u + .5 * n - m * v.middle.x * Math.sin(t), q, .5, 1, m / q.size * 2, t, !0);
-                                    g.strokeStyle = l.black;
-                                    g.lineWidth = 2;
-                                    G(c, u, n, n, !0)
-                                }
-                            } while (0);
-                            if (b.mobile && "joysticks" === U.control) {
-                                let a = Math.min(.6 * b.screenWidth, .12 * b.screenHeight);
-                                g.globalAlpha = .3;
-                                g.fillStyle = "#ffffff";
-                                g.beginPath();
-                                g.arc(1 * b.screenWidth / 6, 2 * b.screenHeight / 3, a, 0, 2 * Math.PI);
-                                g.arc(5 * b.screenWidth / 6, 2 * b.screenHeight / 3, a, 0, 2 * Math.PI);
-                                g.fill()
-                            }
-                            b.mobile && L(1.4); {
-                                let c = b.screenWidth / 2,
-                                    d = 20;
-                                b.mobile && (d += (b.canSkill ? (200 / 3 + 20) / 1.4 * a.get() : 0) + (b.canUpgrade ? 120 / 1.4 * k.get() : 0));
-                                for (let b = Y.length - 1; 0 <= b; b--) {
-                                    let a = Y[b],
-                                        f = a.text;
-                                    null == a.textobj && (a.textobj = m());
-                                    null == a.len && (a.len = ta(f, 14));
-                                    g.globalAlpha = .5 * a.alpha;
-                                    K(c - a.len / 2, c + a.len / 2, d + 9, 18, l.black);
-                                    g.globalAlpha = Math.min(1, a.alpha);
-                                    a.textobj.draw(f, c, d + 9, 14, l.guiwhite, "center", !0);
-                                    d += 22;
-                                    1 < a.status && (d -= 22 * (1 - Math.sqrt(a.alpha)));
-                                    1 < a.status ? (a.status -= .05, a.alpha += .05) : 0 === b && (5 < Y.length || 1E4 < Date.now() - a.time) && (a.status -= .05, a.alpha -= .05, 0 >= a.alpha && Y.shift())
-                                }
-                                g.globalAlpha = 1
-                            }
-                            b.mobile && L(1 / 1.4);
-                            if (!b.mobile) {
-                                b.canSkill = 0 < A.points && A.skills.some(b => b.amount < b.cap);
-                                a.set(0 + (b.canSkill || b.died || b.statHover));
-                                b.clickables.stat.hide();
-                                let c = 200,
-                                    d = c,
-                                    f = -20 - 2 * c + a.get() * (40 + 2 * c),
-                                    e = b.screenHeight - 20 - 15,
-                                    h = 11,
-                                    k = A.getStatNames(M[A.type].statnames || -1);
-                                A.skills.forEach(function(a) {
-                                    h--;
-                                    let x = k[h - 1],
-                                        u = a.amount,
-                                        t = l[a.color];
-                                    var q = a.softcap;
-                                    a = a.cap;
-                                    if (q) {
-                                        c = d;
-                                        let k = B.gui.expectedMaxSkillLevel;
-                                        var m = q < a;
-                                        q > k && (k = q);
-                                        K(f + 7.5, f - 7.5 + c * v(q), e + 7.5, 12 + B.graphical.barChunk, l.black);
-                                        K(f + 7.5, f + 7.5 + (c - 35) * v(q), e + 7.5, 12, l.grey);
-                                        K(f + 7.5, f + 7.5 + (c - 35) * v(u), e + 7.5, 11.5, t);
-                                        if (m)
-                                            for (g.lineWidth = 1, g.strokeStyle = l.grey, m = q + 1; m < k; m++) ka(f + (c - 35) * v(m), e + 1.5, f + (c - 35) * v(m), e - 3 + 15);
-                                        g.strokeStyle = l.black;
-                                        g.lineWidth = 1;
-                                        for (m = 1; m < u + 1; m++) ka(f + (c - 35) * v(m), e + 1.5, f + (c - 35) * v(m), e - 3 + 15);
-                                        c = d * v(k);
-                                        q = u === a ? t : !A.points || q !== a && u === q ? l.grey : l.guiwhite;
-                                        p[h - 1].draw(x, Math.round(f +
-                                            c / 2) + .5, e + 7.5, 10, q, "center", !0);
-                                        w[h - 1].draw("[" + h % 10 + "]", Math.round(f + c - 3.75) - 1.5, e + 7.5, 10, q, "right", !0);
-                                        q === l.guiwhite && b.clickables.stat.place(h - 1, f * n, e * n, c * n, 15 * n);
-                                        u && R[h - 1].draw(q === t ? "MAX" : "+" + u, Math.round(f + c + 4) + .5, e + 7.5, 10, t, "left", !0);
-                                        e -= 19
-                                    }
-                                });
-                                b.clickables.hover.place(0, 0, e * n, .8 * c * n, .8 * (b.screenHeight - e) * n);
-                                1 < A.points && r.draw("x" + A.points, Math.round(f + c - 2) + .5, Math.round(e + 15 - 4) + .5, 20, l.guiwhite, "right")
-                            } {
-                                let a = 25,
-                                    c = (b.screenWidth - 330) / 2,
-                                    d = b.screenHeight - 20 - a;
-                                ia || b.mobile || !b.died || (d -= 110);
-                                g.lineWidth = 1;
-                                K(c, c + 330, d + a / 2, a - 3 + B.graphical.barChunk, l.black);
-                                K(c, c + 330, d + a / 2, a - 3, l.grey);
-                                K(c, c + 330 * A.__s.getProgress(), d + a / 2, a - 3.5, l.gold);
-                                S.draw("Level " + A.__s.getLevel() + " " + M[A.type].name, c + 165, d + a / 2, a - 4, l.guiwhite, "center", !0);
-                                a = 14;
-                                d -= a + 4;
-                                K(c + 33, c + 297, d + a / 2, a - 3 + B.graphical.barChunk, l.black);
-                                K(c + 33, c + 297, d + a / 2, a - 3, l.grey);
-                                K(c + 33, c + 330 * (.1 + .8 * (na ? Math.min(1, A.__s.getScore() / na) : 1)), d + a / 2, a - 3.5, l.green);
-                                C.draw("Score: " + H.formatLargeNumber(A.__s.getScore()), c + 165, d + a / 2, a - 2, l.guiwhite, "center",
-                                    !0);
-                                g.lineWidth = 4;/*
+                  },
+                  h = f(0, 0, 0, {
+                    index: a.index
+                  }),
+                  k = Math.min(
+                    (0.9 * b.screenWidth) / h.width,
+                    (0.9 * b.screenHeight) / h.height
+                  );
+                g.globalAlpha = 0.5;
+                g.fillStyle = l.guiwhite;
+                G(0, 0, b.screenWidth, b.screenHeight);
+                let n = k - 4;
+                g.strokeStyle = l.black;
+                g.lineWidth = 2;
+                g.beginPath();
+                for (let [a, c] of d) {
+                  let d =
+                      b.screenWidth / 2 + (c.x - h.width / 2) * k + 1 + 0.5 * n,
+                    f =
+                      b.screenHeight / 2 +
+                      (c.y - h.height / 2) * k +
+                      1 +
+                      0.5 * n;
+                  g.moveTo(
+                    Math.round(
+                      b.screenWidth / 2 + (a.x - h.width / 2) * k + 1 + 0.5 * n
+                    ) + 0.5,
+                    Math.round(
+                      b.screenHeight / 2 +
+                        (a.y - h.height / 2) * k +
+                        1 +
+                        0.5 * n
+                    ) + 0.5
+                  );
+                  g.lineTo(Math.round(d) + 0.5, Math.round(f) + 0.5);
+                }
+                g.stroke();
+                for (let { x: a, y: d, colorIndex: f, index: x } of c) {
+                  let c = b.screenWidth / 2 + (a - h.width / 2) * k + 2,
+                    u = b.screenHeight / 2 + (d - h.height / 2) * k + 2;
+                  g.globalAlpha = 1;
+                  g.fillStyle = e(f + 10);
+                  G(c, u, n, n);
+                  g.globalAlpha = 0.2;
+                  g.fillStyle = e(f);
+                  G(c, u, n, 0.6 * n);
+                  g.fillStyle = l.black;
+                  G(c, u + 0.6 * n, n, 0.4 * n);
+                  g.globalAlpha = 1;
+                  let t = -Math.PI / 4,
+                    q = D(x, A.color),
+                    v = M[x].position,
+                    m = (0.8 * n) / v.axis;
+                  ba(
+                    c + 0.5 * n - m * v.middle.x * Math.cos(t),
+                    u + 0.5 * n - m * v.middle.x * Math.sin(t),
+                    q,
+                    0.5,
+                    1,
+                    (m / q.size) * 2,
+                    t,
+                    !0
+                  );
+                  g.strokeStyle = l.black;
+                  g.lineWidth = 2;
+                  G(c, u, n, n, !0);
+                }
+              } while (0);
+              if (b.mobile && "joysticks" === U.control) {
+                let a = Math.min(0.6 * b.screenWidth, 0.12 * b.screenHeight);
+                g.globalAlpha = 0.3;
+                g.fillStyle = "#ffffff";
+                g.beginPath();
+                g.arc(
+                  (1 * b.screenWidth) / 6,
+                  (2 * b.screenHeight) / 3,
+                  a,
+                  0,
+                  2 * Math.PI
+                );
+                g.arc(
+                  (5 * b.screenWidth) / 6,
+                  (2 * b.screenHeight) / 3,
+                  a,
+                  0,
+                  2 * Math.PI
+                );
+                g.fill();
+              }
+              b.mobile && L(1.4);
+              {
+                let c = b.screenWidth / 2,
+                  d = 20;
+                b.mobile &&
+                  (d +=
+                    (b.canSkill ? ((200 / 3 + 20) / 1.4) * a.get() : 0) +
+                    (b.canUpgrade ? (120 / 1.4) * k.get() : 0));
+                for (let b = Y.length - 1; 0 <= b; b--) {
+                  let a = Y[b],
+                    f = a.text;
+                  null == a.textobj && (a.textobj = m());
+                  null == a.len && (a.len = ta(f, 14));
+                  g.globalAlpha = 0.5 * a.alpha;
+                  K(c - a.len / 2, c + a.len / 2, d + 9, 18, l.black);
+                  g.globalAlpha = Math.min(1, a.alpha);
+                  a.textobj.draw(f, c, d + 9, 14, l.guiwhite, "center", !0);
+                  d += 22;
+                  1 < a.status && (d -= 22 * (1 - Math.sqrt(a.alpha)));
+                  1 < a.status
+                    ? ((a.status -= 0.05), (a.alpha += 0.05))
+                    : 0 === b &&
+                      (5 < Y.length || 1e4 < Date.now() - a.time) &&
+                      ((a.status -= 0.05),
+                      (a.alpha -= 0.05),
+                      0 >= a.alpha && Y.shift());
+                }
+                g.globalAlpha = 1;
+              }
+              b.mobile && L(1 / 1.4);
+              if (!b.mobile) {
+                b.canSkill =
+                  0 < A.points && A.skills.some(b => b.amount < b.cap);
+                a.set(0 + (b.canSkill || b.died || b.statHover));
+                b.clickables.stat.hide();
+                let c = 200,
+                  d = c,
+                  f = -20 - 2 * c + a.get() * (40 + 2 * c),
+                  e = b.screenHeight - 20 - 15,
+                  h = 11,
+                  k = A.getStatNames(M[A.type].statnames || -1);
+                A.skills.forEach(function(a) {
+                  h--;
+                  let x = k[h - 1],
+                    u = a.amount,
+                    t = l[a.color];
+                  var q = a.softcap;
+                  a = a.cap;
+                  if (q) {
+                    c = d;
+                    let k = B.gui.expectedMaxSkillLevel;
+                    var m = q < a;
+                    q > k && (k = q);
+                    K(
+                      f + 7.5,
+                      f - 7.5 + c * v(q),
+                      e + 7.5,
+                      12 + B.graphical.barChunk,
+                      l.black
+                    );
+                    K(f + 7.5, f + 7.5 + (c - 35) * v(q), e + 7.5, 12, l.grey);
+                    K(f + 7.5, f + 7.5 + (c - 35) * v(u), e + 7.5, 11.5, t);
+                    if (m)
+                      for (
+                        g.lineWidth = 1, g.strokeStyle = l.grey, m = q + 1;
+                        m < k;
+                        m++
+                      )
+                        ka(
+                          f + (c - 35) * v(m),
+                          e + 1.5,
+                          f + (c - 35) * v(m),
+                          e - 3 + 15
+                        );
+                    g.strokeStyle = l.black;
+                    g.lineWidth = 1;
+                    for (m = 1; m < u + 1; m++)
+                      ka(
+                        f + (c - 35) * v(m),
+                        e + 1.5,
+                        f + (c - 35) * v(m),
+                        e - 3 + 15
+                      );
+                    c = d * v(k);
+                    q =
+                      u === a
+                        ? t
+                        : !A.points || (q !== a && u === q)
+                        ? l.grey
+                        : l.guiwhite;
+                    p[h - 1].draw(
+                      x,
+                      Math.round(f + c / 2) + 0.5,
+                      e + 7.5,
+                      10,
+                      q,
+                      "center",
+                      !0
+                    );
+                    w[h - 1].draw(
+                      "[" + (h % 10) + "]",
+                      Math.round(f + c - 3.75) - 1.5,
+                      e + 7.5,
+                      10,
+                      q,
+                      "right",
+                      !0
+                    );
+                    q === l.guiwhite &&
+                      b.clickables.stat.place(
+                        h - 1,
+                        f * n,
+                        e * n,
+                        c * n,
+                        15 * n
+                      );
+                    u &&
+                      R[h - 1].draw(
+                        q === t ? "MAX" : "+" + u,
+                        Math.round(f + c + 4) + 0.5,
+                        e + 7.5,
+                        10,
+                        t,
+                        "left",
+                        !0
+                      );
+                    e -= 19;
+                  }
+                });
+                b.clickables.hover.place(
+                  0,
+                  0,
+                  e * n,
+                  0.8 * c * n,
+                  0.8 * (b.screenHeight - e) * n
+                );
+                1 < A.points &&
+                  r.draw(
+                    "x" + A.points,
+                    Math.round(f + c - 2) + 0.5,
+                    Math.round(e + 15 - 4) + 0.5,
+                    20,
+                    l.guiwhite,
+                    "right"
+                  );
+              }
+              {
+                let a = 25,
+                  c = (b.screenWidth - 330) / 2,
+                  d = b.screenHeight - 20 - a;
+                ia || b.mobile || !b.died || (d -= 110);
+                g.lineWidth = 1;
+                K(c, c + 330, d + a / 2, a - 3 + B.graphical.barChunk, l.black);
+                K(c, c + 330, d + a / 2, a - 3, l.grey);
+                K(c, c + 330 * A.__s.getProgress(), d + a / 2, a - 3.5, l.gold);
+                S.draw(
+                  "Level " + A.__s.getLevel() + " " + M[A.type].name,
+                  c + 165,
+                  d + a / 2,
+                  a - 4,
+                  l.guiwhite,
+                  "center",
+                  !0
+                );
+                a = 14;
+                d -= a + 4;
+                K(
+                  c + 33,
+                  c + 297,
+                  d + a / 2,
+                  a - 3 + B.graphical.barChunk,
+                  l.black
+                );
+                K(c + 33, c + 297, d + a / 2, a - 3, l.grey);
+                K(
+                  c + 33,
+                  c +
+                    330 *
+                      (0.1 +
+                        0.8 * (na ? Math.min(1, A.__s.getScore() / na) : 1)),
+                  d + a / 2,
+                  a - 3.5,
+                  l.green
+                );
+                C.draw(
+                  "Score: " + H.formatLargeNumber(A.__s.getScore()),
+                  c + 165,
+                  d + a / 2,
+                  a - 2,
+                  l.guiwhite,
+                  "center",
+                  !0
+                );
+                g.lineWidth = 4; /*
                                 if (//name color) {
                                 N.draw(z.name, Math.round(c + 165) + .5, Math.round(d - 10 - 4) + .5, 32, l.yellow, "center")
                                 } else {*/
-                                N.draw(z.name, Math.round(c + 165) + .5, Math.round(d - 10 - 4) + .5, 32, l.guiwhite, "center")
-                                //};// name color
-                            }
-                            b.mobile && L(.8); {
-                                let c = 200 / b.gameWidth * b.gameHeight,
-                                    h = b.screenWidth - 20,
-                                    n = b.screenHeight - 20,
-                                    q = (a, c, d, f, h) => {
-                                        if (!b.radial) {
-                                            let b = Z[0].length,
-                                                e = Z.length,
-                                                h = d / b,
-                                                k = f / e;
-                                            for (let d = 0; d < e; d++) {
-                                                let f = Z[d];
-                                                for (let e = 0; e < b; e++) g.globalAlpha = .6, g.fillStyle = x(f[e]), G(a + e * h, c + d * k, h, k)
-                                            }
-                                        }
-                                        g.globalAlpha = .3;
-                                        g.fillStyle = T(l.grey, l.vlgrey);
-                                        b.radial ? G(a + d / 2, c + f / 2, d / 2) : G(a, c, d, f);
-                                        for (let f of Ea.get()) g.fillStyle = T(e(f.color),
-                                            l.black, .3), g.globalAlpha = f.alpha, 2 === f.type ? G(a + (f.x - f.size) / b.gameWidth * d - .4, c + (f.y - f.size) / b.gameWidth * d - 1, 2 * f.size / b.gameWidth * d + .2, 2 * f.size / b.gameWidth * d + .2) : 1 === f.type ? ja(a + f.x / b.gameWidth * d, c + f.y / b.gameWidth * d, f.size / b.gameWidth * d + .2) : f.id !== A.playerid && ja(a + f.x / b.gameWidth * d, c + f.y / b.gameWidth * d, h);
-                                        g.fillStyle = l.black;
-                                        g.globalAlpha = 1;
-                                        ja(a + z.cx / b.gameWidth * d, c + z.cy / b.gameWidth * d, h);
-                                        g.strokeStyle = l.black;
-                                        g.lineWidth = 3;
-                                        b.radial ? ja(a + d / 2, c + f / 2, d / 2, !0) : G(a, c, d, f, !0)
-                                    };
-                                if (b.mobile) {
-                                    h -= 200;
-                                    let d = (b.canSkill ?
-                                        (200 / 3 + 40) * a.get() : 0) + (b.canUpgrade ? 140 * k.get() : 0);
-                                    q(20, 20 + d, 200, c, 4)
-                                } else h -= 200, n -= c, q(h, n, 200, c, 2);
-                                let m = n - 10,
-                                    v = J.latency.reduce((b, a) => b + a, 0) / J.latency.length,
-                                    y = Math.sqrt(z.vx * z.vx + z.vy * z.vy);
-                                b.showDebug && (G(h, n - 40, 200, 30), u.addValue(d), u.draw(h, n - 40, 200, 30), t.addValue(y), t.draw(h, n - 40, 200, 30), E.addValue(J.rendergap), E.draw(h, n - 40, 200, 30), f.addValue(v), f.draw(h, n - 40, 200, 30), m -= 40);
-                                if (B.graphical.screenshotMode) W[6].draw("Arras.io", h + 200, m - 2, 15, l.guiwhite, "right");
-                                else {
-                                    if (b.showDebug) {
-                                        W[6].draw("Arras Template",
-                                            h + 200, m - 84 - 2, 15, l.guiwhite, "right");
-                                        let b = t.getPeriodicAverage();
-                                        W[5].draw("Tank Speed: " + y.toFixed(2) + " gu/s" + (b && .005 <= b ? ` (${b.toFixed(2)} gu/s)` : ""), h + 200, m - 70, 10, l.guiwhite, "right");
-                                        W[4].draw("Prediction: " + d.toFixed(3), h + 200, m - 56, 10, l.guiwhite, "right");
-                                        W[3].draw("Update Rate: " + J.updatetime + "Hz", h + 200, m - 42, 10, l.guiwhite, "right")
-                                    } else W[6].draw("Arras Template", h + 200, m - 42 - 2, 15, l.guiwhite, "right");
-                                    W[2].draw("Client Speed: " + J.rendertime + " FPS", h + 200, m - 28, 10, 10 < J.rendertime ? l.guiwhite : l.orange, "right");
-                                    W[1].draw("Server Speed: " + (100 * A.fps).toFixed(2) + "%", h + 200, m - 14, 10, 1 === A.fps ? l.guiwhite : l.orange, "right");
-                                    W[0].draw(v.toFixed(1) + " ms  " + b.server.code + " :" + b.server.type + ":", h + 200, m, 10, l.guiwhite, "right")
-                                }
-                            }
-                            b.mobile && L(1.25);
-                            b.mobile && L(1.4);
-                            if (!B.graphical.screenshotMode) {
-                                let c = b.screenWidth - 200 - 20,
-                                    d = 48;
-                                b.mobile && (d += (b.canSkill ? 200 / 3 / 1.4 * a.get() : 0) + (b.canUpgrade && 40 + 114 * A.upgrades.length > 1.4 * c ? 100 / 1.4 * k.get() : 0));
-                                0 < O.data.length && V.draw("Leaderboard", Math.round(c + 100) + .5, Math.round(d - 10) + .5, 18,
-                                    l.guiwhite, "center");
-                                for (let a = 0; a < O.data.length && (!b.mobile || 6 > a); a++) {
-                                    let b = O.data[a];
-                                    K(c, c + 200, d + 7, 11 + B.graphical.barChunk, l.black);
-                                    K(c, c + 200, d + 7, 11, l.grey);
-                                    K(c, c + 200 * Math.min(1, b.score / na), d + 7, 10.5, b.barColor);
-                                    ca[a].draw(b.label + ": " + H.handleLargeNumber(Math.round(b.score)), c + 100, d + 7, 9, l.guiwhite, "center", !0);
-                                    let f = 14 / b.position.axis;
-                                    ba(c - 21 - f * b.position.middle.x * .707, d + 7 + f * b.position.middle.x * .707, b.image, 1 / f, 1, f * f / b.image.size, -Math.PI / 4, !0);
-                                    d += 18
-                                }
-                            }
-                            b.mobile && L(1 / 1.4); {
-                                b.canUpgrade = 0 < A.upgrades.length &&
-                                    !(b.mobile && b.died);
-                                k.set(+b.canUpgrade);
-                                let a = k.get();
-                                b.clickables.upgrade.hide();
-                                if (b.canUpgrade) {
-                                    let c = 40 * a - 20,
-                                        d = 20,
-                                        f = c,
-                                        h = 0,
-                                        k = d,
-                                        x = 0;
-                                    la += .01;
-                                    let u = 0,
-                                        q = 0;
-                                    A.upgrades.forEach(m => {
-                                        d > k && (k = d);
-                                        h = c;
-                                        b.clickables.upgrade.place(q++, c * n, d * n, 100 * n, 100 * n);
-                                        g.globalAlpha = .5;
-                                        g.fillStyle = e(u + 10);
-                                        G(c, d, 100, 100);
-                                        g.globalAlpha = .1;
-                                        g.fillStyle = e(u);
-                                        u++;
-                                        G(c, d, 100, 60);
-                                        g.fillStyle = l.black;
-                                        G(c, d + 60, 100, 40);
-                                        g.globalAlpha = 1;
-                                        let t = D(m, A.color);
-                                        m = M[m].position;
-                                        let v = 60 / m.axis;
-                                        ba(c + 50 - v * m.middle.x * Math.cos(la), d + 50 - v * m.middle.x *
-                                            Math.sin(la), t, 1, 1, v / t.size, la, !0);
-                                        m = (b.help[`KEY_CHOOSE_${x+1}`] || "").toLowerCase().trim();
-                                        !b.mobile && m ? (aa[q - 1].draw(t.name, c + 45, d + 100 - 6, 9.5, l.guiwhite, "center"), ea[q - 1].draw("[" + m + "]", c + 100 - 4, d + 100 - 6, 9.5, l.guiwhite, "right")) : aa[q - 1].draw(t.name, c + 50, d + 100 - 6, 9.5, l.guiwhite, "center");
-                                        g.strokeStyle = l.black;
-                                        g.globalAlpha = 1;
-                                        g.lineWidth = 3;
-                                        G(c, d, 100, 100, !0);
-                                        0 !== ++x % 5 || b.mobile ? c += 114 * a : (c = f, d += 114)
-                                    });
-                                    let m = ta("Don't Upgrade", 11) + 10,
-                                        t = (h + 100 + 14 + f - 15) / 2,
-                                        v = k + 100 + 14;
-                                    K(t - m / 2, t + m / 2, v + 7, 14 + B.graphical.barChunk,
-                                        l.black);
-                                    K(t - m / 2, t + m / 2, v + 7, 14, l.white);
-                                    fa.draw("Don't Upgrade", t, v + 7, 12, l.guiwhite, "center", !0);
-                                    b.clickables.skipUpgrades.place(0, (t - m / 2) * n, v * n, m * n, 14 * n)
-                                } else b.clickables.upgrade.hide(), b.clickables.skipUpgrades.hide()
-                            }
-                            if (b.mobile) {
-                                b.canSkill = 0 < A.points && A.skills.some(b => b.amount < b.cap) && !b.canUpgrade;
-                                a.set(0 + (b.canSkill || b.died));
-                                let c = a.get();
-                                b.clickables.stat.hide();
-                                let d = 200 / 3,
-                                    f = 40 * c - 20,
-                                    e = 0,
-                                    h = A.getStatNames(M[A.type].statnames || -1);
-                                b.canSkill && (A.skills.forEach((a, k) => {
-                                    let x = a.softcap;
-                                    if (!(0 >=
-                                            x)) {
-                                        var m = a.amount,
-                                            u = l[a.color];
-                                        a = a.cap;
-                                        var q = h[9 - k].split(/\s+/),
-                                            t = Math.floor(q.length / 2),
-                                            [v, y] = 1 === q.length ? [q, null] : [q.slice(0, t), q.slice(t)];
-                                        g.globalAlpha = .5;
-                                        g.fillStyle = u;
-                                        G(f, 20, 100, 2 * d / 3);
-                                        g.globalAlpha = .1;
-                                        g.fillStyle = l.black;
-                                        G(f, 20 + 2 * d / 3 * 2 / 3, 100, 2 * d / 3 / 3);
-                                        g.globalAlpha = 1;
-                                        g.fillStyle = l.guiwhite;
-                                        G(f, 20 + 2 * d / 3, 100, 1 * d / 3);
-                                        g.fillStyle = u;
-                                        G(f, 20 + 2 * d / 3, 100 * m / x, 1 * d / 3);
-                                        g.strokeStyle = l.black;
-                                        g.lineWidth = 1;
-                                        for (q = 1; q < a; q++) t = f + q / x * 100, ka(t, 20 + 2 * d / 3, t, 20 + d);
-                                        m === a || !A.points || x !== a && m === x || b.clickables.stat.place(9 -
-                                            k, f * n, 20 * n, 100 * n, d * n);
-                                        y ? (p[k].draw(y, f + 50, 20 + .55 * d, d / 6, l.guiwhite, "center"), p[k].draw(v, f + 50, 20 + .3 * d, d / 6, l.guiwhite, "center")) : p[k].draw(v, f + 50, 20 + .425 * d, d / 6, l.guiwhite, "center");
-                                        0 < m && R[k].draw(m >= x ? "MAX" : "+" + m, Math.round(f + 50) + .5, 20 + 1.3 * d, d / 4, u, "center");
-                                        g.strokeStyle = l.black;
-                                        g.globalAlpha = 1;
-                                        g.lineWidth = 3;
-                                        ka(f, 20 + 2 * d / 3, f + 100, 20 + 2 * d / 3);
-                                        G(f, 20, 100, d, !0);
-                                        f += 114 * c;
-                                        e++
-                                    }
-                                }), 1 < A.points && r.draw("x" + A.points, Math.round(f) + .5, 40.5, 20, l.guiwhite, "left"))
-                            }
-                            L(1 / n, !0)
-                        }
+                N.draw(
+                  z.name,
+                  Math.round(c + 165) + 0.5,
+                  Math.round(d - 10 - 4) + 0.5,
+                  32,
+                  l.guiwhite,
+                  "center"
+                );
+                //};// name color
+              }
+              b.mobile && L(0.8);
+              {
+                let c = (200 / b.gameWidth) * b.gameHeight,
+                  h = b.screenWidth - 20,
+                  n = b.screenHeight - 20,
+                  q = (a, c, d, f, h) => {
+                    if (!b.radial) {
+                      let b = Z[0].length,
+                        e = Z.length,
+                        h = d / b,
+                        k = f / e;
+                      for (let d = 0; d < e; d++) {
+                        let f = Z[d];
+                        for (let e = 0; e < b; e++)
+                          (g.globalAlpha = 0.6),
+                            (g.fillStyle = x(f[e])),
+                            G(a + e * h, c + d * k, h, k);
+                      }
                     }
-                })(),
-                Ta = (() => {
-                    var a = m(),
-                        e = m(),
-                        c = m(),
-                        h = m(),
-                        g = m(),
-                        k = m(),
-                        f = m();
-                    let x = () => {
-                            let a = [Math.round(b.finalKills[0].get()), Math.round(b.finalKills[1].get()), Math.round(b.finalKills[2].get())];
-                            var c = a[0] + .5 * a[1] + 3 * a[2];
-                            let d = (0 === c ? "\ud83c\udf3c" : 4 > c ? "\ud83c\udfaf" : 8 > c ? "\ud83d\udca5" : 15 > c ? "\ud83d\udca2" : 25 > c ? "\ud83d\udd25" : 50 > c ? "\ud83d\udca3" : 75 > c ? "\ud83d\udc7a" : 100 > c ? "\ud83c\udf36\ufe0f" : "\ud83d\udcaf") + " ";
-                            if (0 === c) return d + "A true pacifist";
-                            c = [];
-                            a[0] && c.push(a[0] + " kills");
-                            a[1] && c.push(a[1] + " assists");
-                            a[2] && c.push(a[2] + " visitors defeated");
-                            return d +
-                                c.join(" and ")
-                        },
-                        q = () => b.finalKillers.length ? "\ud83d\udd2a Succumbed to " + b.finalKillers.map(b => H.addArticle(M[b].name)).join(" and ") : "\ud83e\udd37 Well that was kinda dumb huh";
-                    return () => {
-                        F(l.black, .25);
-                        let d = b.screenWidth / 2,
-                            n = b.screenHeight / 2 - 50;
-                        var m = D(A.type, A.color);
-                        let u = M[A.type].position,
-                            t = 140 / u.axis;
-                        ba(b.screenWidth / 2 - t * u.middle.x * .707 - 190 - 70, b.screenHeight / 2 - 35 + t * u.middle.x * .707 - 10, m, 1.5, 1, .5 * t / m.realSize, -Math.PI / 4, !0);
-                        a.draw("lol you died", d, n - 80, 8, l.guiwhite, "center");
-                        e.draw("Level " +
-                            A.__s.getLevel() + " " + M[A.type].name, d - 170, n - 30, 24, l.guiwhite);
-                        c.draw("Final score: " + H.formatLargeNumber(Math.round(b.finalScore.get())), d - 170, n + 25, 50, l.guiwhite);
-                        h.draw("\u231a Survived for " + H.timeForHumans(Math.round(b.finalLifetime.get())), d - 170, n + 55, 16, l.guiwhite);
-                        g.draw(x(), d - 170, n + 77, 16, l.guiwhite);
-                        k.draw(q(), d - 170, n + 99, 16, l.guiwhite);
-                        m = Math.ceil((b.respawnOn - Date.now()) / 1E3);
-                        f.draw(0 < m ? `You may respawn in ${m} second${1===m?"":"s"}` : "joysticks" === U.control ? "Tap to respawn!" : "Press enter to respawn!",
-                            d, n + 125, 16, l.guiwhite, "center")
-                    }
-                })();
-            window.onbeforeunload = () => b.isInGame && !b.died ? !0 : null;
-            window.$createProfile = (() => {
-                var b = m();
-                m();
-                return (a, c = -1, d = 200, k = -Math.PI / 4) => {
-                    let h = g.canvas.width,
-                        f = g.canvas.height,
-                        n = g.canvas.width = d;
-                    d = g.canvas.height = d; - 1 === c ? g.clearRect(0, 0, n, d) : (g.fillStyle = l.white, g.fillRect(0, 0, n, d), g.globalAlpha = .5, g.fillStyle = e(c + 10), G(0, 0, n, d), g.globalAlpha = .1, g.fillStyle = e(c), G(0, 0, n, .6 * d), g.fillStyle = l.black, G(0, .6 * d, n, .4 * d), g.globalAlpha = 1);
-                    let x = D(a, A.color);
-                    a = M[a].position;
-                    let m = .6 * n / a.axis;
-                    ba(.5 * n - m * a.middle.x * Math.cos(k), .5 * d - m * a.middle.x * Math.sin(k), x, 1, 1, m / x.size, k, !0); - 1 !== c && (b.draw(x.name, .9 * n / 2, d - 6, d / 8 - 3, l.guiwhite, "center"), g.strokeStyle = l.black, g.globalAlpha = 1, g.lineWidth = 3, G(0, 0, n, d, !0));
-                    c = g.canvas.toDataURL();
-                    g.canvas.width = h;
-                    g.canvas.height = f;
-                    return c
+                    g.globalAlpha = 0.3;
+                    g.fillStyle = T(l.grey, l.vlgrey);
+                    b.radial ? G(a + d / 2, c + f / 2, d / 2) : G(a, c, d, f);
+                    for (let f of Ea.get())
+                      (g.fillStyle = T(e(f.color), l.black, 0.3)),
+                        (g.globalAlpha = f.alpha),
+                        2 === f.type
+                          ? G(
+                              a + ((f.x - f.size) / b.gameWidth) * d - 0.4,
+                              c + ((f.y - f.size) / b.gameWidth) * d - 1,
+                              ((2 * f.size) / b.gameWidth) * d + 0.2,
+                              ((2 * f.size) / b.gameWidth) * d + 0.2
+                            )
+                          : 1 === f.type
+                          ? ja(
+                              a + (f.x / b.gameWidth) * d,
+                              c + (f.y / b.gameWidth) * d,
+                              (f.size / b.gameWidth) * d + 0.2
+                            )
+                          : f.id !== A.playerid &&
+                            ja(
+                              a + (f.x / b.gameWidth) * d,
+                              c + (f.y / b.gameWidth) * d,
+                              h
+                            );
+                    g.fillStyle = l.black;
+                    g.globalAlpha = 1;
+                    ja(
+                      a + (z.cx / b.gameWidth) * d,
+                      c + (z.cy / b.gameWidth) * d,
+                      h
+                    );
+                    g.strokeStyle = l.black;
+                    g.lineWidth = 3;
+                    b.radial
+                      ? ja(a + d / 2, c + f / 2, d / 2, !0)
+                      : G(a, c, d, f, !0);
+                  };
+                if (b.mobile) {
+                  h -= 200;
+                  let d =
+                    (b.canSkill ? (200 / 3 + 40) * a.get() : 0) +
+                    (b.canUpgrade ? 140 * k.get() : 0);
+                  q(20, 20 + d, 200, c, 4);
+                } else (h -= 200), (n -= c), q(h, n, 200, c, 2);
+                let m = n - 10,
+                  v = J.latency.reduce((b, a) => b + a, 0) / J.latency.length,
+                  y = Math.sqrt(z.vx * z.vx + z.vy * z.vy);
+                b.showDebug &&
+                  (G(h, n - 40, 200, 30),
+                  u.addValue(d),
+                  u.draw(h, n - 40, 200, 30),
+                  t.addValue(y),
+                  t.draw(h, n - 40, 200, 30),
+                  E.addValue(J.rendergap),
+                  E.draw(h, n - 40, 200, 30),
+                  f.addValue(v),
+                  f.draw(h, n - 40, 200, 30),
+                  (m -= 40));
+                if (B.graphical.screenshotMode)
+                  W[6].draw(
+                    "Arras.io",
+                    h + 200,
+                    m - 2,
+                    15,
+                    l.guiwhite,
+                    "right"
+                  );
+                else {
+                  if (b.showDebug) {
+                    W[6].draw(
+                      "Arras Template",
+                      h + 200,
+                      m - 84 - 2,
+                      15,
+                      l.guiwhite,
+                      "right"
+                    );
+                    let b = t.getPeriodicAverage();
+                    W[5].draw(
+                      "Tank Speed: " +
+                        y.toFixed(2) +
+                        " gu/s" +
+                        (b && 0.005 <= b ? ` (${b.toFixed(2)} gu/s)` : ""),
+                      h + 200,
+                      m - 70,
+                      10,
+                      l.guiwhite,
+                      "right"
+                    );
+                    W[4].draw(
+                      "Prediction: " + d.toFixed(3),
+                      h + 200,
+                      m - 56,
+                      10,
+                      l.guiwhite,
+                      "right"
+                    );
+                    W[3].draw(
+                      "Update Rate: " + J.updatetime + "Hz",
+                      h + 200,
+                      m - 42,
+                      10,
+                      l.guiwhite,
+                      "right"
+                    );
+                  } else
+                    W[6].draw(
+                      "Arras Template",
+                      h + 200,
+                      m - 42 - 2,
+                      15,
+                      l.guiwhite,
+                      "right"
+                    );
+                  W[2].draw(
+                    "Client Speed: " + J.rendertime + " FPS",
+                    h + 200,
+                    m - 28,
+                    10,
+                    10 < J.rendertime ? l.guiwhite : l.orange,
+                    "right"
+                  );
+                  W[1].draw(
+                    "Server Speed: " + (100 * A.fps).toFixed(2) + "%",
+                    h + 200,
+                    m - 14,
+                    10,
+                    1 === A.fps ? l.guiwhite : l.orange,
+                    "right"
+                  );
+                  W[0].draw(
+                    v.toFixed(1) +
+                      " ms  " +
+                      b.server.code +
+                      " :" +
+                      b.server.type +
+                      ":",
+                    h + 200,
+                    m,
+                    10,
+                    l.guiwhite,
+                    "right"
+                  );
                 }
-            })();
+              }
+              b.mobile && L(1.25);
+              b.mobile && L(1.4);
+              if (!B.graphical.screenshotMode) {
+                let c = b.screenWidth - 200 - 20,
+                  d = 48;
+                b.mobile &&
+                  (d +=
+                    (b.canSkill ? (200 / 3 / 1.4) * a.get() : 0) +
+                    (b.canUpgrade && 40 + 114 * A.upgrades.length > 1.4 * c
+                      ? (100 / 1.4) * k.get()
+                      : 0));
+                0 < O.data.length &&
+                  V.draw(
+                    "Leaderboard",
+                    Math.round(c + 100) + 0.5,
+                    Math.round(d - 10) + 0.5,
+                    18,
+                    l.guiwhite,
+                    "center"
+                  );
+                for (
+                  let a = 0;
+                  a < O.data.length && (!b.mobile || 6 > a);
+                  a++
+                ) {
+                  let b = O.data[a];
+                  K(c, c + 200, d + 7, 11 + B.graphical.barChunk, l.black);
+                  K(c, c + 200, d + 7, 11, l.grey);
+                  K(
+                    c,
+                    c + 200 * Math.min(1, b.score / na),
+                    d + 7,
+                    10.5,
+                    b.barColor
+                  );
+                  ca[a].draw(
+                    b.label + ": " + H.handleLargeNumber(Math.round(b.score)),
+                    c + 100,
+                    d + 7,
+                    9,
+                    l.guiwhite,
+                    "center",
+                    !0
+                  );
+                  let f = 14 / b.position.axis;
+                  ba(
+                    c - 21 - f * b.position.middle.x * 0.707,
+                    d + 7 + f * b.position.middle.x * 0.707,
+                    b.image,
+                    1 / f,
+                    1,
+                    (f * f) / b.image.size,
+                    -Math.PI / 4,
+                    !0
+                  );
+                  d += 18;
+                }
+              }
+              b.mobile && L(1 / 1.4);
+              {
+                b.canUpgrade = 0 < A.upgrades.length && !(b.mobile && b.died);
+                k.set(+b.canUpgrade);
+                let a = k.get();
+                b.clickables.upgrade.hide();
+                if (b.canUpgrade) {
+                  let c = 40 * a - 20,
+                    d = 20,
+                    f = c,
+                    h = 0,
+                    k = d,
+                    x = 0;
+                  la += 0.01;
+                  let u = 0,
+                    q = 0;
+                  A.upgrades.forEach(m => {
+                    d > k && (k = d);
+                    h = c;
+                    b.clickables.upgrade.place(
+                      q++,
+                      c * n,
+                      d * n,
+                      100 * n,
+                      100 * n
+                    );
+                    g.globalAlpha = 0.5;
+                    g.fillStyle = e(u + 10);
+                    G(c, d, 100, 100);
+                    g.globalAlpha = 0.1;
+                    g.fillStyle = e(u);
+                    u++;
+                    G(c, d, 100, 60);
+                    g.fillStyle = l.black;
+                    G(c, d + 60, 100, 40);
+                    g.globalAlpha = 1;
+                    let t = D(m, A.color);
+                    m = M[m].position;
+                    let v = 60 / m.axis;
+                    ba(
+                      c + 50 - v * m.middle.x * Math.cos(la),
+                      d + 50 - v * m.middle.x * Math.sin(la),
+                      t,
+                      1,
+                      1,
+                      v / t.size,
+                      la,
+                      !0
+                    );
+                    m = (b.help[`KEY_CHOOSE_${x + 1}`] || "")
+                      .toLowerCase()
+                      .trim();
+                    !b.mobile && m
+                      ? (aa[q - 1].draw(
+                          t.name,
+                          c + 45,
+                          d + 100 - 6,
+                          9.5,
+                          l.guiwhite,
+                          "center"
+                        ),
+                        ea[q - 1].draw(
+                          "[" + m + "]",
+                          c + 100 - 4,
+                          d + 100 - 6,
+                          9.5,
+                          l.guiwhite,
+                          "right"
+                        ))
+                      : aa[q - 1].draw(
+                          t.name,
+                          c + 50,
+                          d + 100 - 6,
+                          9.5,
+                          l.guiwhite,
+                          "center"
+                        );
+                    g.strokeStyle = l.black;
+                    g.globalAlpha = 1;
+                    g.lineWidth = 3;
+                    G(c, d, 100, 100, !0);
+                    0 !== ++x % 5 || b.mobile
+                      ? (c += 114 * a)
+                      : ((c = f), (d += 114));
+                  });
+                  let m = ta("Don't Upgrade", 11) + 10,
+                    t = (h + 100 + 14 + f - 15) / 2,
+                    v = k + 100 + 14;
+                  K(
+                    t - m / 2,
+                    t + m / 2,
+                    v + 7,
+                    14 + B.graphical.barChunk,
+                    l.black
+                  );
+                  K(t - m / 2, t + m / 2, v + 7, 14, l.white);
+                  fa.draw(
+                    "Don't Upgrade",
+                    t,
+                    v + 7,
+                    12,
+                    l.guiwhite,
+                    "center",
+                    !0
+                  );
+                  b.clickables.skipUpgrades.place(
+                    0,
+                    (t - m / 2) * n,
+                    v * n,
+                    m * n,
+                    14 * n
+                  );
+                } else
+                  b.clickables.upgrade.hide(), b.clickables.skipUpgrades.hide();
+              }
+              if (b.mobile) {
+                b.canSkill =
+                  0 < A.points &&
+                  A.skills.some(b => b.amount < b.cap) &&
+                  !b.canUpgrade;
+                a.set(0 + (b.canSkill || b.died));
+                let c = a.get();
+                b.clickables.stat.hide();
+                let d = 200 / 3,
+                  f = 40 * c - 20,
+                  e = 0,
+                  h = A.getStatNames(M[A.type].statnames || -1);
+                b.canSkill &&
+                  (A.skills.forEach((a, k) => {
+                    let x = a.softcap;
+                    if (!(0 >= x)) {
+                      var m = a.amount,
+                        u = l[a.color];
+                      a = a.cap;
+                      var q = h[9 - k].split(/\s+/),
+                        t = Math.floor(q.length / 2),
+                        [v, y] =
+                          1 === q.length
+                            ? [q, null]
+                            : [q.slice(0, t), q.slice(t)];
+                      g.globalAlpha = 0.5;
+                      g.fillStyle = u;
+                      G(f, 20, 100, (2 * d) / 3);
+                      g.globalAlpha = 0.1;
+                      g.fillStyle = l.black;
+                      G(f, 20 + (((2 * d) / 3) * 2) / 3, 100, (2 * d) / 3 / 3);
+                      g.globalAlpha = 1;
+                      g.fillStyle = l.guiwhite;
+                      G(f, 20 + (2 * d) / 3, 100, (1 * d) / 3);
+                      g.fillStyle = u;
+                      G(f, 20 + (2 * d) / 3, (100 * m) / x, (1 * d) / 3);
+                      g.strokeStyle = l.black;
+                      g.lineWidth = 1;
+                      for (q = 1; q < a; q++)
+                        (t = f + (q / x) * 100),
+                          ka(t, 20 + (2 * d) / 3, t, 20 + d);
+                      m === a ||
+                        !A.points ||
+                        (x !== a && m === x) ||
+                        b.clickables.stat.place(
+                          9 - k,
+                          f * n,
+                          20 * n,
+                          100 * n,
+                          d * n
+                        );
+                      y
+                        ? (p[k].draw(
+                            y,
+                            f + 50,
+                            20 + 0.55 * d,
+                            d / 6,
+                            l.guiwhite,
+                            "center"
+                          ),
+                          p[k].draw(
+                            v,
+                            f + 50,
+                            20 + 0.3 * d,
+                            d / 6,
+                            l.guiwhite,
+                            "center"
+                          ))
+                        : p[k].draw(
+                            v,
+                            f + 50,
+                            20 + 0.425 * d,
+                            d / 6,
+                            l.guiwhite,
+                            "center"
+                          );
+                      0 < m &&
+                        R[k].draw(
+                          m >= x ? "MAX" : "+" + m,
+                          Math.round(f + 50) + 0.5,
+                          20 + 1.3 * d,
+                          d / 4,
+                          u,
+                          "center"
+                        );
+                      g.strokeStyle = l.black;
+                      g.globalAlpha = 1;
+                      g.lineWidth = 3;
+                      ka(f, 20 + (2 * d) / 3, f + 100, 20 + (2 * d) / 3);
+                      G(f, 20, 100, d, !0);
+                      f += 114 * c;
+                      e++;
+                    }
+                  }),
+                  1 < A.points &&
+                    r.draw(
+                      "x" + A.points,
+                      Math.round(f) + 0.5,
+                      40.5,
+                      20,
+                      l.guiwhite,
+                      "left"
+                    ));
+              }
+              L(1 / n, !0);
+            }
+          };
+        })(),
+        Ta = (() => {
+          var a = m(),
+            e = m(),
+            c = m(),
+            h = m(),
+            g = m(),
+            k = m(),
+            f = m();
+          let x = () => {
+              let a = [
+                Math.round(b.finalKills[0].get()),
+                Math.round(b.finalKills[1].get()),
+                Math.round(b.finalKills[2].get())
+              ];
+              var c = a[0] + 0.5 * a[1] + 3 * a[2];
+              let d =
+                (0 === c
+                  ? "\ud83c\udf3c"
+                  : 4 > c
+                  ? "\ud83c\udfaf"
+                  : 8 > c
+                  ? "\ud83d\udca5"
+                  : 15 > c
+                  ? "\ud83d\udca2"
+                  : 25 > c
+                  ? "\ud83d\udd25"
+                  : 50 > c
+                  ? "\ud83d\udca3"
+                  : 75 > c
+                  ? "\ud83d\udc7a"
+                  : 100 > c
+                  ? "\ud83c\udf36\ufe0f"
+                  : "\ud83d\udcaf") + " ";
+              if (0 === c) return d + "A true pacifist";
+              c = [];
+              a[0] && c.push(a[0] + " kills");
+              a[1] && c.push(a[1] + " assists");
+              a[2] && c.push(a[2] + " visitors defeated");
+              return d + c.join(" and ");
+            },
+            q = () =>
+              b.finalKillers.length
+                ? "\ud83d\udd2a Succumbed to " +
+                  b.finalKillers.map(b => H.addArticle(M[b].name)).join(" and ")
+                : "\ud83e\udd37 Well that was kinda dumb huh";
+          return () => {
+            F(l.black, 0.25);
+            let d = b.screenWidth / 2,
+              n = b.screenHeight / 2 - 50;
+            var m = D(A.type, A.color);
+            let u = M[A.type].position,
+              t = 140 / u.axis;
+            ba(
+              b.screenWidth / 2 - t * u.middle.x * 0.707 - 190 - 70,
+              b.screenHeight / 2 - 35 + t * u.middle.x * 0.707 - 10,
+              m,
+              1.5,
+              1,
+              (0.5 * t) / m.realSize,
+              -Math.PI / 4,
+              !0
+            );
+            a.draw("lol you died", d, n - 80, 8, l.guiwhite, "center");
+            e.draw(
+              "Level " + A.__s.getLevel() + " " + M[A.type].name,
+              d - 170,
+              n - 30,
+              24,
+              l.guiwhite
+            );
+            c.draw(
+              "Final score: " +
+                H.formatLargeNumber(Math.round(b.finalScore.get())),
+              d - 170,
+              n + 25,
+              50,
+              l.guiwhite
+            );
+            h.draw(
+              "\u231a Survived for " +
+                H.timeForHumans(Math.round(b.finalLifetime.get())),
+              d - 170,
+              n + 55,
+              16,
+              l.guiwhite
+            );
+            g.draw(x(), d - 170, n + 77, 16, l.guiwhite);
+            k.draw(q(), d - 170, n + 99, 16, l.guiwhite);
+            m = Math.ceil((b.respawnOn - Date.now()) / 1e3);
+            f.draw(
+              0 < m
+                ? `You may respawn in ${m} second${1 === m ? "" : "s"}`
+                : "joysticks" === U.control
+                ? "Tap to respawn!"
+                : "Press enter to respawn!",
+              d,
+              n + 125,
+              16,
+              l.guiwhite,
+              "center"
+            );
+          };
+        })();
+      window.onbeforeunload = () => (b.isInGame && !b.died ? !0 : null);
+      window.$createProfile = (() => {
+        var b = m();
+        m();
+        return (a, c = -1, d = 200, k = -Math.PI / 4) => {
+          let h = g.canvas.width,
+            f = g.canvas.height,
+            n = (g.canvas.width = d);
+          d = g.canvas.height = d;
+          -1 === c
+            ? g.clearRect(0, 0, n, d)
+            : ((g.fillStyle = l.white),
+              g.fillRect(0, 0, n, d),
+              (g.globalAlpha = 0.5),
+              (g.fillStyle = e(c + 10)),
+              G(0, 0, n, d),
+              (g.globalAlpha = 0.1),
+              (g.fillStyle = e(c)),
+              G(0, 0, n, 0.6 * d),
+              (g.fillStyle = l.black),
+              G(0, 0.6 * d, n, 0.4 * d),
+              (g.globalAlpha = 1));
+          let x = D(a, A.color);
+          a = M[a].position;
+          let m = (0.6 * n) / a.axis;
+          ba(
+            0.5 * n - m * a.middle.x * Math.cos(k),
+            0.5 * d - m * a.middle.x * Math.sin(k),
+            x,
+            1,
+            1,
+            m / x.size,
+            k,
+            !0
+          );
+          -1 !== c &&
+            (b.draw(
+              x.name,
+              (0.9 * n) / 2,
+              d - 6,
+              d / 8 - 3,
+              l.guiwhite,
+              "center"
+            ),
+            (g.strokeStyle = l.black),
+            (g.globalAlpha = 1),
+            (g.lineWidth = 3),
+            G(0, 0, n, d, !0));
+          c = g.canvas.toDataURL();
+          g.canvas.width = h;
+          g.canvas.height = f;
+          return c;
+        };
+      })();
       const Sa = (() => {
           var a = m(),
             e = m();
@@ -3208,14 +4417,15 @@
       }
     },
     function(r) {
-            const p = {
-                openshift: (a, e) => `n-${a}-${e}.7e14.starter-us-west-2.openshiftapps.com`,
-                glitch: a => `${a}.glitch.me`,
-                replit: (a, e) => `${e}.${a}.repl.co`,
-                heroku: a => `${a}.herokuapp.com`,
-                arras: (a, e = 5E3) => `ip-${a}.arras.io:${e}`,
-                arrasUnknown: (a, e = 5E3) => `ipu-${a}.arras.io:${e}`
-            }
+      const p = {
+        openshift: (a, e) =>
+          `n-${a}-${e}.7e14.starter-us-west-2.openshiftapps.com`,
+        glitch: a => `${a}.glitch.me`,
+        replit: (a, e) => `${e}.${a}.repl.co`,
+        heroku: a => `${a}.herokuapp.com`,
+        arras: (a, e = 5e3) => `ip-${a}.arras.io:${e}`,
+        arrasUnknown: (a, e = 5e3) => `ipu-${a}.arras.io:${e}`
+      };
       var w = new Date().getDate();
       const a = 25 <= w ? 3 : 0;
       w = 25 <= w ? 0 : 3;
@@ -3330,6 +4540,7 @@
             ],
             [
               { id: "d", to: "Domination" },
+              { id: "be", to: "Boss_Event" },
               { id: "m", to: "Mothership", remove: "2" },
               { id: "a", to: "Assault", remove: "2" }
             ]
@@ -3339,45 +4550,45 @@
         servers: [
           {
             visible: 0,
-            id: "1",
+            id: "be",
             type: "game",
-            code: "glitch-worldwide-f",
-            at: p.glitch('your-server'),
-            prefer: !0,
-           // featured: 1, // For Featured Status.
+            code: "glitch-worldwide-be",
+            at: p.glitch("best-iced-meeting"),
+            prefer: !0
+            // featured: 1, // For Featured Status.
           },
           {
             visible: 0,
             id: "2",
             type: "game",
             code: "glitch-worldwide-f",
-            at: p.glitch('your-server'),
-           // featured: 1, // For Featured Status.
+            at: p.glitch("your-server")
+            // featured: 1, // For Featured Status.
           },
           {
             visible: 0,
             id: "2",
             type: "game",
             code: "glitch-worldwide-f",
-            at: p.glitch('your-server'),
-           // featured: 1, // For Featured Status.
+            at: p.glitch("your-server")
+            // featured: 1, // For Featured Status.
           },
           {
             visible: 0,
             id: "2",
             type: "game",
             code: "glitch-worldwide-f",
-            at: p.glitch('your-server'),
-           // featured: 1, // For Featured Status.
+            at: p.glitch("your-server")
+            // featured: 1, // For Featured Status.
           },
           {
             visible: 0,
             id: "2",
             type: "game",
             code: "glitch-worldwide-f",
-            at: p.glitch('your-server'),
-           // featured: 1, // For Featured Status.
-          },
+            at: p.glitch("your-server")
+            // featured: 1, // For Featured Status.
+          }
         ]
           .map((a, e) => ({ data: a, i: e }))
           .sort((a, e) =>
