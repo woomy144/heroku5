@@ -4530,7 +4530,7 @@
             [{ id: "p", to: "Private" }],
             [{ id: "e", dynamic: "word" }],
             [{ id: "w", dynamic: "words" }],
-            [{ id: "o", to: "Open" }],
+            [{ id: "o", to: "Developer Server" }],
             [{ id: "m", to: "Maze", delay: !0, remove: "f" }],
             [
               { id: "f", to: "FFA" },
@@ -4567,18 +4567,18 @@
           },
           {
             visible: 0,
-            id: "2",
+            id: "4",
             type: "game",
-            code: "glitch-worldwide-f",
-            at: p.glitch("your-server")
+            code: "glitch-worldwide-4",
+            at: p.glitch("famous-grand-omelet")
             // featured: 1, // For Featured Status.
           },
           {
             visible: 0,
-            id: "2",
+            id: "o",
             type: "game",
-            code: "glitch-worldwide-f",
-            at: p.glitch("your-server")
+            code: "glitch-worldwide-o",
+            at: p.glitch("chip-heady-afterthought")
             // featured: 1, // For Featured Status.
           },
           {
