@@ -4535,14 +4535,14 @@
             [
               { id: "f", to: "FFA" },
               { id: "2", to: "2 Team", end: "2TDM" },
-              { id: "3", to: "3 Team", end: "3TDM" },
+              { id: "3", to: "Defender", end: "Defender Mode" },
               { id: "4", to: "4 Team", end: "4TDM" }
             ],
             [
               { id: "d", to: "Domination" },
               { id: "be", to: "Boss_Event" },
               { id: "m", to: "Mothership", remove: "2" },
-              { id: "a", to: "Assault", remove: "2" }
+              { id: "a", to: "Boss Event", remove: "2" }
             ]
           ]
         ],
@@ -4550,19 +4550,19 @@
         servers: [
           {
             visible: 0,
-            id: "be",
+            id: "a",
             type: "game",
-            code: "glitch-worldwide-be",
+            code: "glitch-worldwide-a",
             at: p.glitch("best-iced-meeting"),
             prefer: !0
             // featured: 1, // For Featured Status.
           },
           {
             visible: 0,
-            id: "2",
+            id: "3",
             type: "game",
-            code: "glitch-worldwide-f",
-            at: p.glitch("your-server")
+            code: "glitch-worldwide-3",
+            at: p.glitch("workable-brick-country")
             // featured: 1, // For Featured Status.
           },
           {
