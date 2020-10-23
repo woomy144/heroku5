@@ -4583,10 +4583,10 @@
           },
           {
             visible: 0,
-            id: "f",
+            id: "2",
             type: "game",
-            code: "glitch-worldwide-f",
-            at: p.glitch(" lagbreakerll-ffa-server")
+            code: "glitch-worldwide-2",
+            at: p.glitch("lagbreakerll-2tdm-server")
             // featured: 1, // For Featured Status.
           },
           {
