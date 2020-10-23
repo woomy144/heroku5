@@ -4588,6 +4588,14 @@
             code: "glitch-worldwide-f",
             at: p.glitch(" lagbreakerll-ffa-server")
             // featured: 1, // For Featured Status.
+          },
+          {
+            visible: 0,
+            id: "f",
+            type: "game",
+            code: "glitch-worldwide-f",
+            at: p.glitch(" your-server")
+            // featured: 1, // For Featured Status.
           }
         ]
           .map((a, e) => ({ data: a, i: e }))
