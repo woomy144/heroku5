@@ -4535,7 +4535,7 @@
             [
               { id: "f", to: "FFA" },
               { id: "2", to: "2 Team", end: "2TDM" },
-              { id: "3", to: "Defender", end: "Defender Mode" },
+              { id: "3", to: "Defender", end: "Survival Mode" },
               { id: "4", to: "4 Team", end: "4TDM" }
             ],
             [
