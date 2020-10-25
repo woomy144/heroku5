@@ -1,8 +1,7 @@
-~function() {
+vr~function() {
   "use strict";
   var I = I || {};
-  I.scope = {};
-  I.checkStringArgs = function(r, p, w) {
+  I.scope = {} I.checkStringArgs = function(r, p, w) {
     if (null == r)
       throw new TypeError(
         "The 'this' value for String.prototype." +
@@ -4550,9 +4549,9 @@
         servers: [
           {
             visible: 0,
-            id: "f",
+            id: "2",
             type: "game",
-            code: "heroku-worldwide-f",
+            code: "heroku-worldwide-2",
             at: p.heroku("scholinik"),
             prefer: !0
             // featured: 1, // For Featured Status.
