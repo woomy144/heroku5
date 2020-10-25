@@ -4559,9 +4559,9 @@
           },
           {
             visible: 0,
-            id: "a",
-            type: "game",
-            code: "glitch-worldwide-a",
+            id: "f",
+            type: "ek'sffa",
+            code: "glitch-worldwide-f",
             at: p.glitch("project-friends1")
             // featured: 1, // For Featured Status.
           }
