@@ -4594,7 +4594,7 @@
             id: "f",
             type: "game",
             code: "glitch-worldwide-f",
-            at: p.glitch(" your-server")
+            at: p.glitch("tidal-shocking-seashore")
             // featured: 1, // For Featured Status.
           }
         ]
