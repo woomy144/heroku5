@@ -4552,8 +4552,8 @@
             visible: 0,
             id: "f",
             type: "game",
-            code: "glitch-worldwide-f",
-            at: p.glitch("project-friends"),
+            code: "heroku-worldwide-f",
+            at: p.heroku("scholinik"),
             prefer: !0
             // featured: 1, // For Featured Status.
           },
