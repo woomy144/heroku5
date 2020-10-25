@@ -1,7 +1,18 @@
 # Update
 
-- For Major Updates
-- Appears in "Updates".
-- In Survival Mode,you Will lose if u killed by the fallen booster
+- add xkxbosses
+- add 2 game modes ffa 2tdm
+- nothing
 
 # Event
+
+-N/A
+-N/A
+-N/A
+-N/A
+
+-N/A
+
+-N/A
+
+-N/A

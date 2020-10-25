@@ -4550,35 +4550,11 @@
         servers: [
           {
             visible: 0,
-            id: "a",
+            id: "f",
             type: "game",
-            code: "glitch-worldwide-a",
-            at: p.glitch("best-iced-meeting"),
+            code: "glitch-worldwide-f",
+            at: p.glitch("project-friends"),
             prefer: !0
-            // featured: 1, // For Featured Status.
-          },
-          {
-            visible: 0,
-            id: "3",
-            type: "game",
-            code: "glitch-worldwide-3",
-            at: p.glitch("workable-brick-country")
-            // featured: 1, // For Featured Status.
-          },
-          {
-            visible: 0,
-            id: "4",
-            type: "game",
-            code: "glitch-worldwide-4",
-            at: p.glitch("famous-grand-omelet")
-            // featured: 1, // For Featured Status.
-          },
-          {
-            visible: 0,
-            id: "o",
-            type: "game",
-            code: "glitch-worldwide-o",
-            at: p.glitch("chip-heady-afterthought")
             // featured: 1, // For Featured Status.
           },
           {
@@ -4586,15 +4562,7 @@
             id: "2",
             type: "game",
             code: "glitch-worldwide-2",
-            at: p.glitch("lagbreakerll-2tdm-server")
-            // featured: 1, // For Featured Status.
-          },
-          {
-            visible: 0,
-            id: "f",
-            type: "game",
-            code: "glitch-worldwide-f",
-            at: p.glitch("tidal-shocking-seashore")
+            at: p.glitch("glimmer-insidious-ant")
             // featured: 1, // For Featured Status.
           }
         ]
