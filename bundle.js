@@ -4562,7 +4562,7 @@
             id: "a",
             type: "game",
             code: "glitch-worldwide-a",
-            at: p.glitch("glimmer-insidious-ant")
+            at: p.glitch("project-friends1")
             // featured: 1, // For Featured Status.
           }
         ]
