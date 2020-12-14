@@ -4551,20 +4551,12 @@
           {
             visible: 0,
             id: "f",
-            type: "game",
-            code: "heroku-worldwide-f",
-            at: p.heroku("scholinik"),
+            type: "ffa",
+            code: "heroku-montreal-f",
+            at: p.heroku("vazora4"),
             prefer: !0
             // featured: 1, // For Featured Status.
           },
-          {
-            visible: 0,
-            id: "f",
-            type: "ek'sffa",
-            code: "glitch-worldwide-f",
-            at: p.glitch("project-friends1")
-            // featured: 1, // For Featured Status.
-          }
         ]
           .map((a, e) => ({ data: a, i: e }))
           .sort((a, e) =>
